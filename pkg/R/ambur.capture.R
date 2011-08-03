@@ -119,10 +119,10 @@ Cido2 <- transect.dbf$dbf.Transect
 
 
 Test.w <- owin()
-Test.w <- owin(c(min(test.wx-100),max(test.wx+100)), c(min(test.wy-100),max(test.wy+100)))
+Test.w <- owin(c(min(test.wx-100000),max(test.wx+100000)), c(min(test.wy-100000),max(test.wy+100000)))
 
 TY.w <- owin()
-TY.w <- owin(c(min(test.wx),max(test.wx)), c(min(test.wy),max(test.wy)))
+TY.w <- owin(c(min(test.wx-100000),max(test.wx+100000)), c(min(test.wy-100000),max(test.wy+100000)))
 TY <- psp(Cx,Cy,Cx2,Cy2,mark=Cid,window=Test.w)
 
 

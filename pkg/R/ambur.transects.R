@@ -19,6 +19,7 @@ outersample <- userinput4
 require(shapefiles)
 require(locfit)
 require(spatstat)
+require(tcltk)
 
 
 winDialog("ok","Please select the inner baseline...")
@@ -63,6 +64,15 @@ setwd("AMBUR_transects")
 
 dir.create(paste(time.stamp2," ","transects",sep=""))
 setwd(paste(time.stamp2," ","transects",sep="")) 
+
+###########build the status bar
+pb <- tkProgressBar("AMBUR: progress bar", "Some information in %", 0, 100, 50)
+
+    info <- sprintf("%d%% done", 0)
+    setTkProgressBar(pb, 0, sprintf("AMBUR: Transect casting (%s)", info), info)
+
+#####################
+
 
 
 #build function for points along a line (modified to add the start and end points)
@@ -147,6 +157,14 @@ mydata_outer$Id[m] <- baseline.dbf$dbf.BaseOrder[test1]
 
 }
 
+#######status checkpoint (5%)
+    info <- sprintf("%d%% done", 5)
+    setTkProgressBar(pb, 5, sprintf("AMBUR: Trnasect casting (%s)", info), info)
+
+###########################    
+
+
+
 
 #setup table to hold the results
 finaltable2 <- matrix(ncol=16)
@@ -171,7 +189,12 @@ Cy2 <- 0
   int.ptsX <- 0
     int.ptsY <- 0
       trans.id <- 0
-      
+
+#######status checkpoint (10%)
+    info <- sprintf("%d%% done", 10)
+    setTkProgressBar(pb, 10, sprintf("AMBUR: Trnasect casting (%s)", info), info)
+
+###########################      
 
 
 for (b in 1:length(nbaselines)) {
@@ -236,14 +259,67 @@ Cy3o <- c(Cyo[1],Cyo[-length(Cyo)])
 
 
 TY.w <- owin()
-TY.w <- owin(c(min(Cx),max(Cx)), c(min(Cy),max(Cy)))
+TY.w <- owin(c(min(Cx-100000),max(Cx+100000)), c(min(Cy-100000),max(Cy+100000)))
 TY <- psp(Cx,Cy,Cx2,Cy2,window=TY.w)
 
 TX.w <- owin()
-TX.w <- owin(c(min(outer.basepts[,1]),max(outer.basepts[,1])), c(min(outer.basepts[,2]),max(outer.basepts[,2])))
+TX.w <- owin(c(min(outer.basepts[,1]-100000),max(outer.basepts[,1]+100000)), c(min(outer.basepts[,2]-100000),max(outer.basepts[,2]+100000)))
 TX <- ppp(outer.basepts[,1],outer.basepts[,2],window=TX.w)
 
-v <- project2segment(TX,TY)
+################################### adjusted project2segment function to handle NA values
+adj.project2segment <-       function (X, Y, action = "project", check = FALSE) 
+{
+    stopifnot(is.ppp(X))
+    stopifnot(is.psp(Y))
+    stopifnot(action %in% c("distance", "identify", "project"))
+    if (Y$n == 0) 
+        stop("Segment pattern Y contains 0 segments; projection undefined")
+    if (X$n == 0) {
+        nowt <- numeric(0)
+        none <- integer(0)
+        switch(action, identify = return(none), distance = return(list(dist = nowt, 
+            which = none)), project = return(list(Xproj = X, 
+            mapXY = none, d = nowt, tp = nowt)))
+    }
+    XX <- as.matrix(as.data.frame(unmark(X)))
+    YY <- as.matrix(as.data.frame(unmark(Y)))
+    d <- distppllmin(XX, YY)
+    mapXY <- d$min.which
+    if (action == "identify") 
+        return(mapXY)
+    else if (action == "distance") 
+        return(data.frame(dist = d$min.d, which = mapXY))
+    alldata <- as.data.frame(cbind(XX, YY[mapXY, , drop = FALSE]))
+    colnames(alldata) <- c("x", "y", "x0", "y0", "x1", "y1")
+    dx <- with(alldata, x1 - x0)
+    dy <- with(alldata, y1 - y0)
+    leng <- sqrt(dx^2 + dy^2)
+    
+    co <- dx/leng
+    co[is.na(co)==TRUE] <- 0.000001  #added 6/27/2011 to remove NA values from crashing the function  
+    
+    si <- dy/leng
+    si[is.na(si)==TRUE] <- 0.000001   #added 6/27/2011 to remove NA values from crashing the function  
+    
+    xv <- with(alldata, x - x0)
+    yv <- with(alldata, y - y0)
+    xpr <- xv * co + yv * si
+    ypr <- -xv * si + yv * co
+    left <- (xpr <= 0)
+    right <- (xpr >= leng)
+    xr <- with(alldata, ifelse(left, 0, ifelse(right, leng, xpr)))
+    xproj <- with(alldata, x0 + xr * co)
+    yproj <- with(alldata, y0 + xr * si)
+    Xproj <- ppp(xproj, yproj, window = X$window, marks = X$marks, 
+        check = check)
+    tp <- xr/leng
+    tp[!is.finite(tp)] <- 0
+    return(list(Xproj = Xproj, mapXY = mapXY, d = d$min.d, tp = tp))
+}
+
+
+####################################end adj.project2segment function
+v <- adj.project2segment(TX,TY)
   Xproj <- v$Xproj
 
 Xproj$x <- ifelse(is.na(Xproj$x),Xproj$x[-1],Xproj$x) #this code finds missing NA values and forces line to next pt 
@@ -277,7 +353,11 @@ Iny3 <- c(tfilter.tab[1,4],tfilter.tab[-length(tfilter.tab[,4]),4])
 end.tspace <-  ((Inx2- tfilter.tab[,3])^2 +  (Iny2 - tfilter.tab[,4])^2)^(1/2)
 end.tspace2 <-  ((Inx3- tfilter.tab[,3])^2 +  (Iny3 - tfilter.tab[,4])^2)^(1/2)
 
+#######status checkpoint (25%)
+    info <- sprintf("%d%% done", 25)
+    setTkProgressBar(pb, 25, sprintf("AMBUR: Trnasect casting (%s)", info), info)
 
+###########################
 
 #cast perpendicular transects along outer baseline
 t.startx <- outer.basepts[,1]
@@ -289,16 +369,23 @@ t.endx <- sin((t.azimuth * pi/180)) * t.length + t.startx
 t.endy <- cos((t.azimuth * pi/180)) * t.length + t.starty
 
 
+#######status checkpoint (50%)
+    info <- sprintf("%d%% done", 50)
+    setTkProgressBar(pb, 50, sprintf("AMBUR: Trnasect casting (%s)", info), info)
+
+###########################
+
+
 ####################################test to trim transects
 
 test.wx <- c(t.startx,t.endx,Cx,Cx2,mydata_outer$X)
 test.wy <- c(t.starty,t.endy,Cy,Cy2,mydata_outer$Y)
 
 Test.w <- owin()
-Test.w <- owin(c(min(test.wx-100),max(test.wx+100)), c(min(test.wy-100),max(test.wy+100)))
+Test.w <- owin(c(min(test.wx-100000),max(test.wx+100000)), c(min(test.wy-100000),max(test.wy+100000)))
 
 TY.w <- owin()
-TY.w <- owin(c(min(Cx),max(Cx)), c(min(Cy),max(Cy)))
+TY.w <- owin(c(min(Cx-100000),max(Cx+100000)), c(min(Cy-100000),max(Cy+100000)))
 TY <- psp(Cx,Cy,Cx2,Cy2,window=Test.w)
 
 trim.x <- numeric(length(tfilter.tab[,1]))
@@ -323,6 +410,7 @@ filter.x6 <- trim.x
 filter.y6 <- trim.y
 #####################################################################
 
+
 #construct master data table
 
 finaltable1 <- cbind(t.startx,t.starty,t.endx,t.endy,t.azimuth,trim.x,trim.y,trim.length,Xproj$x,Xproj$y,in.az,in.length,basemaxbnumx,baseorderx,baseoffshorex,basecastdirx)
@@ -346,7 +434,11 @@ texttable3 <- texttable2[-1,]
 
 attach(data.frame(finaltable3))
 
+#######status checkpoint (75%)
+    info <- sprintf("%d%% done", 75)
+    setTkProgressBar(pb, 75, sprintf("AMBUR: Trnasect casting (%s)", info), info)
 
+###########################
 
 #plots for fun
 par(mfrow=(c(3,1)))
@@ -390,6 +482,12 @@ write.shapefile(ddShapefile, paste("b",b,"transects_near_inner",sep=""), arcgis=
 
 detach("package:shapefiles")
 detach(data.frame(finaltable3))
+
+#######status checkpoint (100%)
+    info <- sprintf("%d%% done", 100)
+    setTkProgressBar(pb, 100, sprintf("AMBUR: Trnasect casting (%s)", info), info)
+
+###########################
 
 
 }

@@ -186,10 +186,10 @@ Cx2 <- c(Cx[-1],Cx[length(Cx)])
 Cy2 <- c(Cy[-1],Cy[length(Cy)])
 
 Test.w <- owin()
-Test.w <- owin(c(min(test.wx),max(test.wx)), c(min(test.wy),max(test.wy)))
+Test.w <- owin(c(min(test.wx-100000),max(test.wx+100000)), c(min(test.wy-100000),max(test.wy+100000)))
 
 TY.w <- owin()
-TY.w <- owin(c(min(Cx),max(Cx)), c(min(Cy),max(Cy)))
+TY.w <- owin(c(min(Cx-100000),max(Cx+100000)), c(min(Cy-100000),max(Cy+100000)))
 TY <- psp(Cx,Cy,Cx2,Cy2,window=Test.w)
 
 trim.x <- numeric(length(trandata$Transect))
