@@ -268,7 +268,7 @@ ddTable <- data.frame(filterdata)
 ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
 write.shapefile(ddShapefile, paste("b",b,"transects__filter",sep=""), arcgis=T) 
 
-detach("package:shapefiles")
-detach("package:spatstat")
+#detach("package:shapefiles")
+#detach("package:spatstat")
 }
 

@@ -216,7 +216,7 @@ ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 1)
 write.shapefile(ddShapefile, paste("shore_pts",sep=""), arcgis=T)
 
 
-detach("package:shapefiles")
+#detach("package:shapefiles")
 
 }
 

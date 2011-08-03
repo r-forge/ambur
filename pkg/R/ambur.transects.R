@@ -480,7 +480,7 @@ write.shapefile(ddShapefile, paste("b",b,"transects_near_inner",sep=""), arcgis=
 
 
 
-detach("package:shapefiles")
+#detach("package:shapefiles")
 detach(data.frame(finaltable3))
 
 #######status checkpoint (100%)

@@ -77,7 +77,7 @@ write.shapefile(ddShapefile, paste("transects_min_max_date",sep=""), arcgis=T)
 
 
 #tidy up and remove all objects
-detach("package:shapefiles")
+#detach("package:shapefiles")
 detach(mydata)
 rm(list = ls())
 

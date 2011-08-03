@@ -47,7 +47,7 @@ require(grid)
 winDialog("ok","Please select the *.DBF file from the capture points shapefile...")
 path <- choose.files(default = "*.dbf",multi = FALSE)
 
-mydata <- read.dbf(path)
+mydata <- foreign::read.dbf(path)
 
 #status log and checkpoint
 windows(width = 8, height = 4)

@@ -5,7 +5,7 @@ library(foreign)
 
 path <- choose.files(default = "*.dbf",multi = FALSE)
 
-mydata <- read.dbf(path)
+mydata <- foreign::read.dbf(path)
 
 checktype <- checktype
 

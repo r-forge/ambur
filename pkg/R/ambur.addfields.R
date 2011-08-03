@@ -7,7 +7,7 @@ library(foreign)
 
 path <- choose.files(default = "*.dbf",multi = FALSE)
 
-mydata <- read.dbf(path)
+mydata <- foreign::read.dbf(path)
 
 checktype <- checktype
 
@@ -65,10 +65,10 @@ if ("BASE_LOC" %in% missingfields) add.fields$BASE_LOC <- "NA"
 
 
    new.table <-  cbind(mydata,add.fields)       
-       write.dbf(new.table,path) 
+       foreign::write.dbf(new.table,path) 
 
 
 
-detach("package:foreign")
+#detach("package:foreign")
 }
 

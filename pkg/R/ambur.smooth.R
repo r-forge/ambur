@@ -238,7 +238,7 @@ plot(mydata_outer$X,mydata_outer$Y,asp=1,col="gray",xlab="X",ylab="Y",type="p",c
 points(finaltable3,cex=0.25,col="blue")
 
 
-detach("package:shapefiles")
+#detach("package:shapefiles")
 
 
 

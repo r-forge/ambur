@@ -77,7 +77,7 @@ write.shapefile(ddShapefile, paste("WLR_forecast",sep=""), arcgis=T)
 
 
 
-detach("package:shapefiles")
+#detach("package:shapefiles")
 detach(mydata)
 
 }
