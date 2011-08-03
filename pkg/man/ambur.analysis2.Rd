@@ -1,12 +1,12 @@
-\name{ambur.analysis}
-\alias{ambur.analysis}
+\name{ambur.analysis2}
+\alias{ambur.analysis2}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Analyze changes and rates of boundary movement }
 \description{
-  The function requires a standalone *DBF file or one generated from an ESRI Shapefile with point data representing historical boundary positions along a transect.  The *DBF must be properly formatted and contain the proper fields. See links below for additional information.  The function will generate data tables and graphics containing the results of analysis statics given user specified parameters.
+  EXPANDED GRAPHICAL OUTPUT OF AMBUR.ANALYSIS FUNCTION.  The function requires a standalone *DBF file or one generated from an ESRI Shapefile with point data representing historical boundary positions along a transect.  The *DBF must be properly formatted and contain the proper fields. See links below for additional information.  The function will generate data tables and graphics containing the results of analysis statics given user specified parameters.
 }
 \usage{
-ambur.analysis(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinput4 = "", userinput5 = 1, userinput6 = "all", userinput7 = "basic",  userinput8 = "yr")
+ambur.analysis2(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinput4 = "", userinput5 = 1, userinput6 = "all", userinput7 = "basic",  userinput8 = "yr")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

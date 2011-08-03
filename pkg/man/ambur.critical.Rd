@@ -23,13 +23,7 @@ A shapefile containing critical points.  The shapefile is named "criticalpts.shp
 \author{ Chester W. Jackson Jr. }
 \note{ }
 \seealso{  }
-\examples{
-Generate 50 critical points for a linear spline for a polyline shapefile:
 
-ambur.critical(50,5)
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ critical }

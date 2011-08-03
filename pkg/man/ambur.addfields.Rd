@@ -30,12 +30,7 @@ Adds missing fields to the shapefile's data table.
 \note{ The shapefile must contain polyline data.
 }
 \seealso{  }
-\examples{
-Adds fields to a shoreline shapefile:
 
-ambur.addfields(1)
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ field }

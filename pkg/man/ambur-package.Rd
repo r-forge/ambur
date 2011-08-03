@@ -13,7 +13,7 @@ Performs an analysis on position changes of a boundary (shoreline) along transec
 \tabular{ll}{
 Package: \tab ambur\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.03-1\cr
 Date: \tab 2011-08-03\cr
 License: \tab GNU General Public License (please site references below)\cr
 LazyLoad: \tab yes\cr
@@ -34,11 +34,8 @@ JACKSON, C.W., 2009. Assessing Historical Shoreline Changes And Erosion Hazards 
 \cr
 JACKSON, C.W., 2010. SPATIO-TEMPORAL ANALYSIS OF BARRIER ISLAND SHORELINE CHANGE: THE GEORGIA COAST, USA.  Ph.D. Dissertation, University of Georgia.\cr
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
+
 \keyword{ ambur }
-\seealso{
-\link(http://ambur.r-forge.r-project.org/)
-}
-\examples{
-ambur.analysis("first",95,"m","test_basic",1,"all","basic","yr")
-}
+\seealso{ http://ambur.r-forge.r-project.org/    }
+
+

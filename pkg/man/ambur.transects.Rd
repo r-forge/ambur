@@ -27,12 +27,7 @@ transect_near_inner.shp
 \references{ }
 \note{ }
 \seealso{ }
-\examples{
 
-ambur.transects(userinput1 = 50, userinput2 = 500, userinput3 = 5, userinput4 = 5)
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ transect }

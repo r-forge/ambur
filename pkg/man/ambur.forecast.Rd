@@ -25,15 +25,7 @@ WLR_forecast.shp)
 \author{ Chester W. Jackson Jr. }
 \note{ ~~ This function is a beta version ~~ }
 \seealso{  }
-\examples{
-- extrapolation 50 years in the future
-ambur.forecast(years = 50)
 
-- extrapolation 50 years in the past
-ambur.forecast(years = -50)
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ setback }

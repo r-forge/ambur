@@ -22,12 +22,7 @@ A shapefile containing intersection points.  The shapefile is named "shorepts.sh
 \author{ Chester W. Jackson Jr. }
 \note{ }
 \seealso{  }
-\examples{
-Enter the following at the command prompt to start the function:
 
-ambur.capture()
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ intersection }

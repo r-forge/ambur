@@ -33,12 +33,7 @@ Returns a list of missing field names.
 \author{ Chester W. Jackson Jr. }
 \note{ }
 \seealso{  }
-\examples{
-To check if necessary fields are present in a shoreline shapefile:
 
-ambur.check(1)
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ field }

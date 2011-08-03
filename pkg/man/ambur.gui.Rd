@@ -18,12 +18,7 @@ n/a
 \references{ }
 \note{ }
 \seealso{  }
-\examples{
-To start the ambur GUI:
 
-ambur.gui()
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ gui }

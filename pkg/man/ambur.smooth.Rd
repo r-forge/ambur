@@ -25,12 +25,7 @@ ambur.smooth(alpha = 0.7, degree = 2, sampledist = 5)
 \references{ }
 \note{ ~~ This function is a beta version ~~ }
 \seealso{ }
-\examples{
 
-ambur.smooth(alpha = 0.7, degree = 2, sampledist = 5)
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ smooth }

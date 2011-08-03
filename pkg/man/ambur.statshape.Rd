@@ -6,11 +6,11 @@
 Construct shapefiles to help visualize shoreline change statistics in GIS.
 }
 \usage{
-ambur.statshape( )
+ambur.statshape(npts = 50)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{ }{  }
+  \item{npts }{A dummy variable set to 50. Do not change }
 }
 \details{
 Builds shapefiles using the 'result_stats.csv' file produced from the ambur.analysis function.
@@ -22,12 +22,7 @@ Shapefiles with attribute tables containing statistics from the 'result_stats.cs
 \references{ }
 \note{}
 \seealso{  }
-\examples{
--to build the shapefiles, type:
-ambur.statshape()
 
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ stat }
