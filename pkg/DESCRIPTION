@@ -5,7 +5,7 @@ Version: 1.03-1
 Date: 2011-08-03
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
-Depends: R (>= 2.12), akima, locfit, shapefiles, sp, spatial, spatstat
+Depends: R (>= 2.12)
 Description: Analyzes position changes of a boundary (shoreline) along transects. (Version 1.0c)
 License: GNU General Public License
 LazyLoad: yes
