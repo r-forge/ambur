@@ -1,13 +1,13 @@
 ambur.forecast <-
 function(years=50) {
 
-
+require(tcltk)
 
 #open ambur plotting file
+tkmessageBox(message = "Please select the 'results_stats.csv' file...")
 
-winDialog("ok","Please select the 'results_stats.csv' file...")
 
-data.path <- choose.files(default = "*.csv",multi = FALSE)
+data.path <- tk_choose.files(default = "*.csv",multi = FALSE)
 
 mydata <- read.csv(data.path, header=TRUE, sep=",")
 attach(mydata)

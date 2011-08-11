@@ -1,6 +1,10 @@
 ambur.smooth <-
 function(alpha=0.7, degree=2, sampledist=5) {
 
+ require(tcltk)
+require(shapefiles)
+require(locfit)
+require(spatstat)
 
 # Establish the inputs
 
@@ -12,14 +16,10 @@ outersample <- sampledist
 
 
 
-require(shapefiles)
-require(locfit)
-require(spatstat)
+tkmessageBox(message = "Please select a baseline to smooth...")
 
 
-winDialog("ok","Please select a baseline to smooth...")
-
-path1 <- choose.files(default = "*.shp",multi = FALSE)
+path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path1)
 

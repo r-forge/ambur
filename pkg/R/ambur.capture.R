@@ -12,9 +12,10 @@ require(spatstat)
 require(tcltk)
 
 
-winDialog("ok","Please select the shorelines shapefile...")
+tkmessageBox(message = "Please select the shorelines shapefile...")
 
-path1 <- choose.files(default = "*.shp",multi = FALSE)
+
+path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path1)
 
@@ -33,9 +34,9 @@ mydata_inner <- convert.to.simple(my.shapefile)
 path2 <- dirname(path1)
 setwd(path2)
 
-winDialog("ok","Please select the transects shapefile...")
+tkmessageBox(message = "Please select the transects shapefile...")
 
-path3 <- choose.files(default = "*.shp",multi = FALSE)
+path3 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path3)
 

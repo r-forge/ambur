@@ -1,17 +1,18 @@
 ambur.critical <-
 function(ncritpts=50,sampledist=5) {
 
+require(tcltk)
+
 sample.distance <- sampledist
 n.points <- ncritpts
 
 #open baseline file
 
-winDialog("ok","Please select a baseline shapefile...")
-
+tkmessageBox(message = "Please select a baseline shapefile...")
 
 library(shapefiles)
 
-shape.path <- choose.files(default = "*.shp",multi = FALSE)
+shape.path <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 dir.path <- dirname(shape.path )
 setwd(dir.path)

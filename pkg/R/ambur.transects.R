@@ -1,6 +1,10 @@
 ambur.transects <-
 function(userinput1=50, userinput2=500, userinput3=5, userinput4=5) {
 
+require(shapefiles)
+require(locfit)
+require(spatstat)
+require(tcltk)
 
 # Establish the inputs
 transpace <- userinput1
@@ -14,17 +18,9 @@ outersample <- userinput4
 #outersample <- 5
 
 
+tkmessageBox(message = "Please select the inner baseline...")
 
-
-require(shapefiles)
-require(locfit)
-require(spatstat)
-require(tcltk)
-
-
-winDialog("ok","Please select the inner baseline...")
-
-path1 <- choose.files(default = "*.shp",multi = FALSE)
+path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path1)
 
@@ -37,8 +33,8 @@ mydata_inner <- convert.to.simple(my.shapefile)
 path2 <- dirname(path1)
 setwd(path2)
 
-winDialog("ok","Please select the outer baseline...")
-path3 <- choose.files(default = "*.shp",multi = FALSE)
+tkmessageBox(message = "Please select the outter baseline...")
+path3 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path3)
 

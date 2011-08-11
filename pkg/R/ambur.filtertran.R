@@ -1,16 +1,19 @@
 ambur.filtertran <-
 function(winsize=5, indv=1) {
 
+require(tcltk)
+require(shapefiles)
+require(spatstat)
+
 filterwinsize <- (winsize-1)/2
 indv.base <- indv
 
 
-require(shapefiles)
-require(spatstat)
 
-winDialog("ok","Please select the transects...")
+tkmessageBox(message = "Please select the transects...")
 
-path1 <- choose.files(default = "*.shp",multi = FALSE)
+
+path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path1)
 
@@ -30,8 +33,8 @@ colnames(transects.dbf) <- gsub("ID", "Id", colnames(transects.dbf))
 transects.dbf$dbf.Id <- seq(1,length(transects.dbf$dbf.Id),by=1)
 
 
-winDialog("ok","Please select the inner baseline...")
-path3 <- choose.files(default = "*.shp",multi = FALSE)
+tkmessageBox(message = "Please select the inner baseline...")
+path3 <- tk_choose.files(default = "*.shp",multi = FALSE)
 
 del.ext <- nchar(path3)
 

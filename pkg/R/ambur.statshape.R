@@ -1,9 +1,11 @@
 ambur.statshape <-
 function(npts=50) {
+require(tcltk)
 
-winDialog("ok","Please select the GIS_stats_table_short.csv file...")
+tkmessageBox(message = "Please select the GIS_stats_table_short.csv file...")
 
-getdata <- choose.files(default = "*.csv",multi = FALSE)
+
+getdata <- tk_choose.files(default = "*.csv",multi = FALSE)
 
 mydata <- read.table(getdata, header=TRUE, sep=",")
 attach(mydata)

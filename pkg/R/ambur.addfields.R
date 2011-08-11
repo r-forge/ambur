@@ -1,11 +1,15 @@
 ambur.addfields <-
 function(checktype=1) {
-
- winDialog("ok","Warning: Shapefile must not be empty.")
-
+require(tcltk)
 library(foreign)
 
-path <- choose.files(default = "*.dbf",multi = FALSE)
+tkmessageBox(message = "Warning: Shapefile must not be empty.")
+
+getdata <- tk_choose.files(default = "*.dbf",multi = FALSE)
+shapename <- gsub(".dbf", "", basename(getdata))
+workingdir <- dirname(getdata)
+setwd(workingdir)
+path <- getdata
 
 mydata <- foreign::read.dbf(path)
 

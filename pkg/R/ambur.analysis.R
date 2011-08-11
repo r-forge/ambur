@@ -44,8 +44,12 @@ require(MASS)
 require(grid)
 
 #choose dbf file to import
-winDialog("ok","Please select the *.DBF file from the capture points shapefile...")
-path <- choose.files(default = "*.dbf",multi = FALSE)
+tkmessageBox(message = "Please select the *.DBF file from the capture points shapefile...")
+getdata <- tk_choose.files(default = "*.dbf",multi = FALSE)
+shapename <- gsub(".dbf", "", basename(getdata))
+workingdir <- dirname(getdata)
+setwd(workingdir)
+path <- getdata
 
 mydata <- foreign::read.dbf(path)
 

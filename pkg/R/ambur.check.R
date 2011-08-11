@@ -1,9 +1,12 @@
 ambur.check <-
 function(checktype=1) {
-
+require(tcltk)
 library(foreign)
 
-path <- choose.files(default = "*.dbf",multi = FALSE)
+path <- tk_choose.files(default = "*.dbf",multi = FALSE)
+workingdir <- dirname(path)
+setwd(workingdir)
+
 
 mydata <- foreign::read.dbf(path)
 
@@ -35,6 +38,6 @@ cat("The following fields are missing:","\n")
 cat(missingfields, "\n",sep = ", ")
 
 
-detach("package:foreign")
+#detach("package:foreign")
 }
 
