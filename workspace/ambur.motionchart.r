@@ -1,3 +1,10 @@
+ambur.motionchart <-
+function(id_var="Transect", time_var="Year", ht_var=550, wdth_var=900) {
+
+
+#id_var="Transect"
+#time_var="Year"
+
 library(googleVis)
 
 require(tcltk)
@@ -11,12 +18,17 @@ dir.path <- dirname(getdata)
 setwd(dir.path)
 
 
-test1 <- data.frame(mydata)
 
-ShoreMotion <- gvisMotionChart(mydata, idvar="Transect", timevar="Year", options=list(height=550, width=900))
+
+ShoreMotion <- gvisMotionChart(mydata, idvar=id_var, timevar=time_var, options=list(height=550, width=900))
 # Display chart
 plot(ShoreMotion)
+
+#create html file with code
+ShoreMotion$html$chart
+cat(ShoreMotion$html$chart, file="ambur_motionchart.html")
+
 # Create Google Gadget
-
-
 cat(createGoogleGadget(ShoreMotion), file="ambur_motionchart.xml")
+
+}
