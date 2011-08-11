@@ -517,8 +517,8 @@ Year.axis <- as.numeric(format(Setup.Date, "%Y"))
 #fix transect id to get it to plot alphabetically
 
 fill_zeros <- paste("%","0",max(nchar(WorkTable1[ ,"TRANSECT"])),"d",sep="")
-Transect.axis <- sprintf(fill_zeros, WorkTable1[ ,"TRANSECT"])
-
+Transect.axis.setup <- sprintf(fill_zeros, WorkTable1[ ,"TRANSECT"])
+Transect.axis <- paste("T",Transect.axis.setup,sep="")
 
 googleVizData <- data.frame(Transect.axis, Year.axis, WorkTable1[ ,"TRANSECT"],	as.Date(Setup.Date, format="%m/%d/%Y %I:%M:%S %p"),	WorkTable1[ ,"ACCURACY"],	WorkTable1[ ,"TRANSPACE"],	WorkTable1[ ,"TRANDIST"],	WorkTable1[ ,"LOCATION"],	WorkTable1[ ,"BASE_LOC"],	WorkTable1[ ,"STARTX"],	WorkTable1[ ,"STARTY"],	WorkTable1[ ,"ENDX"],	WorkTable1[ ,"ENDY"],	WorkTable1[ ,"AZIMUTH"],	WorkTable1[ ,"SHORE_LOC"],	WorkTable1[ ,"CLASS_1"],	WorkTable1[ ,"CLASS_2"],	WorkTable1[ ,"CLASS_3"],	WorkTable1[ ,"X_COORD"],	WorkTable1[ ,"Y_COORD"],	WorkTable1[ ,"DISTANCE"],	WorkTable1a[ ,"Changes.Years"],	WorkTable1a[ ,"Changes.Years.Eras"],	WorkTable1a[ ,"Changes.Distances"],	WorkTable1a[ ,"Changes.Dist.Eras"],	WorkTable1a[ ,"Rates.Consec.Eras"])
 
