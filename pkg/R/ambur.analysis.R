@@ -508,6 +508,92 @@ Changes.Dates2 <- WorkTable1[ ,"DATE"]
 
 WorkTable1a <-cbind(Changes.Transects, Changes.Dates, Changes.Dates2, Changes.Years, Changes.Years.Eras, Changes.Distances, Changes.Dist.Eras, Rates.Consec.Eras)
 
+######googleViz output table
+Setup.Date <- as.POSIXlt(WorkTable1[ ,"DATE"], origin= "01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p")
+
+Year.axis <- as.numeric(format(Setup.Date, "%Y"))
+
+
+#fix transect id to get it to plot alphabetically
+
+fill_zeros <- paste("%","0",max(nchar(WorkTable1[ ,"TRANSECT"])),"d",sep="")
+Transect.axis <- sprintf(fill_zeros, WorkTable1[ ,"TRANSECT"])
+
+
+googleVizData <- data.frame(Transect.axis, Year.axis, WorkTable1[ ,"TRANSECT"],	as.Date(Setup.Date, format="%m/%d/%Y %I:%M:%S %p"),	WorkTable1[ ,"ACCURACY"],	WorkTable1[ ,"TRANSPACE"],	WorkTable1[ ,"TRANDIST"],	WorkTable1[ ,"LOCATION"],	WorkTable1[ ,"BASE_LOC"],	WorkTable1[ ,"STARTX"],	WorkTable1[ ,"STARTY"],	WorkTable1[ ,"ENDX"],	WorkTable1[ ,"ENDY"],	WorkTable1[ ,"AZIMUTH"],	WorkTable1[ ,"SHORE_LOC"],	WorkTable1[ ,"CLASS_1"],	WorkTable1[ ,"CLASS_2"],	WorkTable1[ ,"CLASS_3"],	WorkTable1[ ,"X_COORD"],	WorkTable1[ ,"Y_COORD"],	WorkTable1[ ,"DISTANCE"],	WorkTable1a[ ,"Changes.Years"],	WorkTable1a[ ,"Changes.Years.Eras"],	WorkTable1a[ ,"Changes.Distances"],	WorkTable1a[ ,"Changes.Dist.Eras"],	WorkTable1a[ ,"Rates.Consec.Eras"])
+
+
+colnames(googleVizData) <- c("Transect",	"Year",	"Transect_number",	"Date",	"Accuracy",	"Transect_spacing",	"Transect_distance",	"Location",	"Baseline_location",	"Start_X",	"Start_Y",	"End_X",	"End_Y",	"Azimuth",	"Shoreline_location",	"Class_1",	"Class_2",	"Class_3",	"Position_X",	"Position_Y",	"Change_Distance_Raw",	"Change_Years",	"Change_Years_Eras",	"Change_Distance_Cumulative",	"Change_Distance_Eras",	"Rate_Consecutive_Eras")
+
+
+d.Transect <- "00"
+d.Year <- min(googleVizData$Year)
+d.Transect_number <- 0 
+d.Date <- googleVizData$Date[1]
+d.Accuracy <- 0 
+d.Transect_spacing <- 0
+d.Transect_distance <- 0
+d.Location <- "undefined"
+d.Baseline_location <- "undefined" 
+
+testdiff <- ((max(googleVizData$Start_X) - min(googleVizData$Start_X)) - (max(googleVizData$Start_Y) - min(googleVizData$Start_Y)))
+d.Start_X <- ifelse(testdiff > 0, max(googleVizData$Start_X), max(googleVizData$Start_X + abs(testdiff)))
+d.Start_Y <- ifelse(testdiff < 0, max(googleVizData$Start_Y), max(googleVizData$Start_Y + abs(testdiff)))
+
+testdiff <- ((max(googleVizData$End_X) - min(googleVizData$End_X)) - (max(googleVizData$End_Y) - min(googleVizData$End_Y)))
+d.End_X <-  ifelse(testdiff > 0, max(googleVizData$End_X), max(googleVizData$End_X + abs(testdiff)))
+d.End_Y <-  ifelse(testdiff < 0, max(googleVizData$End_Y), max(googleVizData$End_Y + abs(testdiff)))
+
+d.Azimuth <- 0
+d.Shoreline_location <- "undefined"
+d.Class_1 <- "undefined"
+d.Class_2 <- "undefined"
+d.Class_3 <- "undefined"
+
+testdiff <- ((max(googleVizData$Position_X) - min(googleVizData$Position_X)) - (max(googleVizData$Position_Y) - min(googleVizData$Position_Y)))
+d.Position_X <- ifelse(testdiff > 0, max(googleVizData$Position_X), max(googleVizData$Position_X + abs(testdiff))) 
+d.Position_Y <- ifelse(testdiff < 0, max(googleVizData$Position_Y), max(googleVizData$Position_Y + abs(testdiff)))
+
+d.Distance <- 0 
+d.Change_Years <- 0
+d.Change_Years_Eras <- 0 
+d.Change_Distance <- 0 
+d.Change_Distance_Eras <- 0
+d.Rate_Consecutive_Eras <- 0
+
+d.googleVizData <- data.frame(d.Transect,	d.Year,	d.Transect_number,	d.Date,	d.Accuracy,	d.Transect_spacing,	d.Transect_distance,	d.Location,	d.Baseline_location,	d.Start_X,	d.Start_Y,	d.End_X,	d.End_Y,	d.Azimuth,	d.Shoreline_location,	d.Class_1,	d.Class_2,	d.Class_3,	d.Position_X,	d.Position_Y,	d.Distance,	d.Change_Years,	d.Change_Years_Eras,	d.Change_Distance,	d.Change_Distance_Eras,	d.Rate_Consecutive_Eras)
+ 
+
+colnames(d.googleVizData) <- c("Transect",	"Year",	"Transect_number",	"Date",	"Accuracy",	"Transect_spacing",	"Transect_distance",	"Location",	"Baseline_location",	"Start_X",	"Start_Y",	"End_X",	"End_Y",	"Azimuth",	"Shoreline_location",	"Class_1",	"Class_2",	"Class_3",	"Position_X",	"Position_Y",	"Change_Distance_Raw",	"Change_Years",	"Change_Years_Eras",	"Change_Distance_Cumulative",	"Change_Distance_Eras",	"Rate_Consecutive_Eras")
+
+googleVizData.tab <- rbind(googleVizData, d.googleVizData)
+
+#adjust coordinates to display in googleViz
+
+
+googleVizData.tab$Start_X <- googleVizData.tab$Start_X - min(googleVizData.tab$Start_X)
+googleVizData.tab$Start_Y <- googleVizData.tab$Start_Y - min(googleVizData.tab$Start_Y)
+googleVizData.tab$End_X <- googleVizData.tab$End_X - min(googleVizData.tab$End_X)
+googleVizData.tab$End_Y <- googleVizData.tab$End_Y - min(googleVizData.tab$End_Y)
+googleVizData.tab$Position_X <- googleVizData.tab$Position_X - min(googleVizData.tab$Position_X)
+googleVizData.tab$Position_Y <- googleVizData.tab$Position_Y - min(googleVizData.tab$Position_Y)
+
+googleVizData.tab$Size_1 <- 1
+googleVizData.tab$Size_1[length(googleVizData.tab$Size_1)] <- 100
+
+##fix NA values of text fields
+googleVizData.tab$Baseline_location[is.na(googleVizData.tab$Baseline_location)] <- "undefined"
+googleVizData.tab$Shoreline_location[is.na(googleVizData.tab$Shoreline_location)] <- "undefined"
+googleVizData.tab$Location[is.na(googleVizData.tab$Location)] <- "undefined"
+googleVizData.tab$Class_1[is.na(googleVizData.tab$Class_1)] <- "undefined"
+googleVizData.tab$Class_2[is.na(googleVizData.tab$Class_2)] <- "undefined"
+googleVizData.tab$Class_3[is.na(googleVizData.tab$Class_3)] <- "undefined"
+
+
+write.table(googleVizData.tab, file = "ambur_motionchart_data.csv", sep = ",", row.names = TRUE) 
+
+#########
+
 remove(Setup.T.Min.Date, Setup.Min.Date.Position, Setup.Min.Date.Dist, "i")
 
 attach(WorkTable1)
