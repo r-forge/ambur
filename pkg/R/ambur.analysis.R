@@ -295,6 +295,13 @@ fname2 <- paste(as.character(format(as.POSIXct((tt1)[subs.dates], origin="1970-0
 
 colnames(rates) <- (fname2)
 
+chng <- cbind(unq.transects,chng)
+colnames(chng)[1] <- "TRANSECT"
+
+rates <- cbind(unq.transects,rates)
+colnames(rates)[1] <- "TRANSECT"
+
+
 finalchngs <- cbind(testmatrix3, chng, rates)
 
 
@@ -469,8 +476,9 @@ ChangeTable <- cbind(Setup.Transect, Setup.T.Min.Date, Setup.Min.Date.Position, 
 
 WorkTable1 <- merge(mydata, ChangeTable, by.x = "TRANSECT", by.y = "Setup.Transect", all = FALSE, sort = TRUE)
 
-WorkTable1 <- (WorkTable1)[order(WorkTable1[ ,"TRANSECT"], WorkTable1[ ,"DATE"]) ,]
+Setup.Date_repair <- as.character(as.POSIXlt(WorkTable1[ ,"DATE"], origin= "01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"))
 
+WorkTable1 <- (WorkTable1)[order(WorkTable1[ ,"TRANSECT"], Setup.Date_repair) ,]
 
 
 
