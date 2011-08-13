@@ -2,276 +2,190 @@ ambur.filtertran <-
 function(winsize=5, indv=1) {
 
 require(tcltk)
-require(shapefiles)
-require(spatstat)
-
-filterwinsize <- (winsize-1)/2
-indv.base <- indv
+require(rgdal)
+require(rgeos)
 
 
-
-tkmessageBox(message = "Please select the transects...")
-
-
-path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
-
-del.ext <- nchar(path1)
-
-path1a <- paste(substr(path1,1,max(del.ext)-4),".shp",sep="")
-
-my.shapefile <- read.shp(path1a)
-
-mydata <- convert.to.simple(my.shapefile)
-
-path2 <- dirname(path1)
-setwd(path2)
-
-transects.dbf <- data.frame(read.dbf(paste(substr(path1,1,max(del.ext)-4),".dbf",sep="")))
-
-colnames(transects.dbf) <- gsub("ID", "Id", colnames(transects.dbf))
-
-transects.dbf$dbf.Id <- seq(1,length(transects.dbf$dbf.Id),by=1)
+#winsize=5
+#indv=1
 
 
-tkmessageBox(message = "Please select the inner baseline...")
-path3 <- tk_choose.files(default = "*.shp",multi = FALSE)
+tkmessageBox(message = "Please select the transects shapefile...")
+getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename <- gsub(".shp", "", basename(getdata))
+shapedata <- readOGR(getdata,layer=shapename)
+attrtable <- data.frame(shapedata)
 
-del.ext <- nchar(path3)
-
-path3a <- paste(substr(path3,1,max(del.ext)-4),".shp",sep="")
-
-my.shapefile2 <- read.shp(path3a)
-
-inner_base <- convert.to.simple(my.shapefile2)
+workingdir <- dirname(getdata)
+setwd(workingdir)
 
 
-
+tkmessageBox(message = "Please select the inner baseline shapefile...")
+getdata2 <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename2 <- gsub(".shp", "", basename(getdata2))
+shapedata2 <- readOGR(getdata2,layer=shapename2)
+attrtable2 <- data.frame(shapedata2)
 
 
 time.stamp1 <- as.character(Sys.time())
-
 time.stamp2 <- gsub("[:]", "_", time.stamp1)
-
 
 
 dir.create(paste(time.stamp2," ","filtered",sep=""))
 setwd(paste(time.stamp2," ","filtered",sep=""))
 
+
+pb <- tkProgressBar("AMBUR: progress bar", "Filtering...", 0, 100, 10)
+
+
+
 #set up master data table
-
-trandata <- data.frame(transects.dbf)
-colnames(trandata) <- gsub("dbf.", "", colnames(trandata))
+trandata <- attrtable
 
 
-
-#######################
-n.adjrec <- 0
-
-in.az <- trandata$Azimuth
+##establish moving average function
+move.avg <- function(x,n=winsize){filter(x,rep(1/n,n), sides=2)}
 
 
+###established azimuth filter function
+filter.azimuths <- function(az.data){
+cos.az <- cos(az.data * pi/180)
+sin.az <- sin(az.data * pi/180)
+avg.cosx <- move.avg(cos.az)
+avg.siny <- move.avg(sin.az)
+filter.az.rads <- atan2(avg.siny, avg.cosx)
+filter.az.deg <- ifelse( (filter.az.rads *(180/pi)) < 0, (filter.az.rads *(180/pi)) + 360, (filter.az.rads *(180/pi)))
+filter.az.final <- ifelse(is.na(filter.az.deg) == TRUE, trandata$Azimuth, filter.az.deg)
+return(filter.az.final)}
 
-#cast filter transects using recommended filter window size or user specified window for unclosed baselines
-n.adj <- ifelse(filterwinsize > 0, filterwinsize, n.adjrec)
+### filter across all baselines
+filter.az.all <- filter.azimuths(trandata$Azimuth)
 
-filter.az <- numeric(length(in.az))
+### filter across individual baselines
+Baseline.Factor <- factor(trandata$BaseOrder)
+filter.az.indv <- sapply(levels(Baseline.Factor), function(x) filter.azimuths(trandata$Azimuth[trandata$BaseOrder == x]) ,simplify = TRUE)
+filter.az.indv <- unlist(filter.az.indv, use.names = FALSE)
 
-for (i in 1:length(in.az)) {
-
-
-if(i > n.adj && i < (length(in.az)-n.adj)) filter.window <- c(in.az[(i-1):(i-n.adj)],in.az[i],in.az[(i+1):(i+n.adj)]) else filter.window <- 0
-
-
-
-filter.span <- sum(as.logical(filter.window[(filter.window > 90) && (filter.window < 270)]))*0   #find if there are transects radiating > 180 degrees
-
-if(min(filter.window,na.rm = TRUE) < 90 && max(filter.window,na.rm = TRUE) > 270 && i > n.adj && i < (length(in.az)-n.adj) && filter.span ==0) filter.prep <- c(filter.window[filter.window >270]-360,filter.window[filter.window <= 270])  else  filter.prep <- filter.window
+### get the appropriate filter azimuth based on user option
+filter.az.sel <- if(indv == 1) filter.az.indv else filter.az.all
 
 
-
-filter.prep2 <- ifelse(i > n.adj && i < (length(in.az)-n.adj),mean(filter.prep),in.az[i])
+### get filter transects ending XY coordinates
+filter2.x <- sin((filter.az.sel * pi/180)) * (trandata$TranDist*2) + trandata$StartX
+filter2.y <- cos((filter.az.sel * pi/180)) * (trandata$TranDist*2) + trandata$StartY
 
 
 
-filter.az[i] <- ifelse(filter.prep2 < 0, filter.prep2 + 360, filter.prep2)
+Pcnt.Complete <-  25
+info <- sprintf("%d%% Building new transect lines...", Pcnt.Complete)
+setTkProgressBar(pb, 25 , sprintf("AMBUR: Filter transects (%s)", info), info)
+
+
+
+### build spatial lines for transects to intersect the baseline
+Transect.Factor <- factor(trandata$Transect)
+shape.prep <- sapply(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(trandata$StartX[trandata$Transect == x], filter2.x[trandata$Transect == x]), y=c(trandata$StartY[trandata$Transect == x],filter2.y[trandata$Transect == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+shape.prep2 <- SpatialLines(shape.prep)
+shape.prep3 <- SpatialLinesDataFrame(shape.prep2, trandata)
+
+
+
+Pcnt.Complete <-  50
+info <- sprintf("%d%% Projecting to inner baseline...", Pcnt.Complete)
+setTkProgressBar(pb, 50 , sprintf("AMBUR: Filter transects (%s)", info), info)
+
+
+####intersect
+
+int <- gIntersects(shapedata2, shape.prep3, byid=TRUE)
+vec <- vector(mode="list", length=dim(int)[2])
+
+for (i in seq(along=vec)) vec[[i]] <- gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE)
+out <- do.call("rbind", vec)
+rn <- row.names(out)
+nrn <- do.call("rbind", strsplit(rn, " "))
+
+
+transID <- data.frame(nrn)[,2]
+baseID <- data.frame(nrn)[,1]
+INT_X <-  data.frame(coordinates(out))$x
+INT_Y <-  data.frame(coordinates(out))$y
+
+
+sortID <- seq(1,length(INT_X),1)
+inter.data <- data.frame(INT_X,INT_Y,transID,baseID,sortID)
+
+tran.data <- data.frame(shapedata@data)
+tran.data$Id <- as.numeric(row.names(tran.data))
+
+tet <- merge(tran.data,inter.data , by.x = "Id", by.y = "transID", sort=FALSE, all.x=TRUE)
+tet2 <- data.frame(tet[ order(tet[,"Transect"]) , ])
+
+
+### make new attribute table with filtered values
+new_trandata <-  trandata
+new_trandata[,"Azimuth"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$Azimuth), as.numeric(filter.az.sel))
+new_trandata[,"EndX"]<- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet2$INT_X))
+new_trandata[,"EndY"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet2$INT_Y))
+new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
+
+
+
+Pcnt.Complete <-  75
+info <- sprintf("%d%% Finalizing filtered transects ...", Pcnt.Complete)
+setTkProgressBar(pb, 75 , sprintf("AMBUR: Filter transects (%s)", info), info)
+
+
+### build spatial lines for final filtered transects shapefile
+Transect.Factor <- factor(new_trandata$Transect)
+shape.final <- sapply(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$StartX[new_trandata$Transect == x], new_trandata$EndX[new_trandata$Transect == x]), y=c(new_trandata$StartY[new_trandata$Transect == x],new_trandata$EndY[new_trandata$Transect == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+shape.final2 <- SpatialLines(shape.final)
+shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
+
+
+
+
+Pcnt.Complete <-  90
+info <- sprintf("%d%% Creating shapefile ...", Pcnt.Complete)
+setTkProgressBar(pb, 90 , sprintf("AMBUR: Filter transects (%s)", info), info)
+
+#create shapefile and write it to the working directory
+writeOGR(shape.final3, ".", "filtered_transects", driver="ESRI Shapefile")
+
+
+
+
+####plots
+plot(c(trandata$StartX,trandata$EndX),c(trandata$StartY,trandata$EndY),col="white",asp=1,xlab="X",ylab="Y")
+segments(trandata$StartX,trandata$StartY,trandata$EndX,trandata$EndY,col="gray")
+segments(new_trandata$StartX,new_trandata$StartY,new_trandata$EndX,new_trandata$EndY,col="blue")
+
+Pcnt.Complete <-  100
+info <- sprintf("%d%% done", Pcnt.Complete)
+setTkProgressBar(pb, 100 , sprintf("AMBUR: Filter transects (%s)", info), info)
+
+
+
+##qc check on original azimuths
+#orig.end.x <- sin((trandata$Azimuth * pi/180)) * (trandata$TranDist) + trandata$StartX
+#orig.end.y <- cos((trandata$Azimuth * pi/180)) * (trandata$TranDist) + trandata$StartY
+#round(orig.end.x - trandata$EndX,0)
+#round(orig.end.y - trandata$EndY,0)
+
+##for testing purposes:
+#trandata$BaseOrder[300:max(length(trandata$BaseOrder))] <- 1
+#trandata$BaseOrder
+#filter.az.indv
+#filter.az.all - filter.az.sel
+#sum(filter.az.all - filter.az.indv)
+#length(filter.az.all)
+#length(filter.az.indv)
+#indv = 2
+#edit(trandata)
+
 
 }
-
-#########################################################################test to get closed baseline averages for windows at the end and beginning of the baseline
-
-for (i in 1:length(in.az)) {
-
-if(i <= n.adj) filter.window <- c(in.az[((length(in.az))-(n.adj-(i-1))+1):(length(in.az))],in.az[1:i],in.az[(i+1):(i+n.adj)]) else filter.window <- filter.az[i]
-
-if(i >= (length(in.az)-n.adj)) filter.window <- c(in.az[(i-1):(i-n.adj)],in.az[i:(length(in.az))],in.az[1:(n.adj-(length(in.az)-i))]) else filter.window <- filter.window * 1
-
-
-filter.span <- sum(as.logical(filter.window[(filter.window > 90) && (filter.window < 270)]))*0   #find if there are transects radiating > 180 degrees
-
-
-if(min(filter.window,na.rm = TRUE) < 90 && max(filter.window,na.rm = TRUE) > 270 && i <= n.adj | i >= (length(in.az)-n.adj) && filter.span ==0) filter.prep <- c(filter.window[filter.window >270]-360,filter.window[filter.window <= 270])  else  filter.prep <- filter.az[i]
-
-filter.prep2 <- mean(filter.prep)
-
-
-
-filter.az[i] <- ifelse(filter.prep2 < 0, filter.prep2 + 360, filter.prep2)
-}
-#####################################################################################
-
-
-
-filter.xy.az <- filter.az
-filter.x <- sin((filter.az * pi/180)) * (trandata$TranDist) + trandata$StartX
-filter.y <- cos((filter.az * pi/180)) * (trandata$TranDist) + trandata$StartY
-
-
-
-##############experimental
-
-az.cos <- cos(in.az * (pi/180))
-az.sin <- sin(in.az * (pi/180))
-
-
-n.adj <- ifelse(filterwinsize > 0, filterwinsize, n.adjrec)
-
-filter.az2 <- numeric(length(in.az))
-avg.cos <- numeric(length(in.az))
-avg.sin <- numeric(length(in.az))
-avg.val <- numeric(length(in.az))
-avg.val.base <- numeric(length(in.az))
-base.test <- numeric(length(in.az))
-base.az  <- numeric(length(in.az))
-
-for (i in 1:length(in.az)) {
-
-
-if(i > n.adj && i < (length(az.cos)-n.adj)) filter.window1 <- c(az.cos[(i-1):(i-n.adj)],az.cos[i],az.cos[(i+1):(i+n.adj)]) else filter.window1 <- 0
-
-if(i > n.adj && i < (length(az.sin)-n.adj)) filter.window2 <- c(az.sin[(i-1):(i-n.adj)],az.sin[i],az.sin[(i+1):(i+n.adj)]) else filter.window2 <- 0
-
-
-if(i > n.adj && i < (length(az.cos)-n.adj)) filter.window3 <- c(trandata$BaseOrder[(i-1):(i-n.adj)],trandata$BaseOrder[i],trandata$BaseOrder[(i+1):(i+n.adj)]) else filter.window3 <- c(0,1)  #added to select for individual baselines
-
-base.test[i] <- as.numeric(min(filter.window3*indv.base,na.rm=TRUE) == max(filter.window3*indv.base,na.rm=TRUE)) #added to select for individual baselines
-
-
-
-avg.cos[i] <- ifelse(i > n.adj && i < (length(in.az)-n.adj),mean(filter.window1,na.rm=TRUE),az.cos[i])
-
-avg.sin[i] <- ifelse(i > n.adj && i < (length(in.az)-n.adj) ,mean(filter.window2,na.rm=TRUE),az.sin[i])
-
-
-avg.val[i] <- (atan2(avg.sin[i],avg.cos[i]))* (180/pi)
-avg.val.base[i] <- (atan2(az.sin[i],az.cos[i]))* (180/pi) #added to select for individual baselines
-
-base.az[i]  <- ifelse(base.test[i] > 0,avg.val[i],avg.val.base[i]) #added to select for individual baselines
-
-filter.az2[i] <- ifelse(base.az[i] < 0, base.az[i] + 360, base.az[i])
-
-#filter.az2[i] <- ifelse(avg.val[i] < 0, avg.val[i] + 360, avg.val[i])
-
-}
-
-
-
-filter2.x <- sin((filter.az2 * pi/180)) * (trandata$TranDist*2) + trandata$StartX
-filter2.y <- cos((filter.az2 * pi/180)) * (trandata$TranDist*2) + trandata$StartY
-
-
-########trim transects from 2nd filter
-test.wx <- c(trandata$StartX,filter2.x)
-test.wy <- c(trandata$StartY,filter2.y)
-
-Cx <- inner_base$X
-Cy <- inner_base$Y
-Cx2 <- c(Cx[-1],Cx[length(Cx)])
-Cy2 <- c(Cy[-1],Cy[length(Cy)])
-
-Test.w <- owin()
-Test.w <- owin(c(min(test.wx-100000),max(test.wx+100000)), c(min(test.wy-100000),max(test.wy+100000)))
-
-TY.w <- owin()
-TY.w <- owin(c(min(Cx-100000),max(Cx+100000)), c(min(Cy-100000),max(Cy+100000)))
-TY <- psp(Cx,Cy,Cx2,Cy2,window=Test.w)
-
-trim.x <- numeric(length(trandata$Transect))
-trim.y  <- numeric(length(trandata$Transect))
-trim.length  <- numeric(length(trandata$Transect))
-
-for (i in 1:length(trandata$Transect)) {
- 
-b.x <- psp(trandata$StartX[i], trandata$StartY[i], filter2.x[i], filter2.y[i], window=Test.w)
-
- inner.trim <- crossing.psp(b.x,TY)
-
-pts.dists <- ((inner.trim$x - trandata$StartX[i])^2 +  (inner.trim$y - trandata$StartY[i])^2)^(1/2)
-
- trim.x[i] <- ifelse(inner.trim$n == 0, filter2.x[i],inner.trim$x[which.min(pts.dists)] )
- trim.y[i] <- ifelse(inner.trim$n == 0, filter2.y[i],inner.trim$y[which.min(pts.dists)] )
- trim.length[i] <- ifelse(inner.trim$n == 0,trandata$TranDist,min(pts.dists))
- } 
-
-
-
-
-
-
-
-
-
-
-
-
-########
-
-plot(trandata$StartX,trandata$StartY,col="white",asp=1,xlab="X",ylab="Y")
-segments(trandata$StartX,trandata$StartY,trim.x,trim.y,col="blue")
-
-b <- max(trandata$BaseOrder,na.rm=TRUE)
-
-
-filterdata <- trandata
-
-
-#filterdata$EndX <- filter.x
-#filterdata$EndY <- filter.y
-#filterdata$Azimuth <- filter.az
-
-#id.field <- filterdata$Id
-#dd <- data.frame(Id=c(id.field,id.field),X=c(filterdata$StartX,filterdata$EndX),Y=c(filterdata$StartY,filterdata$EndY))
-#ddTable <- data.frame(filterdata)
-#ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-#write.shapefile(ddShapefile, paste("b",b,"transects_near_filter",sep=""), arcgis=T)
-
-
-
-
-##write 2nd filter shapefile
-#filterdata$EndX <- filter2.x
-#filterdata$EndY <- filter2.y
-#filterdata$Azimuth <- filter.az2
-
-#id.field <- filterdata$Id
-#dd <- data.frame(Id=c(id.field,id.field),X=c(filterdata$StartX,filterdata$EndX),Y=c(filterdata$StartY,filterdata$EndY))
-#ddTable <- data.frame(filterdata)
-#ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-#write.shapefile(ddShapefile, paste("b",b,"transects_near_filter2",sep=""), arcgis=T) 
-
-##write 2nd filter trim shapefile
-filterdata$EndX <- trim.x
-filterdata$EndY <- trim.y
-filterdata$TranDist <- trim.length
-
-
-
-id.field <- filterdata$Id
-dd <- data.frame(Id=c(id.field,id.field),X=c(filterdata$StartX,filterdata$EndX),Y=c(filterdata$StartY,filterdata$EndY))
-ddTable <- data.frame(filterdata)
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("b",b,"transects__filter",sep=""), arcgis=T) 
-
-#detach("package:shapefiles")
-#detach("package:spatstat")
-}
-
