@@ -4,7 +4,7 @@
 
 install.packages("ambur", repos=c("http://cran.r-project.org","http://R-Forge.R-project.org" ))  
 
-remove.packages(c("ambur","akima", "locfit", "shapefiles", "sp", "spatial", "spatstat", "googleVis", "rgdal", "rgeos", "stringr"))
+remove.packages(c("ambur","akima", "locfit", "shapefiles", "sp", "spatial", "spatstat", "googleVis", "rgdal", "rgeos"))
 
 
 
