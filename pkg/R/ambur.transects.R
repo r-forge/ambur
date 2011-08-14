@@ -47,6 +47,9 @@ setwd("AMBUR_transects")
 dir.create(paste(time.stamp2," ","transects",sep=""))
 setwd(paste(time.stamp2," ","transects",sep=""))
 
+
+pb <- tkProgressBar("AMBUR: progress bar", "Reading GIS data...", 0, 100, 10)
+
 ############################## build functions
 #build function for points along a line (modified to add the start and end points)
 ###################################################################################
@@ -173,6 +176,9 @@ baselineid <- rep(baselineID, length(outer.basepts[,1]))
  
  }
 
+ Pcnt.Complete <-  25
+info <- sprintf("%d%% Casting perpendicular transects...", Pcnt.Complete)
+setTkProgressBar(pb, 25 , sprintf("AMBUR: Transects (%s)", info), info)
 
 #################################################################################################################################
 ### cast perpendicular transects
@@ -239,6 +245,12 @@ shape.final3 <- SpatialLinesDataFrame(shape.final2, perp.transects)
 
 #create shapefile and write it to the working directory
 writeOGR(shape.final3, ".", "perp_transects", driver="ESRI Shapefile")
+
+
+
+Pcnt.Complete <-  50
+info <- sprintf("%d%% Casting near transects...", Pcnt.Complete)
+setTkProgressBar(pb, 50 , sprintf("AMBUR: Transects (%s)", info), info)
 
 #################################################################################################################################
 ### cast near transects
@@ -336,6 +348,11 @@ adj.project2segment <-       function (X, Y, action = "project", check = FALSE)
 
 ####################################end adj.project2segment function
 
+
+Pcnt.Complete <-  75
+info <- sprintf("%d%% Calculating near distances...", Pcnt.Complete)
+setTkProgressBar(pb, 75 , sprintf("AMBUR: Transects (%s)", info), info)
+
 ###build objects
 TX.w <- owin()
 TX.w <- owin(c(min(perp.transects$StartX-100000),max(perp.transects$StartX+100000)), c(min(perp.transects$StartY-100000),max(perp.transects$StartY+100000)))
@@ -385,20 +402,27 @@ list(Lines(list(Line(list(x=c(near.transects$StartX[near.transects$Transect == x
 shape.near2 <- SpatialLines(shape.near)
 shape.near3 <- SpatialLinesDataFrame(shape.near2, near.transects)
 
+
+Pcnt.Complete <-  90
+info <- sprintf("%d%% Saving transect files...", Pcnt.Complete)
+setTkProgressBar(pb, 90 , sprintf("AMBUR: Transects (%s)", info), info)
+
 #create shapefile and write it to the working directory
 writeOGR(shape.near3, ".", "near_transects", driver="ESRI Shapefile")
 
 
 
-
+Pcnt.Complete <-  100
+info <- sprintf("%d%% Done!", Pcnt.Complete)
+setTkProgressBar(pb, 100 , sprintf("AMBUR: Transects (%s)", info), info)
 
 
 #################################################################################################################################
 ##### plot the results of transect casting   
 ##################################################################
-    plot(c(test.tran$StartX,test.tran$EndX),c(test.tran$StartY,test.tran$EndY),col="white",asp=1,xlab="X",ylab="Y")
-    segments(test.tran$StartX,test.tran$StartY,test.tran$EndX,test.tran$EndY)
-    lines(bbb$baseX,bbb$baseY,col="red")
+    #plot(c(test.tran$StartX,test.tran$EndX),c(test.tran$StartY,test.tran$EndY),col="white",asp=1,xlab="X",ylab="Y")
+    #segments(test.tran$StartX,test.tran$StartY,test.tran$EndX,test.tran$EndY)
+    #lines(bbb$baseX,bbb$baseY,col="red")
     
        #plot(c(trans.all$StartX,trans.all$EndX),c(trans.all$StartY,trans.all$EndY),col="white",asp=1,xlab="X",ylab="Y")
     #segments(trans.all$StartX,trans.all$StartY,trans.all$EndX,trans.all$EndY)
