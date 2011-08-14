@@ -5,7 +5,7 @@ Version: 1.03-7
 Date: 2011-08-14
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
-Depends: R (>= 2.12), akima, locfit, shapefiles, sp, spatial, spatstat, googleVis, rgeos, rgdal, stingr, tcltk, foreign, MASS, mgcv, grid, lattice, nlme
+Depends: R (>= 2.12), akima, locfit, shapefiles, sp, spatial, spatstat, googleVis, rgeos, rgdal, tcltk, foreign, MASS, mgcv, grid, lattice, nlme
 Description: Analyzes position changes of a boundary (shoreline) along transects. (Version 1 - LEMUR)
 License: GNU General Public License
 LazyLoad: yes
