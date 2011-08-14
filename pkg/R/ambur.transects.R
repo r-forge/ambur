@@ -403,18 +403,76 @@ shape.near2 <- SpatialLines(shape.near)
 shape.near3 <- SpatialLinesDataFrame(shape.near2, near.transects)
 
 
-Pcnt.Complete <-  90
-info <- sprintf("%d%% Saving transect files...", Pcnt.Complete)
-setTkProgressBar(pb, 90 , sprintf("AMBUR: Transects (%s)", info), info)
+
 
 #create shapefile and write it to the working directory
 writeOGR(shape.near3, ".", "near_transects", driver="ESRI Shapefile")
 
 
 
+
+
+Pcnt.Complete <-  90
+info <- sprintf("%d%% Trimming perpendicular transects...", Pcnt.Complete)
+setTkProgressBar(pb, 90 , sprintf("AMBUR: Transects (%s)", info), info)
+#################################################################################################################################
+##### create trimmed transects 
+##################################################################
+
+
+shape.prep3 <- shape.final3
+
+int <- gIntersects(shapedata2, shape.prep3, byid=TRUE)
+vec <- vector(mode="list", length=dim(int)[2])
+
+for (i in seq(along=vec)) vec[[i]] <- gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE)
+out <- do.call("rbind", vec)
+rn <- row.names(out)
+nrn <- do.call("rbind", strsplit(rn, " "))
+
+
+transID <- data.frame(nrn)[,2]
+baseID <- data.frame(nrn)[,1]
+INT_X <-  data.frame(coordinates(out))$x
+INT_Y <-  data.frame(coordinates(out))$y
+
+
+sortID <- seq(1,length(INT_X),1)
+inter.data <- data.frame(INT_X,INT_Y,transID,baseID,sortID)
+
+tran.data <- data.frame(perp.transects)
+
+
+tet <- merge(tran.data,inter.data , by.x = "Transect", by.y = "transID", sort=FALSE, all.x=TRUE)
+tet2 <- data.frame(tet[ order(tet[,"Transect"]) , ])
+
+
+### make new attribute table with filtered values
+new_trandata <-  tran.data
+new_trandata[,"EndX"]<- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet2$INT_X))
+new_trandata[,"EndY"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet2$INT_Y))
+new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
+
+
+
+### build spatial lines for final trim transects shapefile
+Transect.Factor3 <- factor(new_trandata$Transect)
+shape.trim <- sapply(levels(Transect.Factor3), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$StartX[new_trandata$Transect == x], new_trandata$EndX[new_trandata$Transect == x]), y=c(new_trandata$StartY[new_trandata$Transect == x],new_trandata$EndY[new_trandata$Transect == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+shape.trim2 <- SpatialLines(shape.trim)
+shape.trim3 <- SpatialLinesDataFrame(shape.trim2, new_trandata)
+
+
+
+#create shapefile and write it to the working directory
+writeOGR(shape.trim3, ".", "trim_perp_transects", driver="ESRI Shapefile")
+
+
 Pcnt.Complete <-  100
 info <- sprintf("%d%% Done!", Pcnt.Complete)
 setTkProgressBar(pb, 100 , sprintf("AMBUR: Transects (%s)", info), info)
+
 
 
 #################################################################################################################################
@@ -432,4 +490,9 @@ setTkProgressBar(pb, 100 , sprintf("AMBUR: Transects (%s)", info), info)
     #segments(trans.indv2$StartX,trans.indv2$StartY,trans.indv2$EndX,trans.indv2$EndY)
     #lines(bbb$baseX,bbb$baseY,col="red")
     
-    }
+   ####intersect
+
+
+
+
+ }
