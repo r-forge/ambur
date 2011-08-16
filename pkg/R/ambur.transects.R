@@ -14,7 +14,7 @@ fsamp <- userinput5
 
 
 #transpace <- 50
-#tranlength <- 2000
+#tranlength <- 500
 #innersample <- 5
 #outersample <- 5
 #fsamp <- 90
@@ -434,11 +434,14 @@ shape.prep3 <- shape.final3
 int <- gIntersects(shapedata2, shape.prep3, byid=TRUE)
 vec <- vector(mode="list", length=dim(int)[2])
 
+
+if (sum(as.numeric(int)) > 0)  {########determine if all of the transects do NOT intersect, if so then it proceeds
+
+
 for (i in seq(along=vec)) vec[[i]] <- gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE)
 out <- do.call("rbind", vec)
 rn <- row.names(out)
 nrn <- do.call("rbind", strsplit(rn, " "))
-
 
 transID <- data.frame(nrn)[,2]
 baseID <- data.frame(nrn)[,1]
@@ -461,6 +464,12 @@ new_trandata <-  tran.data
 new_trandata[,"EndX"]<- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet2$INT_X))
 new_trandata[,"EndY"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet2$INT_Y))
 new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
+
+
+}
+
+if (sum(as.numeric(int)) == 0) new_trandata <- perp.transects
+
 
 
 

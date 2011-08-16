@@ -2,6 +2,9 @@ ambur.forecast <-
 function(years=50) {
 
 require(tcltk)
+ require(rgdal)
+
+
 
 #open ambur plotting file
 tkmessageBox(message = "Please select the 'results_stats.csv' file...")
@@ -22,8 +25,8 @@ time.stamp2 <- gsub("[:]", "_", time.stamp1)
 dir.create("AMBUR_forecast", showWarnings=FALSE)
 setwd("AMBUR_forecast")
 
-dir.create(paste(time.stamp2," ","forecast",sep=""))
-setwd(paste(time.stamp2," ","forecast",sep=""))
+#dir.create(paste(time.stamp2," ","forecast",sep=""))
+#setwd(paste(time.stamp2," ","forecast",sep=""))
 
 
 forecast.years <- years
@@ -53,27 +56,62 @@ lines(LRR.predx,LRR.predy,col="blue")
 lines(WLR.predx,WLR.predy,col="red")
 
 
-require(shapefiles)
 
-id.field <- 1
-dd <- data.frame(Id=c(id.field),X=EPR.predx,Y=EPR.predy)
-ddTable <- data.frame(Id=id.field,nYears=forecast.years,RateMeth="EPR",Source=data.path,Creator="R - AMBUR")
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("EPR_forecast",sep=""), arcgis=T)
+##############################################################################
+
+mydata$Baseline.Location <- ifelse(is.na(mydata$Baseline.Location) ==TRUE, 1, mydata$Baseline.Location)
 
 
-id.field <- 1
-dd <- data.frame(Id=c(id.field),X=LRR.predx,Y=LRR.predy)
-ddTable <- data.frame(Id=id.field,nYears=forecast.years,RateMeth="LRR",Source=data.path,Creator="R - AMBUR")
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("LRR_forecast",sep=""), arcgis=T)
+##EPR
+Baseline.Factor <- factor(mydata$Baseline.Location)
+EPR.final <- sapply(levels(Baseline.Factor), function(x)
+list(Lines(list(Line(list(x=c(EPR.predx[mydata$Baseline.Location == x]), y=c(EPR.predy[mydata$Baseline.Location == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+EPR.final2 <- SpatialLines(EPR.final)
+
+EPR.tab <- data.frame(nYears=forecast.years,RateMeth="EPR",Source=data.path,Creator="R - AMBUR")
+
+EPR.tab2 <-  EPR.tab[rep(1, length(unique(Baseline.Factor))),]
+row.names(EPR.tab2) <- seq(0, length(unique(Baseline.Factor))-1,1)
+
+EPR.final3 <- SpatialLinesDataFrame(EPR.final2, EPR.tab2)
+#create shapefile and write it to the working directory
+writeOGR(EPR.final3, ".", "EPR_forecast", driver="ESRI Shapefile")
 
 
-id.field <- 1
-dd <- data.frame(Id=c(id.field),X=WLR.predx,Y=WLR.predy)
-ddTable <- data.frame(Id=id.field,nYears=forecast.years,RateMeth="WLR",Source=data.path,Creator="R - AMBUR")
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("WLR_forecast",sep=""), arcgis=T)
+
+##LRR
+Baseline.Factor <- factor(mydata$Baseline.Location)
+LRR.final <- sapply(levels(Baseline.Factor), function(x)
+list(Lines(list(Line(list(x=c(LRR.predx[mydata$Baseline.Location == x]), y=c(LRR.predy[mydata$Baseline.Location == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+LRR.final2 <- SpatialLines(LRR.final)
+
+LRR.tab <- data.frame(nYears=forecast.years,RateMeth="LRR",Source=data.path,Creator="R - AMBUR")
+
+LRR.tab2 <-  LRR.tab[rep(1, length(unique(Baseline.Factor))),]
+row.names(LRR.tab2) <- seq(0, length(unique(Baseline.Factor))-1,1)
+
+LRR.final3 <- SpatialLinesDataFrame(LRR.final2, LRR.tab2)
+#create shapefile and write it to the working directory
+writeOGR(LRR.final3, ".", "LRR_forecast", driver="ESRI Shapefile")
+
+
+##WLR
+Baseline.Factor <- factor(mydata$Baseline.Location)
+WLR.final <- sapply(levels(Baseline.Factor), function(x)
+list(Lines(list(Line(list(x=c(WLR.predx[mydata$Baseline.Location == x]), y=c(WLR.predy[mydata$Baseline.Location == x])))), ID=(as.numeric(x)-1)))
+,simplify = TRUE)
+WLR.final2 <- SpatialLines(WLR.final)
+
+WLR.tab <- data.frame(nYears=forecast.years,RateMeth="WLR",Source=data.path,Creator="R - AMBUR")
+
+WLR.tab2 <-  WLR.tab[rep(1, length(unique(Baseline.Factor))),]
+row.names(WLR.tab2) <- seq(0, length(unique(Baseline.Factor))-1,1)
+
+WLR.final3 <- SpatialLinesDataFrame(WLR.final2, WLR.tab2)
+#create shapefile and write it to the working directory
+writeOGR(WLR.final3, ".", "WLR_forecast", driver="ESRI Shapefile")
 
 
 
