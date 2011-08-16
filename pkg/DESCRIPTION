@@ -1,7 +1,7 @@
 Package: ambur
 Type: Package
 Title: Analyzing Moving Boundaries Using R
-Version: 1.03-8
+Version: 1.03-9
 Date: 2011-08-16
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
