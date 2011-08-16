@@ -194,7 +194,7 @@ Segment.Azimuth <- ifelse(Dx >= 0, 90 -(180/pi) * atan(Dy/Dx),270 -(180/pi) * at
 outer.basepts4sm <- pts.along(Bx, By,outersample) #to even out the points for smoothing
 
 
-
+   #check these variables to make sure the match the function kern should be kern.z
 outer.baseptsSmooth <- smlocfit.line(outer.basepts4sm[,1], outer.basepts4sm[,2],alpha=outer.alpha.rec,kern="epan",n=1,deg=outer.deg.rec)
 
 
