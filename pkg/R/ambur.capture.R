@@ -88,7 +88,7 @@ tet3$Id <- tet2[,"sortID"]
 
 tet3$Distance <- (((tet3$POINT_X - tet3$StartX)^2 +  (tet3$StartY - tet3$POINT_Y)^2)^(1/2))
 
-tet3$BASE_LOC <- ifelse(is.na(tet3$BASE_LOC) == TRUE, tet3$BaseOrder, tet3$BASE_LOC)
+tet3$BASE_LOC <- ifelse(tet3$BASE_LOC == "NA", tet3$BaseOrder, tet3$BASE_LOC)
 
 outputdata <- SpatialPointsDataFrame(out,tet3)
 
