@@ -1,17 +1,23 @@
 ambur.addfields <-
 function(checktype=1) {
-require(tcltk)
-library(foreign)
+require(rgdal)
+ require(tcltk)
 
 tkmessageBox(message = "Warning: Shapefile must not be empty.")
+tkmessageBox(message = "Please select the shapefile...")
 
-getdata <- tk_choose.files(default = "*.dbf",multi = FALSE)
-shapename <- gsub(".dbf", "", basename(getdata))
+getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)
-path <- getdata
 
-mydata <- foreign::read.dbf(path)
+ 
+   shapedata <- readOGR(getdata,layer=shapename)
+   
+   attrtable <- data.frame(shapedata)
+
+#checktype = 1  ####for testing
+
 
 checktype <- checktype
 
@@ -29,7 +35,7 @@ if (checktype == 2) reqfields <- c("Id","Location","MaxBNum","BaseOrder","OFFsho
 
 
 #check for missing fields
-fieldcheck <- toupper(colnames(mydata))
+fieldcheck <- toupper(colnames(attrtable))
 
  presentfields <-  which(toupper(reqfields) %in% fieldcheck)
 
@@ -41,38 +47,56 @@ fieldcheck <- toupper(colnames(mydata))
 cat("The following fields were missing and added:","\n")
 cat(missingfields, "\n",sep = ", ")
 
-add.fields <- data.frame(matrix(data= NA,ncol=length(missingfields),nrow=length(mydata[,1])) )
+add.fields <- data.frame(matrix(data= NA,ncol=length(missingfields),nrow=length(attrtable[,1])) )
+
+colnames(add.fields) <- missingfields
 
 
-
- colnames(add.fields) <- missingfields
-
+## adjust the character field widths
+fwidth <- rep(" ",30)
+fwidth1 <- paste(fwidth, collapse = "")
 
 
 if ("Id" %in% missingfields) add.fields$Id <- seq(1,length(mydata[,1]),1)
 if ("DATE_" %in% missingfields) add.fields$DATE_ <- "mm/dd/yyyy 12:00:01 AM"
 if ("ACCURACY" %in% missingfields) add.fields$ACCURACY <- 1
-if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- "NA"
-if ("CLASS_1" %in% missingfields) add.fields$CLASS_1 <- "NA"
-if ("CLASS_2" %in% missingfields) add.fields$CLASS_2 <- "NA"
-if ("CLASS_3" %in% missingfields) add.fields$CLASS_3 <- "NA"
-if ("GROUP" %in% missingfields) add.fields$GROUP <- "NA"
+if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- fwidth1
+if ("CLASS_1" %in% missingfields) add.fields$CLASS_1 <- fwidth1
+if ("CLASS_2" %in% missingfields) add.fields$CLASS_2 <- fwidth1
+if ("CLASS_3" %in% missingfields) add.fields$CLASS_3 <- fwidth1
+if ("GROUP" %in% missingfields) add.fields$GROUP <- fwidth1
 
-if ("Location" %in% missingfields) add.fields$Location <- "NA"
+if ("Location" %in% missingfields) add.fields$Location <- fwidth1
 if ("MaxBNum" %in% missingfields) add.fields$MaxBNum <- 0
-if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- "NA"
+if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- fwidth1
 if ("BaseOrder" %in% missingfields) add.fields$BaseOrder <- seq(1,length(mydata[,1]),1)
 if ("OFFshore" %in% missingfields) add.fields$OFFshore <- 1
 if ("CastDir" %in% missingfields) add.fields$CastDir <- -1
-if ("BASE_LOC" %in% missingfields) add.fields$BASE_LOC <- "NA"
+if ("BASE_LOC" %in% missingfields) add.fields$BASE_LOC <- fwidth1
 
 
 
-   new.table <-  cbind(mydata,add.fields)       
-       foreign::write.dbf(new.table,path) 
+   new.table <-  data.frame(attrtable,add.fields)       
+
+    
+ 
+# finally, write a shape file (with .prj component)
+  outputname <- paste("ambur_",shapename,sep="")
+ 
+
+shape.final <- SpatialLinesDataFrame(shapedata, new.table)
+ 
+   # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata) # contains projection info
+  
+  proj4string(shape.final) <- projectionString
+  
+  
+   writeOGR(shape.final, ".", outputname, driver="ESRI Shapefile") 
+   message("Added missing fields and created a new shapefile") 
+
+tkmessageBox(message = paste("New shapefile --> ",outputname," <--generated with missing fields.",sep=""))
 
 
-
-#detach("package:foreign")
 }
 

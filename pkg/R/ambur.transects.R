@@ -243,6 +243,12 @@ list(Lines(list(Line(list(x=c(perp.transects$StartX[perp.transects$Transect == x
 shape.final2 <- SpatialLines(shape.final)
 shape.final3 <- SpatialLinesDataFrame(shape.final2, perp.transects)
 
+ # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata2) # contains projection info
+  
+  proj4string(shape.final3) <- projectionString
+
+
 #create shapefile and write it to the working directory
 writeOGR(shape.final3, ".", "perp_transects", driver="ESRI Shapefile")
 
@@ -402,7 +408,10 @@ list(Lines(list(Line(list(x=c(near.transects$StartX[near.transects$Transect == x
 shape.near2 <- SpatialLines(shape.near)
 shape.near3 <- SpatialLinesDataFrame(shape.near2, near.transects)
 
-
+ # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata2) # contains projection info
+  
+  proj4string(shape.near3) <- projectionString
 
 
 #create shapefile and write it to the working directory
@@ -463,6 +472,10 @@ list(Lines(list(Line(list(x=c(new_trandata$StartX[new_trandata$Transect == x], n
 shape.trim2 <- SpatialLines(shape.trim)
 shape.trim3 <- SpatialLinesDataFrame(shape.trim2, new_trandata)
 
+   # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata2) # contains projection info
+  
+  proj4string(shape.trim3) <- projectionString
 
 
 #create shapefile and write it to the working directory

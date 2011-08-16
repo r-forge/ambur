@@ -146,7 +146,10 @@ list(Lines(list(Line(list(x=c(new_trandata$StartX[new_trandata$Transect == x], n
 shape.final2 <- SpatialLines(shape.final)
 shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
 
-
+   # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata2) # contains projection info
+  
+  proj4string(shape.final3) <- projectionString
 
 
 Pcnt.Complete <-  90

@@ -95,6 +95,11 @@ Pcnt.Complete <-  75
 info <- sprintf("%d%% done", Pcnt.Complete)
 setTkProgressBar(pb, i *0.75 , sprintf("AMBUR: Capture shoreline positions (%s)", info), info) 
 
+
+ # Note that readOGR method reads the .prj file when it exists
+   projectionString <- proj4string(shapedata) # contains projection info
+  
+  proj4string(outputdata) <- projectionString
    
 writeOGR(outputdata, ".", "shore_pts", driver="ESRI Shapefile")
 
