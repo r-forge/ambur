@@ -1060,7 +1060,7 @@ Shore_Loc <- Shoreline.Location
 T_azimuth <- Transect.Azimuth 
 Time_Stmp <- Time.Stamp
 
-FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, WLR, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp)
+FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp)
 
 
 #status checkpoint
