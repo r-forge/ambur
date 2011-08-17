@@ -155,7 +155,7 @@ crd.1 <- sapply(crdl0, function(x) do.call("rbind", x),simplify = FALSE)
 crd.2    <- do.call("rbind", crd.1)
 crd.3 <- as.numeric(sapply(crd.1, function(x) max(row(x)) ,simplify = TRUE))
 crd.len.test <- as.numeric(length(crd.3))
-if(crd.len.test <= 1) crd.rep <-  1 else crd.rep <- c(1, length(crd.3))
+if(crd.len.test <= 1) crd.rep <-  1 else crd.rep <- seq(1, length(crd.3),1)
 basepointIDs <- rep(crd.rep,crd.3)
 baseshapeIDs <- basepointIDs - 1
 sortshapeIDs <- seq(1,length(basepointIDs),1)
