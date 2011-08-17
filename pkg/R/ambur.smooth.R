@@ -2,11 +2,16 @@ ambur.smooth <-
 function(alpha=0.7, degree=2, sampledist=5) {
 
  require(tcltk)
-require(shapefiles)
+require(rgdal)
 require(locfit)
 require(spatstat)
 
 # Establish the inputs
+
+# alpha=0.7
+# degree=2 
+# sampledist=5
+
 
 outer.alpha.rec <- alpha
 outer.deg.rec <- degree
@@ -17,21 +22,13 @@ outersample <- sampledist
 
 
 tkmessageBox(message = "Please select a baseline to smooth...")
+getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename <- gsub(".shp", "", basename(getdata))
+shapedata <- readOGR(getdata,layer=shapename)
+attrtable <- data.frame(shapedata)
 
-
-path1 <- tk_choose.files(default = "*.shp",multi = FALSE)
-
-del.ext <- nchar(path1)
-
-path1a <- paste(substr(path1,1,max(del.ext)-4),".shp",sep="")
-
-my.shapefile <- read.shp(path1a)
-
-mydata_outer <- convert.to.simple(my.shapefile)
-
-path2 <- dirname(path1)
-setwd(path2)
-
+workingdir <- dirname(getdata)
+setwd(workingdir)
 
 
 time.stamp1 <- as.character(Sys.time())
@@ -44,11 +41,6 @@ setwd("AMBUR_smoothing")
 dir.create(paste(time.stamp2," ","smooth",sep=""))
 setwd(paste(time.stamp2," ","smooth",sep="")) 
 
-baseline.dbf <- data.frame(read.dbf(paste(substr(path1,1,max(del.ext)-4),".dbf",sep="")))
-
-colnames(baseline.dbf) <- gsub("ID", "Id", colnames(baseline.dbf))
-
-baseline.dbf$dbf.Id <- seq(1,length(baseline.dbf$dbf.Id),by=1)
 
 
 #build function for points along a line (modified to add the start and end points)
@@ -154,92 +146,88 @@ kern.z <- kern.z
 
 
 
-##############################################################################################################
-#set up the variables for the analyses
-
-nbaselines <- sort(unique(c(mydata_outer$Id)))
 
 
-finaltable2 <- matrix(ncol=3)
-colnames(finaltable2) <- c("smx","smy","baseid")
+#################################################################
+###### break down outer polyline into simply points with IDs
+crdl0 <- coordinates(shapedata)
+crd.1 <- sapply(crdl0, function(x) do.call("rbind", x),simplify = FALSE)
+crd.2    <- do.call("rbind", crd.1)
+crd.3 <- as.numeric(sapply(crd.1, function(x) max(row(x)) ,simplify = TRUE))
+crd.len.test <- as.numeric(length(crd.3))
+if(crd.len.test <= 1) crd.rep <-  1 else crd.rep <- c(1, length(crd.3))
+basepointIDs <- rep(crd.rep,crd.3)
+baseshapeIDs <- basepointIDs - 1
+sortshapeIDs <- seq(1,length(basepointIDs),1)
+basex <- crd.2[,1]
+basey <- crd.2[,2]
+
+outerbase.tab <- data.frame(sortshapeIDs,baseshapeIDs,basepointIDs,basex,basey)
+colnames(outerbase.tab) <- c("sortshapeID","shapeID","baseID","baseX", "baseY")
+
+attrtable$Id <- seq(0,max(length(attrtable[,1]))-1,1)  #repair baseline attr table for sequential IDs to match with bbb$shapeID
+bbb <- data.frame(merge(outerbase.tab,attrtable,by.x= "shapeID" ,by.y = "Id", all.x = TRUE,sort=FALSE))
 
 
+### cast transects for individual polylines based on unique IDs
+Baseline.Factor <- factor(bbb$shapeID)
 
-for (b in 1:length(nbaselines)) {
+#to even out the points for smoothing
+outer.sample <- sapply(levels(Baseline.Factor), function(x) data.frame(pts.along(bbb$baseX[bbb$shapeID == x],bbb$baseY[bbb$shapeID == x],outersample)) ,simplify = FALSE)
+outer.basepts4sm <- data.frame(do.call("rbind", outer.sample))
 
-
-Bx <- mydata_outer$X[mydata_outer$Id == nbaselines[b]]
-By <- mydata_outer$Y[mydata_outer$Id == nbaselines[b]]
-
-##############################################################################################################
-
-
-
-Cx <- Bx
-Cy <- By
-
-Cx2 <- c(Cx[-1],Cx[length(Cx)])
-Cy2 <- c(Cy[-1],Cy[length(Cy)])
-
-Segment.Length <-  ((Cx2- Cx)^2 +  (Cy2 - Cy)^2)^(1/2)
-
-Dx <- Cx2 - Cx
-Dy <- Cy2 - Cy
-
-Segment.Azimuth <- ifelse(Dx >= 0, 90 -(180/pi) * atan(Dy/Dx),270 -(180/pi) * atan(Dy/Dx))
+#round down to get ID numbers
+outer.basepts4sm$t.ID <- floor(as.numeric(row.names(outer.basepts4sm)))
 
 
-
-
-outer.basepts4sm <- pts.along(Bx, By,outersample) #to even out the points for smoothing
 
 
    #check these variables to make sure the match the function kern should be kern.z
-outer.baseptsSmooth <- smlocfit.line(outer.basepts4sm[,1], outer.basepts4sm[,2],alpha=outer.alpha.rec,kern="epan",n=1,deg=outer.deg.rec)
+#outer.baseptsSmooth <- smlocfit.line(outer.basepts4sm[,1], outer.basepts4sm[,2],alpha=outer.alpha.rec,kern="epan",n=1,deg=outer.deg.rec)
+BaselineSM.Factor <- factor(outer.basepts4sm$t.ID)
+
+outer.baseptsSmooth <- sapply(levels(BaselineSM.Factor), function(x) data.frame(smlocfit.line(outer.basepts4sm[,1][outer.basepts4sm$t.ID == x],outer.basepts4sm[,2][outer.basepts4sm$t.ID == x],alpha.z=outer.alpha.rec,kern.z="epan",n=1,deg.z=outer.deg.rec)) ,simplify = FALSE)
+
+smooth.data <- data.frame(do.call("rbind", outer.baseptsSmooth))
+
+
+Cxo <- smooth.data[,1]
+Cyo <- smooth.data[,2]
+
+plot(outer.basepts4sm[,1],outer.basepts4sm[,2],asp=1,col="gray",xlab="X",ylab="Y",type="p",cex=0.25,main="AMBUR-Smooth")
+    points(Cxo,Cyo,col="blue",cex=0.25)
+
+smooth.tab <- data.frame(Cxo,Cyo,outer.basepts4sm$t.ID)
+colnames(smooth.tab) <- c("smoothX","smoothY","baseid")
 
 
 
 
-Cxo <- outer.baseptsSmooth[,1]
-Cyo <- outer.baseptsSmooth[,2]
+LineID.Factor <- factor(smooth.tab$baseid)
+smooth.final <- sapply(levels(LineID.Factor), function(x)
+list(Lines(list(Line(list(x=c(smooth.tab$smoothX[smooth.tab$baseid == x]), y=c(smooth.tab$smoothY[smooth.tab$baseid == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+smooth.final2 <- SpatialLines(smooth.final)
+
+smooth1.tab <- data.frame(ALPHA=outer.alpha.rec,DEGREE=outer.deg.rec,Creator="R - AMBUR")
+
+smooth1.tab2 <-  smooth1.tab[rep(1, length(unique(LineID.Factor))),]
+smooth1.tab2$baseID <- seq(0, length(unique(LineID.Factor))-1,1)
+row.names(smooth1.tab2) <- seq(0, length(unique(LineID.Factor))-1,1)
 
 
-
-finaltable1 <- cbind(Cxo,Cyo,b)
-colnames(finaltable1) <- c("smx","smy","baseid")
-
-finaltable2 <- rbind(finaltable2,finaltable1)
+smooth.dataframe <- data.frame(merge(attrtable,smooth1.tab2,by.x= "Id" ,by.y = "baseID", all.x = TRUE,sort=FALSE))
+row.names(smooth.dataframe) <- seq(0, length(unique(LineID.Factor))-1,1)
 
 
-}
+smooth.final3 <- SpatialLinesDataFrame(smooth.final2, smooth.dataframe)
 
-finaltable3 <- finaltable2[-1,]
+projectionString <- proj4string(shapedata) # contains projection info
+  
+  proj4string(smooth.final3) <- projectionString
 
-
-
-gistable <- data.frame(baseline.dbf)
-colnames(gistable) <- gsub("dbf.", "", colnames(gistable))
-
-
-gistable2 <- data.frame(cbind(gistable,ALPHA=outer.alpha.rec,DEGREE=outer.deg.rec))
-
-#write shapefiles of the transects
-library(shapefiles)
-
-
-id.field <- finaltable3[,3]
-dd <- data.frame(Id=c(id.field),X=c(finaltable3[,1]),Y=c(finaltable3[,2]))
-ddTable <- data.frame(gistable2)
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("b",b,"baseline_smooth",sep=""), arcgis=T)
-
-
-plot(mydata_outer$X,mydata_outer$Y,asp=1,col="gray",xlab="X",ylab="Y",type="p",cex=0.25,main="AMBUR-Smooth")
-points(finaltable3,cex=0.25,col="blue")
-
-
-#detach("package:shapefiles")
-
+#create shapefile and write it to the working directory
+writeOGR(smooth.final3, ".", "ambur_smooth", driver="ESRI Shapefile")
 
 
 }
