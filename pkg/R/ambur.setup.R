@@ -6,7 +6,7 @@
 
  ins <- av[!av %in% exc]
 
- req.packs <- c("akima","locfit", "shapefiles", "sp", "spatial", "spatstat", "googleVis", "rgeos", "rgdal", "tcltk")
+ req.packs <- c("akima","locfit", "sp", "spatial", "spatstat", "googleVis", "rgeos", "rgdal", "tcltk", "stringr")
 
  inst.packs <- req.packs[!req.packs %in% exc]
  

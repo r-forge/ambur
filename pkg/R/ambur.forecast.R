@@ -115,7 +115,7 @@ writeOGR(WLR.final3, ".", "WLR_forecast", driver="ESRI Shapefile")
 
 
 
-#detach("package:shapefiles")
+
 detach(mydata)
 
 }
