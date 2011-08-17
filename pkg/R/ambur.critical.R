@@ -1,29 +1,24 @@
 ambur.critical <-
 function(ncritpts=50,sampledist=5) {
-
+require(rgdal)
 require(tcltk)
+
+#sampledist = 5   #for testing
+#ncritpts = 50
 
 sample.distance <- sampledist
 n.points <- ncritpts
 
 #open baseline file
 
-tkmessageBox(message = "Please select a baseline shapefile...")
+tkmessageBox(message = "Please select a polyline shapefile...")
+getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename <- gsub(".shp", "", basename(getdata))
+shapedata <- readOGR(getdata,layer=shapename)
+attrtable <- data.frame(shapedata)
 
-library(shapefiles)
-
-shape.path <- tk_choose.files(default = "*.shp",multi = FALSE)
-
-dir.path <- dirname(shape.path )
-setwd(dir.path)
-
-del.ext <- nchar(shape.path)
-
-shape.path2 <- paste(substr(shape.path,1,max(del.ext)-4),".shp",sep="")
-
-my.shapefile <- read.shp(shape.path2)
-
-simpleShpFormat <- convert.to.simple(my.shapefile)
+workingdir <- dirname(getdata)
+setwd(workingdir)
 
 
 time.stamp1 <- as.character(Sys.time())
@@ -106,12 +101,13 @@ cbind(t.startx,t.starty,t.azimuth)
 }
 
 
-outer.basepts4sm <- pts.along(simpleShpFormat$X, simpleShpFormat$Y,sample.distance) #to even out the points for smoothing
 
+#create function to find a linear spline's critical points
 
-#find a linear spline's critical points
-Ox <- outer.basepts4sm[,1]
-Oy <- outer.basepts4sm[,2]
+lin.spline <- function(x,y,pspace) {
+
+Ox <- x
+Oy <- y
 
    n <- 1 #densification threshold
    xy <- cbind(Ox,Oy)
@@ -131,6 +127,100 @@ Oy <- outer.basepts4sm[,2]
    ti <- seq(1, nP, length = z)
    opspl <- cbind(x = Sx(ti)$y, y = Sy(ti)$y)
 
+   return(opspl)
+   
+}
+
+#################################################################
+###### break down outer polyline into simply points with IDs
+crdl0 <- coordinates(shapedata)
+crd.1 <- sapply(crdl0, function(x) do.call("rbind", x),simplify = FALSE)
+crd.2    <- do.call("rbind", crd.1)
+crd.3 <- as.numeric(sapply(crd.1, function(x) max(row(x)) ,simplify = TRUE))
+crd.len.test <- as.numeric(length(crd.3))
+if(crd.len.test <= 1) crd.rep <-  1 else crd.rep <- seq(1, length(crd.3),1)
+basepointIDs <- rep(crd.rep,crd.3)
+baseshapeIDs <- basepointIDs - 1
+sortshapeIDs <- seq(1,length(basepointIDs),1)
+basex <- crd.2[,1]
+basey <- crd.2[,2]
+
+outerbase.tab <- data.frame(sortshapeIDs,baseshapeIDs,basepointIDs,basex,basey)
+colnames(outerbase.tab) <- c("sortshapeID","shapeID","baseID","baseX", "baseY")
+
+attrtable$Id <- seq(0,max(length(attrtable[,1]))-1,1)  #repair baseline attr table for sequential IDs to match with bbb$shapeID
+bbb <- data.frame(merge(outerbase.tab,attrtable,by.x= "shapeID" ,by.y = "Id", all.x = TRUE,sort=FALSE))
+
+Baseline.Factor <- factor(bbb$shapeID)
+
+#to even out the points for critical point analysis
+outer.sample <- sapply(levels(Baseline.Factor), function(x) data.frame(pts.along(bbb$baseX[bbb$shapeID == x],bbb$baseY[bbb$shapeID == x],sample.distance)) ,simplify = FALSE)
+outer.basepts4sm <- data.frame(do.call("rbind", outer.sample))
+
+#round down to get ID numbers
+outer.basepts4sm$t.ID <- floor(as.numeric(row.names(outer.basepts4sm)))
+
+
+#fit the linear spline to the s points
+BaselineSM.Factor <- factor(outer.basepts4sm$t.ID)
+
+outer.baseptsSmooth <- sapply(levels(BaselineSM.Factor), function(x) data.frame(lin.spline(outer.basepts4sm[,1][outer.basepts4sm$t.ID == x],outer.basepts4sm[,2][outer.basepts4sm$t.ID == x])) ,simplify = FALSE)
+
+smooth.data <- data.frame(do.call("rbind", outer.baseptsSmooth))
+
+opspl <- smooth.data
+Ox <- outer.basepts4sm[,1]
+Oy <- outer.basepts4sm[,2]
+
+Cxo <- smooth.data[,1]
+Cyo <- smooth.data[,2]
+
+
+smooth.tab <- data.frame(Cxo,Cyo,floor(as.numeric(row.names(smooth.data))))
+colnames(smooth.tab) <- c("smoothX","smoothY","baseid")
+   
+
+LineID.Factor <- factor(smooth.tab$baseid)
+smooth.final <- sapply(levels(LineID.Factor), function(x)
+list(Lines(list(Line(list(x=c(smooth.tab$smoothX[smooth.tab$baseid == x]), y=c(smooth.tab$smoothY[smooth.tab$baseid == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+smooth.final2 <- SpatialLines(smooth.final)
+
+smooth1.tab <- data.frame(ncritpts=ncritpts,smpldist=sampledist,Creator="R - AMBUR")
+
+smooth1.tab2 <-  smooth1.tab[rep(1, length(unique(LineID.Factor))),]
+smooth1.tab2$baseID <- seq(0, length(unique(LineID.Factor))-1,1)
+row.names(smooth1.tab2) <- seq(0, length(unique(LineID.Factor))-1,1)
+
+
+smooth.dataframe <- data.frame(merge(attrtable,smooth1.tab2,by.x= "Id" ,by.y = "baseID", all.x = TRUE,sort=FALSE))
+row.names(smooth.dataframe) <- seq(0, length(unique(LineID.Factor))-1,1)
+
+
+smooth.final3 <- SpatialLinesDataFrame(smooth.final2, smooth.dataframe)
+
+projectionString <- proj4string(shapedata) # contains projection info
+  
+  proj4string(smooth.final3) <- projectionString
+
+#create polyline shapefile and write it to the working directory
+writeOGR(smooth.final3, ".", "ambur_critical_line", driver="ESRI Shapefile")
+
+
+####write the points
+ddTable <- data.frame(merge(smooth.tab,attrtable,by.x= "baseid" ,by.y = "Id", all.x = TRUE,sort=FALSE)) 
+
+colnames(ddTable)[1] <- "Id"
+colnames(ddTable)[2] <- "crit_X"
+colnames(ddTable)[3] <- "crit_Y"
+
+coordinates(ddTable) <- data.frame(x=smooth.tab$smoothX, y=smooth.tab$smoothY)
+writeOGR(ddTable, ".", "critical_pts", driver="ESRI Shapefile")
+
+
+
+
+
 
    #plot the results and write them to a file
 pdf(paste("plot_critical_points.pdf",sep=""),width = 6.5, height = 6.5, bg="white", paper= "letter" )
@@ -145,25 +235,6 @@ dev.off()
  points(opspl, col="orange")
 
 
-
-id.field <- seq(1,length(opspl[,1]),by=1)
-dd <- data.frame(Id=c(id.field),X=c(opspl[,1]),Y=c(opspl[,2]))
-ddTable <- data.frame(Id=id.field,PointX=opspl[,1],PointY=opspl[,2],Creator="R - AMBUR")
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 1)
-write.shapefile(ddShapefile, paste("critical_pts",sep=""), arcgis=T)
-
-id.field <- 1
-dd <- data.frame(Id=c(id.field),X=c(opspl[,1]),Y=c(opspl[,2]))
-ddTable <- data.frame(Id=id.field,Source=shape.path,Creator="R - AMBUR")
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
-write.shapefile(ddShapefile, paste("critical_pts_line",sep=""), arcgis=T)
-
-#convert the original shapefile to points
-#id.field <- seq(1,length(simpleShpFormat$X),by=1)
-#dd <- data.frame(Id=c(id.field),X=c(simpleShpFormat$X),Y=c(simpleShpFormat$Y))
-#ddTable <- data.frame(Id=id.field,PointX=simpleShpFormat$X,PointY=simpleShpFormat$Y,Creator="R - AMBUR")
-#ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 1)
-#write.shapefile(ddShapefile, paste("original_pts",sep=""), arcgis=T)
 
 }
 
