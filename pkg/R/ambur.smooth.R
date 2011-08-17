@@ -1,5 +1,5 @@
 ambur.smooth <-
-function(alpha=0.7, degree=2, sampledist=5) {
+function(alpha=0.7, degree=2, sampledist=5,presamp=1) {
 
  require(tcltk)
 require(rgdal)
@@ -11,12 +11,12 @@ require(spatstat)
 # alpha=0.7
 # degree=2 
 # sampledist=5
-
+#presamp = 0
 
 outer.alpha.rec <- alpha
 outer.deg.rec <- degree
 outersample <- sampledist
-
+presample  <- presamp
 
 
 
@@ -169,6 +169,9 @@ attrtable$Id <- seq(0,max(length(attrtable[,1]))-1,1)  #repair baseline attr tab
 bbb <- data.frame(merge(outerbase.tab,attrtable,by.x= "shapeID" ,by.y = "Id", all.x = TRUE,sort=FALSE))
 
 
+
+if (presample == 1)  {
+
 ### cast transects for individual polylines based on unique IDs
 Baseline.Factor <- factor(bbb$shapeID)
 
@@ -190,11 +193,20 @@ outer.baseptsSmooth <- sapply(levels(BaselineSM.Factor), function(x) data.frame(
 
 smooth.data <- data.frame(do.call("rbind", outer.baseptsSmooth))
 
+}
+
+if (presample != 1)  {
+
+Baseline.Factor <- factor(bbb$shapeID)
+outer.baseptsSmooth <- sapply(levels(Baseline.Factor), function(x) data.frame(smlocfit.line(bbb$baseX[bbb$shapeID == x],bbb$baseY[bbb$shapeID == x],alpha.z=outer.alpha.rec,kern.z="epan",n=1,deg.z=outer.deg.rec)) ,simplify = FALSE)
+
+smooth.data <- data.frame(do.call("rbind", outer.baseptsSmooth))
+}
 
 Cxo <- smooth.data[,1]
 Cyo <- smooth.data[,2]
 
-plot(outer.basepts4sm[,1],outer.basepts4sm[,2],asp=1,col="gray",xlab="X",ylab="Y",type="p",cex=0.25,main="AMBUR-Smooth")
+plot(basex,basey,asp=1,col="gray",xlab="X",ylab="Y",type="p",cex=0.25,main="AMBUR-Smooth")
     points(Cxo,Cyo,col="blue",cex=0.25)
 
 smooth.tab <- data.frame(Cxo,Cyo,outer.basepts4sm$t.ID)
