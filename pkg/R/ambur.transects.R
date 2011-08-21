@@ -493,9 +493,7 @@ if (sum(as.numeric(int)) == 0) new_trandata <- perp.transects
 
 
 
-plot(new_trandata[,"StartX"],new_trandata[,"StartY"],asp=1,col="white")
-segments(new_trandata[,"StartX"],new_trandata[,"StartY"],new_trandata[,"EndX"],new_trandata[,"EndY"])
-segments(new_trandata[,"StartX"],new_trandata[,"StartY"],tet3[,"INT_X"],tet3[,"INT_Y"],col="blue")
+
 
 
 ### build spatial lines for final trim transects shapefile
