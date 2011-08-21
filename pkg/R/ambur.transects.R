@@ -18,6 +18,7 @@ fsamp <- userinput5
 #innersample <- 5
 #outersample <- 5
 #fsamp <- 90
+
 #fsamp <- c(seq(2,178,by=5),178) # radiating transects
 
 tkmessageBox(message = "Please select the outer baseline shapefile...")
@@ -449,20 +450,40 @@ INT_X <-  data.frame(coordinates(out))$x
 INT_Y <-  data.frame(coordinates(out))$y
 
 
+
+
 sortID <- seq(1,length(INT_X),1)
 inter.data <- data.frame(INT_X,INT_Y,transID,baseID,sortID)
 
+
+
+
 tran.data <- data.frame(perp.transects)
 
+## fixed that transects are off by 1 in the intersection matrix because column id start with 0  (8-20-2011) 
+tran.data$transdataID <-  tran.data$Transect - 1
 
-tet <- merge(tran.data,inter.data , by.x = "Transect", by.y = "transID", sort=FALSE, all.x=TRUE)
+
+tet <- merge(tran.data,inter.data , by.x = "transdataID", by.y = "transID", sort=FALSE, all.x=TRUE)
 tet2 <- data.frame(tet[ order(tet[,"Transect"]) , ])
 
 
+
+###added to correct for multiple interestions with the baseline  (8-20-2011) start:
+Transect.Factor <- factor(tran.data$Transect)
+tet2dist <- (((tet2[,"INT_X"]- tet2[,"StartX"])^2 +  (tet2[,"INT_Y"] - tet2[,"StartY"])^2)^(1/2))
+tet2disttab <- data.frame(sapply(levels(Transect.Factor), function(x) min(tet2dist[tet2$Transect == x],na.rm=FALSE) ,simplify = TRUE))
+tet2disttab2 <- data.frame(sapply(levels(Transect.Factor), function(x) tet2dist[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet2intx <- data.frame(sapply(levels(Transect.Factor), function(x) tet2$INT_X[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet2inty <- data.frame(sapply(levels(Transect.Factor), function(x) tet2$INT_Y[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet3 <- data.frame(tran.data$Transect,tet2disttab,tet2disttab,tet2intx,tet2inty)
+colnames(tet3) <- c("Transect","MinDist1","MinDist_check","INT_X","INT_Y")
+##############end
+
 ### make new attribute table with filtered values
 new_trandata <-  tran.data
-new_trandata[,"EndX"]<- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet2$INT_X))
-new_trandata[,"EndY"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet2$INT_Y))
+new_trandata[,"EndX"]<- ifelse(is.na(tet3$INT_X) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet3$INT_X))
+new_trandata[,"EndY"] <- ifelse(is.na(tet3$INT_Y) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet3$INT_Y))
 new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
 
 
@@ -471,6 +492,10 @@ new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^
 if (sum(as.numeric(int)) == 0) new_trandata <- perp.transects
 
 
+
+plot(new_trandata[,"StartX"],new_trandata[,"StartY"],asp=1,col="white")
+segments(new_trandata[,"StartX"],new_trandata[,"StartY"],new_trandata[,"EndX"],new_trandata[,"EndY"])
+segments(new_trandata[,"StartX"],new_trandata[,"StartY"],tet3[,"INT_X"],tet3[,"INT_Y"],col="blue")
 
 
 ### build spatial lines for final trim transects shapefile

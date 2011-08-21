@@ -124,12 +124,27 @@ tet <- merge(tran.data,inter.data , by.x = "Id", by.y = "transID", sort=FALSE, a
 tet2 <- data.frame(tet[ order(tet[,"Transect"]) , ])
 
 
+###added to correct for multiple interestions with the baseline  (8-20-2011) start:
+Transect.Factor <- factor(tran.data$Transect)
+tet2dist <- (((tet2[,"INT_X"]- tet2[,"StartX"])^2 +  (tet2[,"INT_Y"] - tet2[,"StartY"])^2)^(1/2))
+tet2disttab <- data.frame(sapply(levels(Transect.Factor), function(x) min(tet2dist[tet2$Transect == x],na.rm=FALSE) ,simplify = TRUE))
+tet2disttab2 <- data.frame(sapply(levels(Transect.Factor), function(x) tet2dist[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet2intx <- data.frame(sapply(levels(Transect.Factor), function(x) tet2$INT_X[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet2inty <- data.frame(sapply(levels(Transect.Factor), function(x) tet2$INT_Y[tet2$Transect == x][tet2dist[tet2$Transect == x]== min(tet2dist[tet2$Transect == x],na.rm=FALSE)] ,simplify = TRUE))
+tet3 <- data.frame(tran.data$Transect,tet2disttab,tet2disttab,tet2intx,tet2inty)
+colnames(tet3) <- c("Transect","MinDist1","MinDist_check","INT_X","INT_Y")
+##############end
+
+
+
 ### make new attribute table with filtered values
 new_trandata <-  trandata
-new_trandata[,"Azimuth"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$Azimuth), as.numeric(filter.az.sel))
-new_trandata[,"EndX"]<- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet2$INT_X))
-new_trandata[,"EndY"] <- ifelse(is.na(tet2$sortID) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet2$INT_Y))
+new_trandata[,"Azimuth"] <- ifelse(is.na(tet3$INT_X) == TRUE, as.numeric(tran.data$Azimuth), as.numeric(filter.az.sel))
+new_trandata[,"EndX"]<- ifelse(is.na(tet3$INT_X) == TRUE, as.numeric(tran.data$EndX), as.numeric(tet3$INT_X))
+new_trandata[,"EndY"] <- ifelse(is.na(tet3$INT_X) == TRUE, as.numeric(tran.data$EndY), as.numeric(tet3$INT_Y))
 new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
+
+
 
 
 
