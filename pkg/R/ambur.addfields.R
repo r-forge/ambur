@@ -57,7 +57,7 @@ fwidth <- rep(" ",30)
 fwidth1 <- paste(fwidth, collapse = "")
 
 
-if ("Id" %in% missingfields) add.fields$Id <- seq(1,length(mydata[,1]),1)
+if ("Id" %in% missingfields) add.fields$Id <- seq(1,length(attrtable[,1]),1)
 if ("DATE_" %in% missingfields) add.fields$DATE_ <- "mm/dd/yyyy 12:00:01 AM"
 if ("ACCURACY" %in% missingfields) add.fields$ACCURACY <- 1
 if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- fwidth1
@@ -69,7 +69,7 @@ if ("GROUP" %in% missingfields) add.fields$GROUP <- fwidth1
 if ("Location" %in% missingfields) add.fields$Location <- fwidth1
 if ("MaxBNum" %in% missingfields) add.fields$MaxBNum <- 0
 if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- fwidth1
-if ("BaseOrder" %in% missingfields) add.fields$BaseOrder <- seq(1,length(mydata[,1]),1)
+if ("BaseOrder" %in% missingfields) add.fields$BaseOrder <- seq(1,length(attrtable[,1]),1)
 if ("OFFshore" %in% missingfields) add.fields$OFFshore <- 1
 if ("CastDir" %in% missingfields) add.fields$CastDir <- -1
 if ("BASE_LOC" %in% missingfields) add.fields$BASE_LOC <- fwidth1

@@ -185,6 +185,8 @@ setTkProgressBar(pb, 25 , sprintf("AMBUR: Transects (%s)", info), info)
 ### cast perpendicular transects
 ###################################################################
 
+
+
 ###### break down outer baseline into simply points with IDs
 crdl0 <- coordinates(shapedata)
 crd.1 <- sapply(crdl0, function(x) do.call("rbind", x),simplify = FALSE)
@@ -232,7 +234,7 @@ perp.trans.tab$Id <- perp.trans.tab$Transect
 reqfields <- c("Id","Transect","TranSpace","TranDist","Location","MaxBNum","BaseOrder","OFFshore","CastDir","BASE_LOC","StartX","StartY","EndX","EndY","Azimuth")
 
 #cull extraneous fields from merging attribute tables and order the fields by reqfields and fix the row names for SpatialLinesDataFrame
-perp.transects <- data.frame(perp.trans.tab[match(reqfields, names(perp.trans.tab))])
+perp.transects <- data.frame(perp.trans.tab[match(toupper(reqfields), toupper(names(perp.trans.tab)))])
 perp.transects$Creator <- "R AMBUR"
 row.names(perp.transects) <- as.character(seq(0,length(perp.transects$Transect)-1,1))
 
