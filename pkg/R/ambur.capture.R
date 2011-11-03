@@ -47,8 +47,14 @@ vec <- vector(mode="list", length=dim(int)[2])
 
 pb <- tkProgressBar("AMBUR: progress bar", "This might take a moment...", 0, max(length(seq(along=vec))), 50)
  
-for (i in seq(along=vec)) vec[[i]] <- gIntersection(shapedata2[i,], shapedata[int[,i],], byid=TRUE) 
-out <- do.call("rbind", vec) 
+for (i in seq(along=vec)) vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shapedata[int[,i],], byid=TRUE) else 0
+
+
+
+cond <- lapply(vec, function(x) length(x) > 1)
+vec2 <- vec[unlist(cond)]
+
+out <- do.call("rbind", vec2) 
 rn <- row.names(out) 
 nrn <- do.call("rbind", strsplit(rn, " ")) 
 
