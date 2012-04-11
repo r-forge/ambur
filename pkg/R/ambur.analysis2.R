@@ -54,7 +54,7 @@ path <- getdata
 mydata <- foreign::read.dbf(path)
 
 #status log and checkpoint
-windows(width = 8, height = 4)
+dev.new(width = 8, height = 4)
 par("usr")[1] 
 par(mar=c(5,25,5,5))
 plot(1, type="n", axes=F, xlab="", ylab="")
