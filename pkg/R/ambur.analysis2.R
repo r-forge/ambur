@@ -102,7 +102,7 @@ colnames(mydata) <- gsub("POINT_Y", "Y_COORD", colnames(mydata))
 mydata[,"ID"] <- seq(1:length(mydata[,"ID"]))
 
 #Fix DATE field to include time
-if(nchar(mydata[ ,"DATE"], type = "chars", allowNA = FALSE) < 15){mydata[ ,"DATE"] <- paste(mydata[ ,"DATE"],"12:00:01 AM",sep=" ")}
+if(nchar(as.character(mydata[ ,"DATE"]), type = "chars", allowNA = FALSE) < 15){mydata[ ,"DATE"] <- paste(mydata[ ,"DATE"],"12:00:01 AM",sep=" ")}
 
 #interactive Date Selection and removal of extaneous dates
 
