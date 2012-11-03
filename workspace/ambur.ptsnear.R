@@ -170,8 +170,8 @@ near.transects$EndX <- tnear.tab$In_x
 near.transects$EndY <- tnear.tab$In_y
 near.transects$TranDist <- tnear.tab$Dist
 near.transects$Azimuth <- in.az
-row.names(near.transects) <- as.character(attrtable$ID)
-
+row.names(near.transects) <- as.character(row.names(near.transects))
+near.transects$ID <- as.numeric(row.names(near.transects))
 
 
 ### build spatial lines for final near transects shapefile
