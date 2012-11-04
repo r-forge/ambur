@@ -59,7 +59,7 @@ l <- vector("list", nrow(shapedata)*buffnum)
 
 for (i in seq_len(nrow(shapedata)*buffnum)) {
 
-        l[[i]] <- gBuffer(shapedata[line.id[i],], width = width.factor[i], byid=TRUE, capStyle="FLAT")
+        l[[i]] <- gBuffer(shapedata[line.id[i],], width = width.factor[i], byid=TRUE, capStyle="SQUARE")
         l[[i]] <- spChFIDs(l[[i]], as.character(i))
 
 }
