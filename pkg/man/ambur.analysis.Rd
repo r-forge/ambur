@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Analyze changes and rates of boundary movement }
 \description{
-  The function requires a standalone *DBF file or one generated from an ESRI Shapefile with point data representing historical boundary positions along a transect.  The *DBF must be properly formatted and contain the proper fields. See links below for additional information.  The function will generate data tables and graphics containing the results of analysis statics given user specified parameters.
+  The function requires an ESRI Shapefile with point data representing historical boundary positions along a transect.  The shapefile must be properly formatted and contain the proper fields. See links below for additional information.  The function will generate data tables and graphics containing the results of analysis statics given user specified parameters.
 }
 \usage{
 ambur.analysis(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinput4 = "", userinput5 = 1, userinput6 = "all", userinput7 = "basic",  userinput8 = "yr")
@@ -23,7 +23,7 @@ ambur.analysis(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinpu
   If an "advanced" analysis is specified, more statics are generated and included in the output data tables.  However, this will increase the processing time.
 }
 \value{
-  Creates a date and time stamped folder inside a parent folder named "AMBUR_results", located in the same folder as the *DBF file.  The folder contains all of the output data and graphics.
+  Creates a date and time stamped folder inside a parent folder named "AMBUR_results", located in the same folder as the shapefile.  The folder contains all of the output data and graphics.
 }
 \references{ }
 \author{ Chester W. Jackson Jr. }
