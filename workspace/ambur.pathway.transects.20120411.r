@@ -234,6 +234,13 @@ near.transects$Transect <- near.transects$ID
 #create csv file and write it to the working directory
 #write.table(shape.near3, file = "near_results.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
+near.transects$Baseline <- near.transects$BaseID
+
+reqfields <- c("ID","Transect","TranSpace","TranDist","Location","MaxBNum","BaseOrder","OFFshore","CastDir","BASE_LOC","StartX","StartY","EndX","EndY","Azimuth")
+
+#remove.fields <- c("BaseID","sortID","OBJECTID","SHAPE_Leng","coords.x1","coords.x2","Id")
+
+near.transects <- near.transects[,colnames(near.transects) %in% reqfields]
 
 transect.num <- blah$tranID
 
@@ -243,14 +250,14 @@ library(shapefiles)
 
 dd <- data.frame(Id=transect.num,X=blah$T_x,Y=blah$T_y)
 ddTable <- data.frame(near.transects)
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
+ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
 write.shapefile(ddShapefile, paste("pathway_transects",sep=""), arcgis=T)
 
 
 transect.num2 <- c(near.transects$Transect, near.transects$Transect)
 dd <- data.frame(Id=near.transects$Transect,X=c(near.transects$StartX,near.transects$EndX),Y=c(near.transects$StartY,near.transects$EndY))
 ddTable <- data.frame(near.transects)
-ddShapefile <- convert.to.shapefile(dd, ddTable, "Id", 3)
+ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
 write.shapefile(ddShapefile, paste("pathway_transects_endpts",sep=""), arcgis=T)
 
 
