@@ -1,11 +1,15 @@
 ambur.ptsalongline <-
-function(ptspace=50) {
+function(ptspace=50,offsetdist=0) {
+
+###enter a negative offsetdist number to offset left of the polyline,  positive for right of line
 
 require(tcltk)
 require(rgdal)
 require(rgeos)
 
 
+#ptspace <- 200 # for testing
+#offsetdist <- -3 # for testing
 
 
 tkmessageBox(message = "Please select the polyline shapefile...")
@@ -142,23 +146,72 @@ colnames(trandata) <- c("BaseID","StartX","StartY","Azimuth")   ### added to fix
 
 blah <- rbind(blah, trandata)
 
-
-
-
 }
 
 
 pts.indv <- blah[-1,]
 
 
-pts.output <- SpatialPointsDataFrame(cbind(x=pts.indv[,2],y=pts.indv[,3]), pts.indv)
+#########################################
+
+
+
+sortID <- seq(1,length(pts.indv[,1]),1)
+
+inter.data <- data.frame(pts.indv, sortID)
+tran.data <- attrtable
+
+
+
+tran.data$Id <- as.numeric(row.names(tran.data)) +1
+
+
+
+
+tet <- merge(inter.data,tran.data , by.x = "BaseID", by.y = "Id", sort=FALSE)
+tet2 <- tet
+
+tet3 <- tet2[ order(tet2[,"sortID"]) , ]
+
+tet3$Id <- tet2[,"sortID"]
+
+tet3$TranSpace <- ptspace
+
+####offset the points perpendicular
+
+fsamp <- 90
+
+aztable <- matrix(data = fsamp, nrow = length(tet3$StartX), ncol = length(fsamp), byrow = TRUE,dimnames = NULL)
+
+tstarttable <- matrix(data = tet3$StartX, nrow = length(tet3$StartX), ncol = length(fsamp), byrow = FALSE,dimnames = NULL)
+
+tendtable  <- matrix(data = tet3$StartY, nrow = length(tet3$StartY), ncol = length(fsamp), byrow = FALSE,dimnames = NULL)
+
+t.startx <- tstarttable
+t.starty <- tendtable
+t.azimuth <- ifelse(tet3$Azimuth + aztable >= 360, tet3$Azimuth + aztable - 360, tet3$Azimuth + aztable)
+
+t.endx <- sin((t.azimuth * pi/180)) * offsetdist + t.startx
+t.endy <- cos((t.azimuth * pi/180)) * offsetdist + t.starty
+
+tet3$StartX <- as.vector(t.endx)
+tet3$StartY <- as.vector(t.endy)
+
+
+pts.output <- SpatialPointsDataFrame(cbind(x=tet3$StartX,y=tet3$StartY),tet3)
+##########################################
+
+
+
+
+#pts.output <- SpatialPointsDataFrame(cbind(x=pts.indv[,2],y=pts.indv[,3]), pts.indv)
 
  # Note that readOGR method reads the .prj file when it exists
    projectionString <- proj4string(shapedata) # contains projection info
 
   proj4string(pts.output) <- projectionString
 
-writeOGR(pts.output, ".", "baseline_pts", driver="ESRI Shapefile")
+writeOGR(pts.output, ".", "baseline_pts4", driver="ESRI Shapefile")
 
 plot(pts.output)
 
