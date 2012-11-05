@@ -1,11 +1,11 @@
 ambur.analysis <-
 function(userinput1="first", userinput2=95, userinput3="m", userinput4="", userinput5=1, userinput6="all",userinput7="basic",userinput8="yr") {
 
-#userinput1 <- "first" 
-#userinput2 <- 95 
-#userinput3 <- "m" 
-#userinput4 <- "" 
-#userinput5 <- 1 
+#userinput1 <- "first"
+#userinput2 <- 95
+#userinput3 <- "m"
+#userinput4 <- ""
+#userinput5 <- 1
 #userinput6 <- "all"
 #userinput7 <- "basic"
 #userinput8 <- "yr"
@@ -20,7 +20,7 @@ End.Transect <- userinput6
 Basic.Analysis <- ifelse(userinput7 == "basic",1,0)
 Time.Units <- userinput8
 
-  if(userinput8=="yr"){time.adj <- 31557600} else 
+  if(userinput8=="yr"){time.adj <- 31557600} else
     if(userinput8=="day"){time.adj <- 86400} else
      if(userinput8=="hr"){time.adj <- 3600} else
       if(userinput8=="min"){time.adj <- 60} else
@@ -44,22 +44,26 @@ require(MASS)
 require(grid)
 
 #choose dbf file to import
-tkmessageBox(message = "Please select the *.DBF file from the capture points shapefile...")
-getdata <- tk_choose.files(default = "*.dbf",multi = FALSE)
-shapename <- gsub(".dbf", "", basename(getdata))
+tkmessageBox(message = "Please select the capture points shapefile...")
+getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+shapename <- gsub(".shp", "", basename(getdata))
+shapedata <- readOGR(getdata,layer=shapename)
+mydata <- data.frame(shapedata)
+
+
 workingdir <- dirname(getdata)
 setwd(workingdir)
 path <- getdata
 
-mydata <- foreign::read.dbf(path)
+#mydata <- foreign::read.dbf(path)
 
 #status log and checkpoint
 dev.new(width = 8, height = 4)
-par("usr")[1] 
+par("usr")[1]
 par(mar=c(5,25,5,5))
 plot(1, type="n", axes=F, xlab="", ylab="")
-par("usr")  
-textalign <- par("usr")[1] - ((par("usr")[2] - par("usr")[1]) * 1.464759) 
+par("usr")
+textalign <- par("usr")[1] - ((par("usr")[2] - par("usr")[1]) * 1.464759)
 mtext("AMBUR: Shoreline Change Analysis",line= 3, cex= 0.75, at=textalign,adj=0)
 mtext("-starting analyses...", cex= 0.75,line=2, at=textalign,adj=0)
 
@@ -82,7 +86,7 @@ dir.create("AMBUR_results", showWarnings=FALSE)
 setwd("AMBUR_results")
 
 dir.create(paste(time.stamp2," ",userinput4,sep=""))
-setwd(paste(time.stamp2," ",userinput4,sep=""))  
+setwd(paste(time.stamp2," ",userinput4,sep=""))
 
 dir.create("PDF")
 
@@ -116,16 +120,16 @@ DateList3 <- select.list(DateList2, multiple = TRUE, title = "AMBUR! Choose date
 mydata <- mydata[as.character(DateList1) %in% DateList3,]
 
 
-#Extract (cull) the transects for analysis based on user's input range                                                               
+#Extract (cull) the transects for analysis based on user's input range
 End.Transect2 <- ifelse(End.Transect == "all", max(mydata$TRANSECT), End.Transect)
 
-mydata <- mydata[mydata$TRANSECT >= Start.Transect & mydata$TRANSECT <= End.Transect2,]                                                                                                                              
+mydata <- mydata[mydata$TRANSECT >= Start.Transect & mydata$TRANSECT <= End.Transect2,]
 
 
 
 
 
-	
+
 #converts (overwrites) DATE column to true numerical dates readable by R
 Setup.Date <- as.POSIXlt(mydata[ ,"DATE"], format="%m/%d/%Y %I:%M:%S %p")
 Setup.Date2 <- as.numeric(Setup.Date - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
@@ -210,7 +214,7 @@ colnames(t3) <- c("TRANSECT", "DATE")
 mydata[,"DATE"] <- as.numeric(Setup.Date - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
 
 
-t4 <- merge(t3, mydata, all=TRUE) 
+t4 <- merge(t3, mydata, all=TRUE)
 
 t5 <- t4[order(t4$TRANSECT, t4$DATE),]
 
@@ -411,7 +415,7 @@ colnames(Shore.Class3.chng.out)[1] <- "TRANSECT"
 
 
 
-# write all of the output tables 
+# write all of the output tables
 
 finalchngs.trans <- t(finalchngs)
 
@@ -455,10 +459,10 @@ Setup.Min.Date.Position <- numeric(length(Setup.Transect))
 Setup.Min.Date.Dist <- numeric(length(Setup.Transect))
 Setup.Date <- as.numeric(Setup.Date - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
 
-  
+
   for (i in 1:length(Setup.Transect)) {
-  
-if (i == 1) {screen(1)}  
+
+if (i == 1) {screen(1)}
 
 Setup.T.Min.Date[i] <- min((Setup.Date)[mydata[ ,"TRANSECT"] == Setup.Transect[i]])
 
@@ -506,7 +510,7 @@ Changes.Years.Eras.Raw <- c(0, Changes.Years[-1] - Changes.Years[1:(length(Chang
 
 Changes.Years.Eras <- ifelse(Changes.Years == 0, Changes.Years.Eras.Raw * 0,  Changes.Years.Eras.Raw * 1)
 
-Rates.Consec.Eras.Raw <- Changes.Dist.Eras / Changes.Years.Eras 
+Rates.Consec.Eras.Raw <- Changes.Dist.Eras / Changes.Years.Eras
 
 Rates.Consec.Eras <-  ifelse(Rates.Consec.Eras.Raw == "NaN", 0,  Rates.Consec.Eras.Raw * 1)
 
@@ -536,13 +540,13 @@ colnames(googleVizData) <- c("Transect",	"Year",	"Transect_number",	"Date",	"Acc
 
 d.Transect <- "00"
 d.Year <- min(googleVizData$Year)
-d.Transect_number <- 0 
+d.Transect_number <- 0
 d.Date <- googleVizData$Date[1]
-d.Accuracy <- 0 
+d.Accuracy <- 0
 d.Transect_spacing <- 0
 d.Transect_distance <- 0
 d.Location <- "undefined"
-d.Baseline_location <- "undefined" 
+d.Baseline_location <- "undefined"
 
 testdiff <- ((max(googleVizData$Start_X) - min(googleVizData$Start_X)) - (max(googleVizData$Start_Y) - min(googleVizData$Start_Y)))
 d.Start_X <- ifelse(testdiff > 0, max(googleVizData$Start_X), max(googleVizData$Start_X + abs(testdiff)))
@@ -559,18 +563,18 @@ d.Class_2 <- "undefined"
 d.Class_3 <- "undefined"
 
 testdiff <- ((max(googleVizData$Position_X) - min(googleVizData$Position_X)) - (max(googleVizData$Position_Y) - min(googleVizData$Position_Y)))
-d.Position_X <- ifelse(testdiff > 0, max(googleVizData$Position_X), max(googleVizData$Position_X + abs(testdiff))) 
+d.Position_X <- ifelse(testdiff > 0, max(googleVizData$Position_X), max(googleVizData$Position_X + abs(testdiff)))
 d.Position_Y <- ifelse(testdiff < 0, max(googleVizData$Position_Y), max(googleVizData$Position_Y + abs(testdiff)))
 
-d.Distance <- 0 
+d.Distance <- 0
 d.Change_Years <- 0
-d.Change_Years_Eras <- 0 
-d.Change_Distance <- 0 
+d.Change_Years_Eras <- 0
+d.Change_Distance <- 0
 d.Change_Distance_Eras <- 0
 d.Rate_Consecutive_Eras <- 0
 
 d.googleVizData <- data.frame(d.Transect,	d.Year,	d.Transect_number,	d.Date,	d.Accuracy,	d.Transect_spacing,	d.Transect_distance,	d.Location,	d.Baseline_location,	d.Start_X,	d.Start_Y,	d.End_X,	d.End_Y,	d.Azimuth,	d.Shoreline_location,	d.Class_1,	d.Class_2,	d.Class_3,	d.Position_X,	d.Position_Y,	d.Distance,	d.Change_Years,	d.Change_Years_Eras,	d.Change_Distance,	d.Change_Distance_Eras,	d.Rate_Consecutive_Eras)
- 
+
 
 colnames(d.googleVizData) <- c("Transect",	"Year",	"Transect_number",	"Date",	"Accuracy",	"Transect_spacing",	"Transect_distance",	"Location",	"Baseline_location",	"Start_X",	"Start_Y",	"End_X",	"End_Y",	"Azimuth",	"Shoreline_location",	"Class_1",	"Class_2",	"Class_3",	"Position_X",	"Position_Y",	"Change_Distance_Raw",	"Change_Years",	"Change_Years_Eras",	"Change_Distance_Cumulative",	"Change_Distance_Eras",	"Rate_Consecutive_Eras")
 
@@ -598,7 +602,7 @@ googleVizData.tab$Class_2[is.na(googleVizData.tab$Class_2)] <- "undefined"
 googleVizData.tab$Class_3[is.na(googleVizData.tab$Class_3)] <- "undefined"
 
 
-write.table(googleVizData.tab, file = "ambur_motionchart_data.csv", sep = ",", row.names = TRUE) 
+write.table(googleVizData.tab, file = "ambur_motionchart_data.csv", sep = ",", row.names = TRUE)
 
 #########
 
@@ -655,7 +659,7 @@ Elapsed.Years <- numeric(length(Transect))
 Transect.Means <- numeric(length(Transect))
 Min.Date.Position <-  numeric(length(Transect))
 Max.Date.Position <-  numeric(length(Transect))
-Min.Date.Dist <-  numeric(length(Transect)) 
+Min.Date.Dist <-  numeric(length(Transect))
 Max.Date.Dist <-  numeric(length(Transect))
 Net.Change <- numeric(length(Transect))
 EPR <- numeric(length(Transect))
@@ -714,21 +718,21 @@ JK.avg <- numeric(length(Transect))
 JK.min <- numeric(length(Transect))
 JK.max <- numeric(length(Transect))
 
-jackknife.lm.avg<-function (lmobj) 
+jackknife.lm.avg<-function (lmobj)
 {
         n <- length(resid(lmobj))
         jval <- t(apply(as.matrix(1:n), 1, function(y) coef(update(lmobj, subset = -y))))
         mean(jval[,2])
 }
 
-jackknife.lm.min<-function (lmobj) 
+jackknife.lm.min<-function (lmobj)
 {
         n <- length(resid(lmobj))
         jval <- t(apply(as.matrix(1:n), 1, function(y) coef(update(lmobj, subset = -y))))
         min(jval[,2])
 }
 
-jackknife.lm.max<-function (lmobj) 
+jackknife.lm.max<-function (lmobj)
 {
         n <- length(resid(lmobj))
         jval <- t(apply(as.matrix(1:n), 1, function(y) coef(update(lmobj, subset = -y))))
@@ -763,15 +767,15 @@ Min.Date.Xcoord <- numeric(length(Transect))
 Min.Date.Ycoord <- numeric(length(Transect))
 Max.Date.Xcoord <- numeric(length(Transect))
 Max.Date.Ycoord <- numeric(length(Transect))
- 
+
 
  #had to place an absolute reference to WorkTable1 for the EPR rate and others dealing with the DISTANCE field for R version 2.9 to fix a bug on 07-07-2009
 
-  
+
   for (i in 1:length(Transect)) {
 
 
-Baseline.Offshore[i] <- max((OFFSHORE)[TRANSECT == Transect[i]], na.rm=T) 
+Baseline.Offshore[i] <- max((OFFSHORE)[TRANSECT == Transect[i]], na.rm=T)
 
 Transect.Spacing[i]  <- max((TRANSPACE)[TRANSECT == Transect[i]])
 
@@ -802,7 +806,7 @@ Net.Change <- (Max.Date.Dist - Min.Date.Dist)
 
 EPR <- Net.Change / Elapsed.Years
 
-Mean.EPR.Eras[i]  <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 0, mean(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]), 0) 
+Mean.EPR.Eras[i]  <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 0, mean(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]), 0)
 
 StDev.EPR.Eras[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((Rates.Consec.Eras)[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)
 
@@ -829,7 +833,7 @@ Max.Date <- as.character(format(as.POSIXct(Transect.Max.Date, origin="1970-01-01
 
 Number.Dates[i] <- length(DATE2[TRANSECT == Transect[i]])
 
-Mean.EPR.Eras.L[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] - StDev.EPR.Eras[i],Mean.EPR.Eras[i] - EPR.Error) 
+Mean.EPR.Eras.L[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] - StDev.EPR.Eras[i],Mean.EPR.Eras[i] - EPR.Error)
 
 Mean.EPR.Eras.U[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] + StDev.EPR.Eras[i],Mean.EPR.Eras[i] + EPR.Error)
 
@@ -844,7 +848,7 @@ LRR.obj <- lm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Y
 
 LRR.slope[i] <- (coef(LRR.obj)[2])
 
-LRR.intercept[i] <- coef(LRR.obj)[1] 
+LRR.intercept[i] <- coef(LRR.obj)[1]
 
 LRR.Rsquared[i] <-  ifelse(Number.Dates[i] > 2,(cor((Changes.Years)[Changes.Transects == Transect[i]], (Changes.Distances)[Changes.Transects == Transect[i]]))^2,0)
 
@@ -863,7 +867,7 @@ WLR.obj <-  lm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.
 
 WLR.slope[i] <- (coef(WLR.obj)[2])
 
-WLR.intercept[i] <- coef(WLR.obj)[1] 
+WLR.intercept[i] <- coef(WLR.obj)[1]
 
 WLR.Rsquared[i] <-  ifelse(Number.Dates[i] > 2, summary(WLR.obj)$r.squared, 0)
 
@@ -880,7 +884,7 @@ WLR.CI.U[i] <- ifelse(Number.Dates[i] > 2, (confint(WLR.obj, level = ConfInter))
 #
 RLR.slope[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,(coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((ACCURACY)[Changes.Transects == Transect[i]])^2),method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[2]),0)
 
-#RLR.intercept[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights= 1/((ACCURACY)[Changes.Transects == Transect[i]]) ^2,method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[1],0) 
+#RLR.intercept[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights= 1/((ACCURACY)[Changes.Transects == Transect[i]]) ^2,method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[1],0)
 
 #RLR.Rsquared[i] <-  ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1, summary(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((ACCURACY)[Changes.Transects == Transect[i]])^2),method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))$r.squared, 0)
 
@@ -909,7 +913,7 @@ Time.Stamp[i] <- as.character(Sys.time())
 
 
 
-Trans.Dates[i] <- length((DATE)[TRANSECT == Transect[i]]) 
+Trans.Dates[i] <- length((DATE)[TRANSECT == Transect[i]])
 
 Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
@@ -949,22 +953,22 @@ Pcnt.Complete2 <- paste(Pcnt.Complete," ","%",sep="")
     setTkProgressBar(pb, i, sprintf("AMBUR: Transect analysis (%s)", info), info)
 
 
- 
 
 
 
- 
+
+
 plot(Max.Date.Xcoord[1:i], Max.Date.Ycoord[1:i], type="n", lwd= 0, col= "gray" , asp=1, xlab=paste("X ","(",Map.Units,")",sep=""),ylab=paste("Y ","(",Map.Units,")",sep=""),main=c("Transects processed:", i , "out of", length(Transect)), sub=as.character(Pcnt.Complete2),xlim=c(min(mydata$X_COORD),max(mydata$X_COORD)),ylim=c(min(mydata$Y_COORD),max(mydata$Y_COORD)))
 
 
-points(mydata$X_COORD[mydata$DATE == min(mydata$DATE)], mydata$Y_COORD[mydata$DATE == min(mydata$DATE)], type="p", pch=20, lwd= 1, col= "gray") 
- 
+points(mydata$X_COORD[mydata$DATE == min(mydata$DATE)], mydata$Y_COORD[mydata$DATE == min(mydata$DATE)], type="p", pch=20, lwd= 1, col= "gray")
+
 points(Max.Date.Xcoord[1:i][Net.Change > 0], Max.Date.Ycoord[1:i][1:i][Net.Change > 0], type="p", col= "blue")
 
 points(Max.Date.Xcoord[1:i][Net.Change <= 0], Max.Date.Ycoord[1:i][1:i][Net.Change <= 0], type="p", col= "red")
 
 
-par("usr")  
+par("usr")
 textalign <- par("usr")[1] - ((par("usr")[2] - par("usr")[1]) * 1.464759)
 
 mtext("-constructing master data table...", side=3, line= 0, adj= 0, cex= 0.75, at=textalign)
@@ -973,7 +977,7 @@ mtext("-starting analyses...", side=3, line= 2, adj= 0, cex= 0.75, at=textalign)
 mtext("-building data tables...", side=3, line= 1, adj= 0, cex= 0.75, at=textalign)
 
 }
- 
+
 #determine morphologic change
 
 Att.Change <- ifelse(as.character(Min.Date.Class1) != as.character(Max.Date.Class1), "CHANGE", "NO CHANGE")
@@ -1002,69 +1006,69 @@ Inner_Y <- Transect.Inner.Ycoord
 Outer_X <- Transect.Outer.Xcoord
 Outer_Y <- Transect.Outer.Ycoord
 Min_DateX <- Min.Date.Xcoord
-Min_DateY <- Min.Date.Ycoord 
-Max_DateX <- Max.Date.Xcoord 
-Max_DateY <- Max.Date.Ycoord 
-Num_Dates <- Number.Dates 
-Min_Date <- Min.Date 
-Max_Date <- Max.Date 
-Elp_Years <- Elapsed.Years 
-Tran_Mean <- Transect.Means 
-Range_Dst <- Range.Distance 
-Stdev_Chg <- Stdev.Change 
-MinDPos <- Min.Date.Position 
-MaxDPos <- Max.Date.Position 
-MinDDist <- Min.Date.Dist 
-MaxDDist <- Max.Date.Dist 
-MinDAcc <- Min.Date.Acc 
-MaxDAcc <- Max.Date.Acc 
-Net_Chng <- Net.Change 
-EPR <- EPR 
+Min_DateY <- Min.Date.Ycoord
+Max_DateX <- Max.Date.Xcoord
+Max_DateY <- Max.Date.Ycoord
+Num_Dates <- Number.Dates
+Min_Date <- Min.Date
+Max_Date <- Max.Date
+Elp_Years <- Elapsed.Years
+Tran_Mean <- Transect.Means
+Range_Dst <- Range.Distance
+Stdev_Chg <- Stdev.Change
+MinDPos <- Min.Date.Position
+MaxDPos <- Max.Date.Position
+MinDDist <- Min.Date.Dist
+MaxDDist <- Max.Date.Dist
+MinDAcc <- Min.Date.Acc
+MaxDAcc <- Max.Date.Acc
+Net_Chng <- Net.Change
+EPR <- EPR
 EPR_Error  <- EPR.Error
 EPR_MnEra  <- Mean.EPR.Eras
 EPR_SDEra  <- StDev.EPR.Eras
 EPR_Er_L <- Mean.EPR.Eras.L
-EPR_Er_U <- Mean.EPR.Eras.U 
-LRR <- LRR.slope 
-LRR_Rsqr <- LRR.Rsquared 
-LRR_int <- LRR.intercept 
-LRR_SEcoe <- LRR.SECoef 
-LRR_SEres <- LRR.SEResi 
-LRR_Pval <- LRR.Pval 
+EPR_Er_U <- Mean.EPR.Eras.U
+LRR <- LRR.slope
+LRR_Rsqr <- LRR.Rsquared
+LRR_int <- LRR.intercept
+LRR_SEcoe <- LRR.SECoef
+LRR_SEres <- LRR.SEResi
+LRR_Pval <- LRR.Pval
 LRR_CI_L <- LRR.CI.L
-LRR_CI_U <- LRR.CI.U 
-WLR <- WLR.slope 
-WLR_Rsqr <- WLR.Rsquared 
-WLR_int <- WLR.intercept 
-WLR_SEcoe <- WLR.SECoef 
-WLR_SEres <- WLR.SEResi 
-WLR_Pval  <- WLR.Pval 
+LRR_CI_U <- LRR.CI.U
+WLR <- WLR.slope
+WLR_Rsqr <- WLR.Rsquared
+WLR_int <- WLR.intercept
+WLR_SEcoe <- WLR.SECoef
+WLR_SEres <- WLR.SEResi
+WLR_Pval  <- WLR.Pval
 WLR_CI_L <- WLR.CI.L
 WLR_CI_U <- WLR.CI.U
-RLR <- RLR.slope 
-#RLR_Rsqr <- RLR.Rsquared 
-#RLR_int <- RLR.intercept 
-#RLR_SEcoe <- RLR.SECoef 
-#RLR_SEres <- RLR.SEResi 
-#RLR_tval  <- RLR.tval 
-#RLR_CI <- RLR.CI 
+RLR <- RLR.slope
+#RLR_Rsqr <- RLR.Rsquared
+#RLR_int <- RLR.intercept
+#RLR_SEcoe <- RLR.SECoef
+#RLR_SEres <- RLR.SEResi
+#RLR_tval  <- RLR.tval
+#RLR_CI <- RLR.CI
 LMS <- LMS.slope
 JK_avg <- JK.avg
 JK_min <- JK.min
 JK_max <- JK.max
-MinClass1 <- Min.Date.Class1 
-MaxClass1 <- Max.Date.Class1 
-Attr_Chng <- Att.Change 
-Base_Loc <- Baseline.Location 
-Shore_Loc <- Shoreline.Location 
-T_azimuth <- Transect.Azimuth 
+MinClass1 <- Min.Date.Class1
+MaxClass1 <- Max.Date.Class1
+Attr_Chng <- Att.Change
+Base_Loc <- Baseline.Location
+Shore_Loc <- Shoreline.Location
+T_azimuth <- Transect.Azimuth
 Time_Stmp <- Time.Stamp
 
 FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp)
 
 
 #status checkpoint
-par("usr")  
+par("usr")
 textalign <- par("usr")[1] - ((par("usr")[2] - par("usr")[1]) * 1.464759)
 
 mtext("-constructing master data table...", side=3, line= 0, adj= 0, cex= 0.75, at=textalign)
@@ -1081,7 +1085,7 @@ write.table(FinalTable, file = "results_stats.csv", sep = ",", row.names = FALSE
 
 #write the final table to a csv file compatible with ArcGIS or Databases
 
-FinalTable2 <- FinalTable 
+FinalTable2 <- FinalTable
 
 colnames(FinalTable2) <- gsub("[.]", "_", colnames(FinalTable2))
 
@@ -1278,9 +1282,9 @@ points(Transect[Net.Change <= 0], Net.Change[Net.Change <= 0], type="h", col= "r
 
 #Plot 3  EPR
 plot(Transect, EPR, type="l", lwd= 0, col= "white" , las= 1, cex.axis= 0.7, cex.lab= 0.7,xlab=expression(paste("Transect")),ylab=paste("EPR ","(",Map.Units,"/",Time.Units,")",sep=""))
- 
+
 points(Transect[EPR > 0], EPR[EPR > 0], type="h", col= "blue")
- 
+
 points(Transect[EPR <= 0], EPR[EPR <= 0], type="h", col= "red")
 
 #Plot 4  Summary info
@@ -1295,15 +1299,15 @@ mtext("AMBUR v.1.0 (20100526)", side=3, line= 2, adj= 0.5, cex= 0.5)
 
 mtext("Oldest Date:", side=3, line= 1, adj= 0, cex= 0.5)
 mtext(as.character(min(DATE)), side=3, line= 1, adj= 1, cex= 0.5)
- 
- 
+
+
 mtext("Youngest Date:", side=3, line= 0, adj= 0, cex= 0.5)
 mtext(as.character(max(DATE)), side=3, line= 0, adj= 1, cex= 0.5)
- 
- 
+
+
 mtext("Number of transects:", side=3, line= -1, adj= 0, cex= 0.5)
 mtext(length(unique(Transect)), side=3, line= -1, adj= 1, cex= 0.5)
- 
+
 mtext("Erosion transects:", side=3, line= -2, adj= 0, cex= 0.5)
 mtext(length(Transect[EPR < 0 & EPR != "NaN"]), side=3, line= -2, adj= 1, cex= 0.5)
 
@@ -1365,9 +1369,9 @@ mtext(paste(userinput2,"%",sep=""), side=3, line= -26, adj= 1, cex= 0.5)
 
 #Plot 5 Average Rates of Consecutive Eras
 plot(Transect, Mean.EPR.Eras, type="l", lwd= 0, col= "white" , las= 1, cex.axis= 0.7, cex.lab= 0.7,xlab=expression(paste("Transect")),ylab=paste("Mean EPR Eras ","(",Map.Units,"/",Time.Units,")",sep=""))
- 
+
 points(Transect[Mean.EPR.Eras > 0], Mean.EPR.Eras[Mean.EPR.Eras > 0], type="h", col= "blue")
- 
+
 points(Transect[Mean.EPR.Eras <= 0], Mean.EPR.Eras[Mean.EPR.Eras <= 0], type="h", col= "red")
 
 
@@ -1411,7 +1415,7 @@ dev.off()
 #present dates easier viewing (non time scaled)
 pdf("PDF/graph_dates_present.pdf", width = 8, height = 4, bg="white")
 
-par("usr")[1] 
+par("usr")[1]
 par(mar=c(4,7,1,1))
 
 Changes.DatesSecs <- as.numeric(as.POSIXlt(Changes.Dates, format="%m/%d/%Y %I:%M:%S %p") - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
@@ -1430,7 +1434,7 @@ ha <- sort(unique(y))
 ha2 <- seq(from=1, to=length(ha), by=1)
 ha3 <- cbind(ha, ha2)
 ha4 <- cbind(x, y, z)
-ha5 <- merge(ha3, ha4, by.x= "ha", by.y= "y") 
+ha5 <- merge(ha3, ha4, by.x= "ha", by.y= "y")
 
 plot(ha5$x, ha5$ha2, xlab = "Transect", ylab = "", col= "black", las= 1, cex.axis= 0.7, cex.lab= 0.7, bty= "l", yaxt= "n", pch=39)
 
@@ -1516,7 +1520,7 @@ dev.off()
 
 
 # plot the LRR and confidence limits (CI error: lower limit & the upper limit)
- 
+
 
 
 plotrng1 <- min(LRR.CI.L[EPR != "NaN"])
@@ -1533,7 +1537,7 @@ pdf("PDF/graph_LRR.pdf", bg="white")
 plot(Transect, LRR.slope, type="p", lwd= 0, col= "black" , pch=0, cex=0, las= 1, cex.axis= 1, cex.lab= 1, xlab=expression(paste("Transect")),ylab=paste("LRR ","(",Map.Units,"/",Time.Units,")",sep=""),ylim = range(c(plotrng1,plotrng2)))
 
 abline(h=0)
- 
+
 
 points(Transect[LRR.slope > 0], LRR.slope[LRR.slope > 0], type="p", col= "blue", pch= 1, cex=0.5)
 
@@ -1569,7 +1573,7 @@ pdf("PDF/graph_WLR.pdf", bg="white")
 plot(Transect, WLR.slope, type="p", lwd= 0, col= "black" , pch=0, cex=0, las= 1, cex.axis= 1, cex.lab= 1, xlab=expression(paste("Transect")),ylab=paste("WLR ","(",Map.Units,"/",Time.Units,")",sep=""), ylim = range(c(plotrng1,plotrng2)))
 
 abline(h=0)
- 
+
 
 points(Transect[WLR.slope > 0], WLR.slope[WLR.slope > 0], type="p", col= "blue", pch= 1, cex=0.5)
 
@@ -1631,7 +1635,7 @@ dev.off()
 
 
 
-                  
+
 #end timing the analysis and report the results
 time1 <- Sys.time()
 worktime <- time1 - time0
@@ -1643,7 +1647,7 @@ print(worktime)
 
 mtext("...done!", side=3, line= -4, adj= -0, cex= 0.75, at=textalign)
 mtext(paste("Elapsed time:"," ",format(worktime),".",sep=""), side=3, line= -5, adj= 0, cex= 0.75, at=textalign)
-print("done!")    
+print("done!")
 
 #tidy up and remove all objects
 detach(WorkTable1)
