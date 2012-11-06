@@ -1,5 +1,5 @@
 ambur.ptsalongline <-
-function(ptspace=50,offsetdist=0) {
+function(ptspace=50,offsetdist=-25) {
 
 ###enter a negative offsetdist number to offset left of the polyline,  positive for right of line
 
@@ -8,8 +8,8 @@ require(rgdal)
 require(rgeos)
 
 
-#ptspace <- 200 # for testing
-#offsetdist <- -3 # for testing
+#ptspace <- 50 # for testing
+#offsetdist <- -10 # for testing
 
 
 tkmessageBox(message = "Please select the polyline shapefile...")
@@ -25,11 +25,11 @@ time.stamp1 <- as.character(Sys.time())
 time.stamp2 <- gsub("[:]", "_", time.stamp1)
 
 
-dir.create("AMBUR_points_along", showWarnings=FALSE)
-setwd("AMBUR_points_along")
+#dir.create("AMBUR_points_along", showWarnings=FALSE)
+#setwd("AMBUR_points_along")
 
-dir.create(paste(time.stamp2," ","points_along",sep=""))
-setwd(paste(time.stamp2," ","points_along",sep=""))
+#dir.create(paste(time.stamp2," ","points_along",sep=""))
+#setwd(paste(time.stamp2," ","points_along",sep=""))
 
 ############################## build functions
 #build function for points along a line (modified to add the start and end points)
@@ -197,23 +197,140 @@ t.endy <- cos((t.azimuth * pi/180)) * offsetdist + t.starty
 tet3$StartX <- as.vector(t.endx)
 tet3$StartY <- as.vector(t.endy)
 
+tet3$CastDir <- offsetdist / abs(offsetdist)
+
+#########################get curvature?
+###established azimuth filter functions
+
+winsize <- 10 #catch curves using window of 10
+
+move.avg <- function(x,n=winsize){filter(x,rep(1/n,n), sides=2)}
+move.sd <- function(x,n=winsize){filter(x,rep(1/n,n), sides=2)}
+
+
+filter.azimuths <- function(az.data){
+cos.az <- cos(az.data * pi/180)
+sin.az <- sin(az.data * pi/180)
+avg.cosx <- cos.az
+avg.siny <- sin.az
+filter.az.rads <- atan2(avg.siny, avg.cosx)
+
+test.pos.neg <- filter.az.rads - c(filter.az.rads[-1],0)
+avg.rad <- move.avg(filter.az.rads)
+stdv.rad <- move.sd(filter.az.rads)
+
+#filter.az.deg <- ifelse( (filter.az.rads *(180/pi)) < 0, (filter.az.rads *(180/pi)) + 360, (filter.az.rads *(180/pi)))
+#filter.az.final <- ifelse(is.na(filter.az.deg) == TRUE, trandata$Azimuth, filter.az.deg)
+return(cbind(filter.az.rads,test.pos.neg,avg.rad,test.pos.neg/abs(test.pos.neg)))}
+
+curve.test <- filter.azimuths(tet3$Azimuth)
+
+
+#####get sinuosity
+
+dist.from.origin <-  ((tet3$StartX - tet3$StartX[1])^2 +  (tet3$StartY - tet3$StartY[1])^2)^(1/2)
+dist.from.end <-  ((tet3$StartX - tet3$StartX[length(tet3$StartX)])^2 +  (tet3$StartY - tet3$StartY[length(tet3$StartY)])^2)^(1/2)
+
+tet3$CmlDist <- cumsum(tet3$TranSpace)
+tet3$Sinuos  <-   dist.from.origin/tet3$CmlDist
+tet3$SinuosRev  <-   dist.from.end/rev(tet3$CmlDist)
+tet3$SinuosDiff  <-  abs(tet3$Sinuos - tet3$SinuosRev)
+tet3$Meander<-  tet3$Sinuos * 0
+tet3$Meander[tet3$SinuosRev <0.93]  <-  1
+
+plot(tet3$SinuosRev,type="l")
+points(tet3$Sinuos[tet3$Sinuos <0.93], col="red")
+
+####################################
+
+
+
+
 
 pts.output <- SpatialPointsDataFrame(cbind(x=tet3$StartX,y=tet3$StartY),tet3)
+
+###############################
+#create opposite side
+fsamp <- 90
+
+aztable <- matrix(data = fsamp, nrow = length(tet3$StartX), ncol = length(fsamp), byrow = TRUE,dimnames = NULL)
+
+tstarttable <- matrix(data = tet3$StartX, nrow = length(tet3$StartX), ncol = length(fsamp), byrow = FALSE,dimnames = NULL)
+
+tendtable  <- matrix(data = tet3$StartY, nrow = length(tet3$StartY), ncol = length(fsamp), byrow = FALSE,dimnames = NULL)
+
+t.startx <- tstarttable
+t.starty <- tendtable
+t.azimuth <- ifelse(tet3$Azimuth + aztable >= 360, tet3$Azimuth + aztable - 360, tet3$Azimuth + aztable)
+
+t.endx <- sin((t.azimuth * pi/180)) * (offsetdist *-2) + t.startx
+t.endy <- cos((t.azimuth * pi/180)) * (offsetdist *-2) + t.starty
+
+
+Cx <- tet3$StartX
+Cy <- tet3$StartY
+
+Cx2 <- t.endx
+Cy2 <- t.endy
+
+Segment.Length <-  ((Cx2- Cx)^2 +  (Cy2 - Cy)^2)^(1/2)
+
+Dx <- Cx2 - Cx
+Dy <- Cy2 - Cy
+
+
+
+Segment.Azimuth <- ifelse(Dx >= 0, 90 -(180/pi) * atan(Dy/Dx),270 -(180/pi) * atan(Dy/Dx))
+
+Segment.Azimuth[length(Segment.Azimuth)] <- Segment.Azimuth[length(Segment.Azimuth)-1]
+
+tet3b <- tet3
+
+tet3b$StartX <- as.vector(t.endx)
+tet3b$StartY <- as.vector(t.endy)
+
+tet3b$CastDir <- offsetdist*-1 / abs(offsetdist)
+
+
+pts.output2 <- SpatialPointsDataFrame(cbind(x=tet3b$StartX,y=tet3b$StartY),tet3b)
+
+
+#final.output <- rbind(pts.output,pts.output2)
+
+
 ##########################################
 
+ locname1 <- tet3b$Location[1]
+  locname <- gsub(" ", "_", locname1)
 
-
-
-#pts.output <- SpatialPointsDataFrame(cbind(x=pts.indv[,2],y=pts.indv[,3]), pts.indv)
 
  # Note that readOGR method reads the .prj file when it exists
+  outputname <- paste(locname,"_basepts_left",sep="")
+
    projectionString <- proj4string(shapedata) # contains projection info
 
   proj4string(pts.output) <- projectionString
 
-writeOGR(pts.output, ".", "baseline_pts4", driver="ESRI Shapefile")
+writeOGR(pts.output, ".", outputname, driver="ESRI Shapefile")
 
-plot(pts.output)
+
+
+
+ locname1 <- tet3b$Location[1]
+  locname <- gsub(" ", "_", locname1)
+
+
+
+ # Note that readOGR method reads the .prj file when it exists
+  outputname <- paste(locname,"_basepts_right",sep="")
+
+   projectionString <- proj4string(shapedata) # contains projection info
+
+  proj4string(pts.output2) <- projectionString
+
+writeOGR(pts.output2, ".", outputname, driver="ESRI Shapefile")
+
+plot(pts.output2)
 
 
 

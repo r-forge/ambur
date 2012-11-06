@@ -1,5 +1,5 @@
 ambur.buffer <-
-function(buffdist=5,buffnum=1) {
+function(buffdist=500,buffnum=4) {
 
 require(tcltk)
 require(rgdal)
@@ -10,7 +10,7 @@ require(rgeos)
 
 totbuffers <- seq(buffdist,buffdist*buffnum,buffdist)
 
-tkmessageBox(message = "Please select the polyline shapefile...")
+tkmessageBox(message = "Please select the baseline polyline shapefile...")
 getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
@@ -23,11 +23,11 @@ time.stamp1 <- as.character(Sys.time())
 time.stamp2 <- gsub("[:]", "_", time.stamp1)
 
 
-dir.create("AMBUR_buffer", showWarnings=FALSE)
-setwd("AMBUR_buffer")
+#dir.create("AMBUR_buffer", showWarnings=FALSE)
+#setwd("AMBUR_buffer")
 
-dir.create(paste(time.stamp2," ","buffers",sep=""))
-setwd(paste(time.stamp2," ","buffers",sep=""))
+#dir.create(paste(time.stamp2," ","buffers",sep=""))
+#setwd(paste(time.stamp2," ","buffers",sep=""))
 
 
 
@@ -81,7 +81,23 @@ colnames(buff.tab) <- c("baseID","distance")
 
 out.buffers <- SpatialLinesDataFrame(final_buffers, buff.tab)
 
+ locname1 <- attrtable$Location[1]
+  locname <- gsub(" ", "_", locname1)
+      outputname <- paste(locname,"_buffers_",buffdist,sep="")
 
-writeOGR(out.buffers, ".", "polyline_buffers", driver="ESRI Shapefile")
+writeOGR(out.buffers, ".", outputname, driver="ESRI Shapefile")
+
+
+
+
+#get.exp <- as.character(round(length(buff.tab$distance)/c(length(buff.tab$distance),8,4,2,1),0))  # try to get exponential values
+#buff.tab2 <- buff.tab[rownames(buff.tab) %in% get.exp,]
+
+
+#out.buffers2 <- SpatialLinesDataFrame(final_buffers, buff.tab)
+
+#out.buffers3 <- out.buffers2[as.numeric(get.exp),]
+
+#writeOGR(out.buffers3, ".", "polyline_buffers2", driver="ESRI Shapefile")
 
 }

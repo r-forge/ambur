@@ -4,10 +4,10 @@ library(alphahull)
 require(rgeos)
 require(rpanel)
 
-alpha.h <- 10
-bwidth <- 1
+alpha.h <- 100
+bwidth <- 0
 sdist <- 1
-presample = 1
+presample = 0    #do you want to densify the polyline 1=yes and 0=no
 sample.distance <- sdist
 buffer.width <- bwidth
 alpha.units <- alpha.h

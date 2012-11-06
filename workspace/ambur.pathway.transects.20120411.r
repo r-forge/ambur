@@ -1,3 +1,4 @@
+
 # Get required packages
 require(tcltk)
 require(rgdal)
@@ -5,7 +6,7 @@ require(rgeos)
 require(spatstat)
 require(maptools)
 
-tkmessageBox(message = "Please select the points shapefile...")
+tkmessageBox(message = "Please select the baseline points shapefile...")
 getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
@@ -15,22 +16,22 @@ workingdir <- dirname(getdata)
 setwd(workingdir)
 
 
-tkmessageBox(message = "Please select the polyline shapefile...")
+tkmessageBox(message = "Please select the buffers polyline shapefile...")
 getdata2 <- tk_choose.files(default = "*.shp",multi = FALSE)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 shapedata2 <- readOGR(getdata2,layer=shapename2)
 attrtable2 <- data.frame(shapedata2)
 
 
-time.stamp1 <- as.character(Sys.time())
-time.stamp2 <- gsub("[:]", "_", time.stamp1)
+#time.stamp1 <- as.character(Sys.time())
+#time.stamp2 <- gsub("[:]", "_", time.stamp1)
 
 
-dir.create("AMBUR_near", showWarnings=FALSE)
-setwd("AMBUR_near")
+#dir.create("AMBUR_near", showWarnings=FALSE)
+#setwd("AMBUR_near")
 
-dir.create(paste(time.stamp2," ","near",sep=""))
-setwd(paste(time.stamp2," ","near",sep=""))
+#dir.create(paste(time.stamp2," ","near",sep=""))
+#setwd(paste(time.stamp2," ","near",sep=""))
 
 
 
@@ -55,6 +56,7 @@ baseya <- crd.2a[,2]
 innerbase.tab <- data.frame(sortshapeIDsa,baseshapeIDsa,basepointIDsa,basexa,baseya)
 colnames(innerbase.tab) <- c("sortshapeID","shapeID","baseID","baseX", "baseY")
 innerbase.tab$shapeID <-  innerbase.tab$shapeID + 1
+
 
 
 ###build function to get segment coordinates
@@ -156,6 +158,9 @@ for (i in Baseline.Factor) {
 
 TY <- as.psp.SpatialLines(shapedata2[i,])
 
+
+
+
 #calculate nearest points
 near.analysis <- adj.project2segment(ppp(blah$In_x[blah$contourID == attrtable2$distance[i]],blah$In_y[blah$contourID == attrtable2$distance[i]], window=TX.w),TY)
 
@@ -172,7 +177,7 @@ tnear.tab <- data.frame(blah$In_x[blah$contourID == attrtable2$distance[i]],blah
 colnames(tnear.tab) <- c("T_x","T_y","In_x","In_y","Dist","Near_Seg","Pos","baseID","contourID","tranID")
 
 tnear.tab$baseID <- i
-tnear.tab$contourID <- attrtable2$distance[i] + contourdiff
+tnear.tab$contourID <- attrtable2$distance[i] + minicontour
 tnear.tab$tranID <- blah$tranID[blah$contourID == attrtable2$distance[i]]
 #tnear.tab$T_x <- Xproj$x
 #tnear.tab$T_y <- Xproj$y
@@ -182,6 +187,8 @@ blah <- rbind(blah, tnear.tab)
 
 
 }
+
+blah$contourID[is.na(blah$contourID)] <- attrtable2$distance[length(attrtable2$distance)]
 
  #########################################
 
@@ -242,23 +249,50 @@ reqfields <- c("ID","Transect","TranSpace","TranDist","Location","MaxBNum","Base
 
 near.transects <- near.transects[,colnames(near.transects) %in% reqfields]
 
+
+#try removing duplicate
+rrr <- blah[!duplicated(blah$T_x), ]
+
+
+transect.num2 <- rrr$tranID
 transect.num <- blah$tranID
 
 
 #write shapefiles of the transects
 library(shapefiles)
 
-dd <- data.frame(Id=transect.num,X=blah$T_x,Y=blah$T_y)
-ddTable <- data.frame(near.transects)
-ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
-write.shapefile(ddShapefile, paste("pathway_transects",sep=""), arcgis=T)
+#dd <- data.frame(Id=transect.num,X=blah$T_x,Y=blah$T_y)
+#ddTable <- data.frame(near.transects)
+#ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
+#write.shapefile(ddShapefile, paste("pathway_transects",sep=""), arcgis=T)
 
+
+
+near.transects.rep <-  near.transects[unique(near.transects$ID) %in%  unique(transect.num2),]   ### added to remove missing transects from original data
+
+
+ locname1 <- attrtable$Location[1]
+  locname <- gsub(" ", "_", locname1)
+      outputname <- paste(locname,"_transects_trim",sep="")
+
+
+dd <- data.frame(Id=transect.num2,X=rrr$T_x,Y=rrr$T_y)
+ddTable <- data.frame(near.transects.rep)
+ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
+write.shapefile(ddShapefile, outputname, arcgis=T)
+
+
+outputname2 <- paste(locname,"_transects_path",sep="")
 
 transect.num2 <- c(near.transects$Transect, near.transects$Transect)
 dd <- data.frame(Id=near.transects$Transect,X=c(near.transects$StartX,near.transects$EndX),Y=c(near.transects$StartY,near.transects$EndY))
 ddTable <- data.frame(near.transects)
 ddShapefile <- convert.to.shapefile(dd, ddTable, "ID", 3)
-write.shapefile(ddShapefile, paste("pathway_transects_endpts",sep=""), arcgis=T)
+write.shapefile(ddShapefile, outputname2, arcgis=T)
+
+#tidy up and remove objects
+#rm(list = ls())
+#detach("package:shapefiles")
 
 
 
