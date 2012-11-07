@@ -24,6 +24,18 @@ colnames(mydata) <- toupper(colnames(mydata))
 mydata[,"ID"] <- seq(1:length(mydata[,"ID"]))
 
  ##########add a distance field if one doesn't exist (for use with ARCGIS intersection)
+
+crdl0 <- coordinates(shapedata)
+
+basexa <- crdl0[,1]
+baseya <- crdl0[,2]
+
+
+mydata$COORDS.X1 - crdl0[,1]
+
+
+
+
 Cx <- mydata$STARTX
 Cy <- mydata$STARTY
 
@@ -61,7 +73,9 @@ testblah3 <- testblah2[,4]
  valid.pts <-  as.numeric(testblah3[,2])
 
  shapedatacull <- shapedata[valid.pts,]
- shapetablecull <- mydata[mydata[,"ID"] %in% valid.pts,]
+ shapetablecull <-  data.frame(shapedatacull)
+
+ #mydata[,"ID"] %in% valid.pts    mydata[valid.pts+1,]
 
  plot(shapedatacull)
 
@@ -71,7 +85,7 @@ testblah3 <- testblah2[,4]
 
   proj4string(pts.output) <- projectionString
 
-writeOGR(pts.output, ".", "ambur_group_pts_prep", driver="ESRI Shapefile")
+writeOGR(pts.output, ".", "ambur_group_pts_prep0", driver="ESRI Shapefile")
 
  plot(mydata$STARTX, mydata$STARTY,asp=1)
  points(shapedatacull)
