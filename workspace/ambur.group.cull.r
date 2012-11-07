@@ -74,6 +74,18 @@ testblah3 <- testblah2[,4]
 
  shapedatacull <- shapedata[valid.pts,]
  shapetablecull <-  data.frame(shapedatacull)
+ 
+Cx <- shapetablecull$StartX
+Cy <- shapetablecull$StartY
+
+Cx2 <- coordinates(shapedatacull)[,1]
+Cy2 <- coordinates(shapedatacull)[,2]
+
+ptdisttoorgin2 <-  ((Cx2- Cx)^2 +  (Cy2 - Cy)^2)^(1/2)
+
+shapetablecull$Distance <- ptdisttoorgin2
+colnames(shapetablecull) <- gsub("coords.x1", "X_COORD", colnames(shapetablecull)) 
+colnames(shapetablecull) <- gsub("coords.x2", "Y_COORD", colnames(shapetablecull))  
 
  #mydata[,"ID"] %in% valid.pts    mydata[valid.pts+1,]
 
@@ -85,7 +97,7 @@ testblah3 <- testblah2[,4]
 
   proj4string(pts.output) <- projectionString
 
-writeOGR(pts.output, ".", "ambur_group_pts_prep0", driver="ESRI Shapefile")
+writeOGR(pts.output, ".", "ambur_group_pts_prep", driver="ESRI Shapefile")
 
  plot(mydata$STARTX, mydata$STARTY,asp=1)
  points(shapedatacull)
