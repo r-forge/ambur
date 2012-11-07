@@ -1,5 +1,5 @@
 ambur.channeltran <-
-function(ptspace=50,offsetdist=-25,buffdist=100,buffnum=20,winsize=5, indv=1) {
+function(ptspace=50,offsetdist=-5,buffdist=0,buffnum=20,winsize=5, indv=1) {
 
 ###enter a negative offsetdist number to offset left of the polyline,  positive for right of line
 
@@ -21,6 +21,9 @@ shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 shapedata <- as(shapedata, "SpatialLinesDataFrame")
 attrtable <- data.frame(shapedata)
+
+####get the MaxBNum value from baseline to get the max distance of the outer contour
+buffdist <-  ifelse(buffdist == 0, attrtable$MaxBNum/buffnum, buffdist)
 
 workingdir <- dirname(getdata)
 setwd(workingdir)
