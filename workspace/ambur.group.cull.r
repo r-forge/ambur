@@ -1,3 +1,6 @@
+ambur.groupcull <-
+function(indv=1) {
+
 require(tcltk)
 require(rgdal)
 require(rgeos)
@@ -68,9 +71,11 @@ testblah3 <- testblah2[,4]
 
   proj4string(pts.output) <- projectionString
 
-writeOGR(pts.output, ".", "ambur_group_pts_prep2", driver="ESRI Shapefile")
+writeOGR(pts.output, ".", "ambur_group_pts_prep", driver="ESRI Shapefile")
 
  plot(mydata$STARTX, mydata$STARTY,asp=1)
  points(shapedatacull)
+ 
+ }
 
 
