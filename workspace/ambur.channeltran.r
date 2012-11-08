@@ -1,5 +1,5 @@
 ambur.channeltran <-
-function(ptspace=50,offsetdist=-5,buffdist=0,buffnum=20,winsize=5, indv=1) {
+function(ptspace=50,offsetdist=-25,buffdist=0,buffnum=20,winsize=5, indv=1) {
 
 ###enter a negative offsetdist number to offset left of the polyline,  positive for right of line
 
@@ -657,7 +657,7 @@ blah$contourID[is.na(blah$contourID)] <- attrtable2$distance[length(attrtable2$d
  tnear.tab[,1] <- crdl0[,1]
    tnear.tab[,2]<- crdl0[,2]
 
-plot(blah$In_x,blah$In_y)
+plot(blah$In_x,blah$In_y,asp=1)
 points(tnear.tabA$In_x,tnear.tabA$In_y,col="green")
 points(tnear.tab$In_x,tnear.tab$In_y,col="red")
 
@@ -716,7 +716,7 @@ rrr <- blah[!duplicated(blah$In_x), ]
 
 rrr.debug <- blah[duplicated(blah$T_x), ]
 
-plot(blah$In_x,blah$In_y)
+plot(blah$In_x,blah$In_y,asp=1)
 points(rrr$T_x,rrr$T_y,col="green")
 points(rrr$In_x,rrr$In_y,col="red")
 
