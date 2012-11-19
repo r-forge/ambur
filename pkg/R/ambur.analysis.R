@@ -1,5 +1,10 @@
 ambur.analysis <-
 function(userinput1="first", userinput2=95, userinput3="m", userinput4="", userinput5=1, userinput6="all",userinput7="basic",userinput8="yr") {
+require(tcltk)
+require(rgdal)
+require(rgeos)
+
+
 
 #userinput1 <- "first"
 #userinput2 <- 95
@@ -213,8 +218,9 @@ colnames(t3) <- c("TRANSECT", "DATE")
 
 mydata[,"DATE"] <- as.numeric(Setup.Date - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
 
+mydataPrep <- mydata[,!duplicated(colnames(mydata))] ###added to remove duplicate column names 11/19/2012
 
-t4 <- merge(t3, mydata, all=TRUE)
+t4 <- merge(t3, mydataPrep, all.x=T,by.y=c(2,3)) ###fixed to remove duplicate column names 11/19/2012
 
 t5 <- t4[order(t4$TRANSECT, t4$DATE),]
 
@@ -477,8 +483,9 @@ Setup.Min.Date.Dist[i] <- mydata[ ,"DISTANCE"][mydata[ ,"TRANSECT"] == Setup.Tra
 ChangeTable <- cbind(Setup.Transect, Setup.T.Min.Date, Setup.Min.Date.Position, Setup.Min.Date.Dist)
 
 #merge vectors
+ChangeTable2 <- ChangeTable[,!duplicated(colnames(ChangeTable))]   #####added to remove duplicates  11/19/2012
 
-WorkTable1 <- merge(mydata, ChangeTable, by.x = "TRANSECT", by.y = "Setup.Transect", all = FALSE, sort = TRUE)
+WorkTable1 <- merge(mydata, ChangeTable2, by.x = 2, by.y = "Setup.Transect", all = FALSE, sort = TRUE)
 
 Setup.Date_repair <- as.character(as.POSIXlt(WorkTable1[ ,"DATE"], origin= "01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"))
 
@@ -1094,7 +1101,8 @@ colnames(FinalTable2) <- gsub("[.]", "_", colnames(FinalTable2))
 write.table(FinalGISTable, file = "GIS_stats_table_short.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
 #merge FinalTable with finalchngs to create the supertable
-Super.Table <- merge(FinalTable, finalchngs, by.x = "Transect", by.y = "TRANSECT", sort= FALSE, all= TRUE)
+finalchngs2 <- finalchngs[,!duplicated(colnames(finalchngs))]   #####added to remove duplicates  11/19/2012
+Super.Table <- merge(FinalTable, finalchngs2, by.x = "Transect", by.y = "TRANSECT", sort= FALSE, all= TRUE)   #####added to remove duplicates  11/19/2012
 
 write.table(Super.Table, file = "super_table.csv", quote = FALSE, sep = ",", row.names = FALSE)
 

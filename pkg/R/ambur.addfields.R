@@ -15,6 +15,8 @@ setwd(workingdir)
    shapedata <- readOGR(getdata,layer=shapename)
    
    attrtable <- data.frame(shapedata)
+   
+   attrtable$Id <- seq(1,length(attrtable[,1]),1)
 
 #checktype = 1  ####for testing
 
