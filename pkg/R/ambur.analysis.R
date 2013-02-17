@@ -617,7 +617,7 @@ remove(Setup.T.Min.Date, Setup.Min.Date.Position, Setup.Min.Date.Dist, "i")
 
 attach(WorkTable1)
 
-#1#write.table(WorkTable1, file = "debugging3WorkTable1.csv", sep = ",", row.names = TRUE)
+write.table(WorkTable1, file = "debugging3WorkTable1.csv", sep = ",", row.names = TRUE)
 #1#write.table(WorkTable1a, file = "debugging3WorkTable1a.csv", sep = ",", row.names = TRUE)
 
 #converts (overwrites) DATE column to true numerical dates readable by R
@@ -926,18 +926,24 @@ Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
 Stdev.Change[i] <- sd((Changes.Distances)[Changes.Transects == Transect[i]])
 
+#####fixed envelope with raw data.frame(shapedata)  2/15/2013
 
-Min.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.max((WorkTable1$DISTANCE)[TRANSECT == Transect[i]]), which.min((WorkTable1$DISTANCE)[TRANSECT == Transect[i]]))
+raw.data <-  data.frame(shapedata) ##added  2/15/2013 to get the true envelope of change including shoreline switchbacks  (see next 6 lines of code)
 
-Transect.Outer.Xcoord[i] <- WorkTable1$X_COORD[TRANSECT == Transect[i]][Min.Dist.Position[i]]
+Min.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.max((raw.data$Distance)[raw.data$Transect == Transect[i]]), which.min((raw.data$Distance)[raw.data$Transect == Transect[i]]))  #fixed 2/15/2013
 
-Transect.Outer.Ycoord[i] <- WorkTable1$Y_COORD[TRANSECT == Transect[i]][Min.Dist.Position[i]]
+Transect.Outer.Xcoord[i] <- raw.data$coords.x1[raw.data$Transect == Transect[i]][Min.Dist.Position[i]]   #fixed 2/15/2013
 
-Max.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.min((WorkTable1$DISTANCE)[TRANSECT == Transect[i]]), which.max((WorkTable1$DISTANCE)[TRANSECT == Transect[i]]))
+Transect.Outer.Ycoord[i] <- raw.data$coords.x2[raw.data$Transect == Transect[i]][Min.Dist.Position[i]]   #fixed 2/15/2013
 
-Transect.Inner.Xcoord[i] <- WorkTable1$X_COORD[TRANSECT == Transect[i]][Max.Dist.Position[i]]
+Max.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.min((raw.data$Distance)[raw.data$Transect == Transect[i]]), which.max((raw.data$Distance)[raw.data$Transect == Transect[i]]))   #fixed 2/15/2013
 
-Transect.Inner.Ycoord[i] <- WorkTable1$Y_COORD[TRANSECT == Transect[i]][Max.Dist.Position[i]]
+Transect.Inner.Xcoord[i] <- raw.data$coords.x1[raw.data$Transect == Transect[i]][Max.Dist.Position[i]]    #fixed 2/15/2013
+
+Transect.Inner.Ycoord[i] <- raw.data$coords.x2[raw.data$Transect == Transect[i]][Max.Dist.Position[i]]    #fixed 2/15/2013
+
+
+
 
 Min.Date.Xcoord[i] <- X_COORD[TRANSECT == Transect[i]][Min.Date.Position[i]]
 
@@ -1114,7 +1120,7 @@ DebugTable <- WorkTable1a
 
 DebugTable2 <- WorkTable1
 
-#1# write.table(DebugTable2, file = "debugging2.csv", quote = FALSE, sep = ",", row.names = FALSE)
+write.table(DebugTable2, file = "debugging2.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
 
 
