@@ -1,5 +1,5 @@
 ambur.channeltran <-
-function(ptspace=50,offsetdist=-25,buffdist=0,buffnum=20,winsize=5, indv=1) {
+function(ptspace=50,offsetdist=-1,buffdist=0,buffnum=20,winsize=5, indv=1) {
 
 ###enter a negative offsetdist number to offset left of the polyline,  positive for right of line
 
