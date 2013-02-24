@@ -64,13 +64,16 @@ writeOGR(ddTable, ".", "min_date_pts", driver="ESRI Shapefile")
 
 ################################################################################################################
 new_trandata <- data.frame(mydata)
-Transect.Factor <- factor(new_trandata$Transect)
 
+row.names(new_trandata) <- new_trandata$Transect
+
+Transect.Factor <- factor(new_trandata$Transect)    #fixed 20130224 to get proper order of transects to match LineIDs with row.names of new_trandata
 
 shape.final <- sapply(levels(Transect.Factor), function(x)
 list(Lines(list(Line(list(x=c(new_trandata$Start_X[new_trandata$Transect == x], new_trandata$End_X[new_trandata$Transect == x]), y=c(new_trandata$Start_Y[new_trandata$Transect == x],new_trandata$End_Y[new_trandata$Transect == x])))), ID=(as.numeric(x))))
 ,simplify = TRUE)
 shape.final2 <- SpatialLines(shape.final)
+#edit(data.frame(getSLLinesIDSlots(shape.final2)) )
 shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
 writeOGR(shape.final3, ".", "original_transects", driver="ESRI Shapefile")
 
