@@ -42,6 +42,9 @@ data.table <- data.frame(gclass,mean.class,mean.peros.class,mean.eros.class,mean
 
 data.table
 
+
+write.table(data.table, file = "classification_summary.csv", sep = ",", row.names = FALSE)
+
 barplot(mean.eros.class,ylab="Mean Erosion Rate",xlab="",axes=T,width=1,names.arg=gclass)
 
 
