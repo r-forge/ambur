@@ -8,6 +8,8 @@ attach(mydata)
 dir.path <- dirname(getdata)
 setwd(dir.path)
 
+filename <- gsub(".csv", "", basename(getdata))
+
 
 
 target.field <- select.list(colnames(mydata), multiple = FALSE, title = "Choose the stats field:")  
@@ -42,8 +44,10 @@ data.table <- data.frame(gclass,mean.class,mean.peros.class,mean.eros.class,mean
 
 data.table
 
+outputname <- paste(class.field,target.field,filename,"summary.csv",sep="_")
 
-write.table(data.table, file = "classification_summary.csv", sep = ",", row.names = FALSE)
+
+write.table(data.table, file = outputname, sep = ",", row.names = FALSE)
 
 barplot(mean.eros.class,ylab="Mean Erosion Rate",xlab="",axes=T,width=1,names.arg=gclass)
 
