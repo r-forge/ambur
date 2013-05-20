@@ -18,6 +18,12 @@ shapedata <- readOGR(getdata,layer=shapename)
 
 mydata <- data.frame(shapedata)
 
+colnames(mydata) <- gsub("Start_X", "StartX", colnames(mydata))
+colnames(mydata) <- gsub("End_X", "EndX", colnames(mydata))
+colnames(mydata) <- gsub("Start_Y", "StartY", colnames(mydata))
+colnames(mydata) <- gsub("End_Y", "EndY", colnames(mydata))
+colnames(mydata) <- gsub("T_azimuth", "Azimuth", colnames(mydata))
+
 workingdir <- dirname(getdata)
 setwd(workingdir)
 path <- getdata
