@@ -1,10 +1,11 @@
 ambur.transects <-
-function(userinput1=50, userinput2=500, userinput3=5, userinput4=5, userinput5=90) {
+function(userinput1=50,userinput2=500,userinput3=5,userinput4=5,userinput5=90) {
 
 require(tcltk)
 require(rgdal)
 require(rgeos)
 require(spatstat)
+require(sp)
 
 transpace <- userinput1
 tranlength <- userinput2
@@ -22,7 +23,8 @@ fsamp <- userinput5
 #fsamp <- c(seq(2,178,by=5),178) # radiating transects
 
 tkmessageBox(message = "Please select the outer baseline shapefile...")
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+filters <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files(filter = filters,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)
@@ -32,7 +34,7 @@ setwd(workingdir)
 
 
 tkmessageBox(message = "Please select the inner baseline shapefile...")
-getdata2 <- tk_choose.files(default = "*.shp",multi = FALSE)
+getdata2 <- tk_choose.files(filter = filters,multi = FALSE)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 shapedata2 <- readOGR(getdata2,layer=shapename2)
 attrtable2 <- data.frame(shapedata2)
@@ -281,6 +283,7 @@ baseya <- crd.2a[,2]
 innerbase.tab <- data.frame(sortshapeIDsa,baseshapeIDsa,basepointIDsa,basexa,baseya)
 colnames(innerbase.tab) <- c("sortshapeID","shapeID","baseID","baseX", "baseY")
 innerbase.tab$shapeID <-  innerbase.tab$shapeID + 1
+innerbase.tab$dummyID <-  1  #initially treat multiple polylines as one line and break up later
 
 
 ###build function to get segment coordinates
@@ -298,7 +301,16 @@ cbind(Cx,Cy,Cx2,Cy2)
 
 
 Baseline.Factor2 <- factor(innerbase.tab$shapeID)
-inner.segs <- data.frame(sapply(levels(Baseline.Factor2), function(x) conv.segs(innerbase.tab$baseX[innerbase.tab$shapeID == x], innerbase.tab$baseY[innerbase.tab$shapeID == x])  ,simplify = FALSE))
+inner.segs <- (sapply(levels(Baseline.Factor2), function(x) conv.segs(innerbase.tab$baseX[innerbase.tab$shapeID == x], innerbase.tab$baseY[innerbase.tab$shapeID == x])  ,simplify = FALSE))
+
+crd.segs2   <- do.call("rbind", inner.segs)   #repair to handle multiple inner baselines better
+
+inner.segs <- data.frame(crd.segs2)
+ inner.segs[,1] <- as.numeric(inner.segs[,1])
+    inner.segs[,2] <- as.numeric(inner.segs[,2])
+       inner.segs[,3] <- as.numeric(inner.segs[,3])
+           inner.segs[,4] <- as.numeric(inner.segs[,4])
+
 colnames(inner.segs) <- c("Cx","Cy","Cx2","Cy2")
 
 
@@ -437,14 +449,14 @@ shape.prep3 <- shape.final3
 int <- gIntersects(shapedata2, shape.prep3, byid=TRUE)
 vec <- vector(mode="list", length=dim(int)[2])
 
+for (i in seq(along=vec)) vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE) else 0
 
-if (sum(as.numeric(int)) > 0)  {########determine if all of the transects do NOT intersect, if so then it proceeds
+cond <- lapply(vec, function(x) class(x) == "SpatialPoints")   # fixed to get single intersections and remove "zero" values from list
+vec2 <- vec[unlist(cond)]
 
-
-for (i in seq(along=vec)) vec[[i]] <- gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE)
-out <- do.call("rbind", vec)
-rn <- row.names(out)
-nrn <- do.call("rbind", strsplit(rn, " "))
+out <- do.call("rbind", vec2) 
+rn <- row.names(out) 
+nrn <- do.call("rbind", strsplit(rn, " ")) 
 
 transID <- data.frame(nrn)[,2]
 baseID <- data.frame(nrn)[,1]
@@ -489,7 +501,7 @@ new_trandata[,"EndY"] <- ifelse(is.na(tet3$INT_Y) == TRUE, as.numeric(tran.data$
 new_trandata[,"TranDist"] <- (((new_trandata[,"EndX"]- new_trandata[,"StartX"])^2 +  (new_trandata[,"EndY"] - new_trandata[,"StartY"])^2)^(1/2))
 
 
-}
+
 
 if (sum(as.numeric(int)) == 0) new_trandata <- perp.transects
 
