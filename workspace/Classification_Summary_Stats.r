@@ -30,6 +30,7 @@ mean.class <- numeric(length(gclass))
 mean.eros.class <- numeric(length(gclass))
 mean.acc.class <- numeric(length(gclass))
 mean.peros.class <- numeric(length(gclass))
+n.trans.class <- numeric(length(gclass))
 
 for (i in 1:length(gclass)) {
 
@@ -37,10 +38,11 @@ mean.class[i] <- mean(field.stats[mydata[class.field] == gclass[i]],na.rm=T)
 mean.eros.class[i] <- mean(field.stats[field.stats < 0 & mydata[class.field] == gclass[i]],na.rm=T)
 mean.acc.class[i] <- mean(field.stats[field.stats  > 0 & mydata[class.field] == gclass[i]],na.rm=T)
 mean.peros.class[i] <- length(field.stats[field.stats < 0 & mydata[class.field] == gclass[i]]) / length(field.stats[mydata[class.field] == gclass[i]]) * 100
+n.trans.class[i] <- length(field.stats[mydata[class.field] == gclass[i]]) 
 
 }
 
-data.table <- data.frame(gclass,mean.class,mean.peros.class,mean.eros.class,mean.acc.class)
+data.table <- data.frame(gclass,mean.class,mean.peros.class,mean.eros.class,mean.acc.class,n.trans.class)
 
 data.table
 
