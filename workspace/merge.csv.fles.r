@@ -23,4 +23,4 @@ merge.tab <- do.call("rbind", lapply(filenames, read.csv, header = TRUE))
 
 write.table(merge.tab, file = "merged_csv_data.csv", sep = ",", row.names = FALSE)
 
-]
+}
