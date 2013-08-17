@@ -13,8 +13,8 @@ Performs an analysis on position changes of a boundary (shoreline) along transec
 \tabular{ll}{
 Package: \tab ambur\cr
 Type: \tab Package\cr
-Version: \tab 1.03-19\cr
-Date: \tab 2013-06-26\cr
+Version: \tab 1.03-20\cr
+Date: \tab 2013-08-17\cr
 License: \tab GNU General Public License (please site references below)\cr
 LazyLoad: \tab yes\cr
 }

@@ -11,7 +11,8 @@ require(rgeos)
  require(tcltk)
 
 tkmessageBox(message = "Please select the shoreline shapefile...")
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+filters <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files(filter = filters,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)
@@ -20,7 +21,7 @@ attrtable <- data.frame(shapedata)
 
 
 tkmessageBox(message = "Please select the transect shapefile...")
-getdata2 <- tk_choose.files(default = "*.shp",multi = FALSE)
+getdata2 <- tk_choose.files(filter = filters,multi = FALSE)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 
 shapedata2 <- readOGR(getdata2,layer=shapename2)
@@ -46,8 +47,14 @@ int <- gIntersects(shapedata2, shapedata, byid=TRUE)
 vec <- vector(mode="list", length=dim(int)[2])
 
 pb <- tkProgressBar("AMBUR: progress bar", "This might take a moment...", 0, max(length(seq(along=vec))), 50)
+
+for (i in seq(along=vec)) {
+Pcnt.Complete <-  round(((i)/ length(seq(along=vec))) * 100, 0) 
+Pcnt.Complete2 <- paste(Pcnt.Complete," ","%",sep="") 
+info <- sprintf("%1.0f percent done", Pcnt.Complete)   
+setTkProgressBar(pb, i, sprintf("AMBUR: Capturing shoreline positions (%s)", info), info)
  
-for (i in seq(along=vec)) vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shapedata[int[,i],], byid=TRUE) else 0
+vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shapedata[int[,i],], byid=TRUE) else 0}
 
 
 
@@ -62,7 +69,7 @@ nrn <- do.call("rbind", strsplit(rn, " "))
 Pcnt.Complete <-  round(((i)/ length(seq(along=vec))) * 100, 0)/2
 Pcnt.Complete2 <- paste(Pcnt.Complete," ","%",sep="")
 info <- sprintf("%d%% done", Pcnt.Complete)
-setTkProgressBar(pb, i/2, sprintf("AMBUR: Capture shoreline positions (%s)", info), info)
+setTkProgressBar(pb, i/2, sprintf("AMBUR: Recording shoreline positions (%s)", info), info)
 
 
 
@@ -102,7 +109,7 @@ outputdata <- SpatialPointsDataFrame(out,tet3)
 
 Pcnt.Complete <-  75
 info <- sprintf("%d%% done", Pcnt.Complete)
-setTkProgressBar(pb, i *0.75 , sprintf("AMBUR: Capture shoreline positions (%s)", info), info) 
+setTkProgressBar(pb, i *0.75 , sprintf("AMBUR: Writing shoreline positions (%s)", info), info) 
 
 
  # Note that readOGR method reads the .prj file when it exists
@@ -115,7 +122,7 @@ writeOGR(outputdata, ".", "shore_pts", driver="ESRI Shapefile")
 
 Pcnt.Complete <-  100
 info <- sprintf("%d%% done", Pcnt.Complete)
-setTkProgressBar(pb, i * 1 , sprintf("AMBUR: Capture shoreline positions (%s)", info), info)
+setTkProgressBar(pb, i * 1 , sprintf("AMBUR: Finishing getting shoreline positions (%s)", info), info)
 
 
 } 
