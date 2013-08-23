@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<!--<!DOCTYPE metadata SYSTEM "http://www.esri.com/metadata/esriprof80.dtd">-->
+<metadata xml:lang="en"><Esri><MetaID>{22DC5A44-8B82-40B4-A0B2-4763E8631F69}</MetaID><CreaDate>20100202</CreaDate><CreaTime>10340800</CreaTime><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process Name="CheckGeometry_6" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CheckGeometry" Date="20100202" Time="103408">CheckGeometry polyband "C:\Documents and Settings\cj\Desktop\shore_band\AMBUR_gisdata\2010-02-02 09_22_57 gisdata\polyband_CheckGeometry.dbf"</Process></lineage></DataProperties></Esri></metadata>
