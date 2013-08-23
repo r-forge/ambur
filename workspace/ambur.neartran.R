@@ -70,7 +70,8 @@ Baseline.Factor <- factor(shapedata$BaseOrder)
 
 setTkProgressBar(pb, 10 , "AMBUR: progress bar", "Calculating transect locations...")
 
-trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=shapedata$BaseOrder[shapedata$BaseOrder == x],coordinates(spsample(shapedata[shapedata$BaseOrder == x], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x]))/sampledist,0), offset=0.000000, "regular") )) ,simplify = FALSE)
+trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=x,coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000000, "regular") )) ,simplify = FALSE)
+
 
 trans.indv2 <- data.frame(do.call("rbind", trans.indv))
 
@@ -78,7 +79,7 @@ crdl0 <- trans.indv2
 
 new_attributes <- merge(crdl0, attrtable, by="BaseOrder",all.x=TRUE)
 
-
+#shapedata[shapedata$BaseOrder == x,]
 
 
 ###### break down polyline into segments with IDs to convert to segments for near analysis
@@ -265,7 +266,6 @@ writeOGR(shape.near3, ".", "near_transects", driver="ESRI Shapefile")
 
 
   setTkProgressBar(pb, 100 , "AMBUR: progress bar", "Done!")
-
 
 
  }
