@@ -97,7 +97,7 @@ filter.az.all <- filter.azimuths(trandata$Azimuth)
 
 ### filter across individual baselines
 Baseline.Factor <- factor(trandata$BaseOrder)
-filter.az.indv <- sapply_pb(levels(Baseline.Factor), function(x) filter.azimuths(trandata$Azimuth[trandata$BaseOrder == x]) ,simplify = TRUE)
+filter.az.indv <- sapply_pb(levels(Baseline.Factor), function(x) if (length(trandata$Azimuth[trandata$BaseOrder == x]) > winsize) filter.azimuths(trandata$Azimuth[trandata$BaseOrder == x]) else trandata$Azimuth[trandata$BaseOrder == x] ,simplify = TRUE)
 filter.az.indv <- unlist(filter.az.indv, use.names = FALSE)
 
 ### get the appropriate filter azimuth based on user option
