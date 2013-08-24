@@ -70,14 +70,15 @@ Baseline.Factor <- factor(shapedata$BaseOrder)
 
 setTkProgressBar(pb, 10 , "AMBUR: progress bar", "Calculating transect locations...")
 
-trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=x,coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000000, "regular") )) ,simplify = FALSE)
+trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]),coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000000, "regular") )) ,simplify = FALSE)
 
 
 trans.indv2 <- data.frame(do.call("rbind", trans.indv))
 
 crdl0 <- trans.indv2
+crdl0$BaseOrder <- as.numeric(trans.indv2$BaseOrder)
 
-new_attributes <- merge(crdl0, attrtable, by="BaseOrder",all.x=TRUE)
+new_attributes <- merge(crdl0, attrtable, by="BaseOrder",all.x=TRUE,sort=TRUE)
 
 #shapedata[shapedata$BaseOrder == x,]
 
