@@ -1,8 +1,8 @@
 ambur.forecast <-
 function(years=50) {
 
-require(tcltk)
- require(rgdal)
+#require(tcltk)
+ #require(rgdal)
 
 
 
@@ -13,7 +13,12 @@ tkmessageBox(message = "Please select the 'results_stats.csv' file...")
 data.path <- tk_choose.files(default = "*.csv",multi = FALSE)
 
 mydata <- read.csv(data.path, header=TRUE, sep=",")
-attach(mydata)
+
+mydata <- as.data.frame(mydata)
+
+
+
+#attach(mydata)
 
 dir.path <- dirname(data.path)
 setwd(dir.path)
@@ -30,18 +35,18 @@ setwd("AMBUR_forecast")
 
 
 forecast.years <- years
-offshore.cor <- ifelse(Baseline.Offshore == 1, -1,1)
+offshore.cor <- ifelse(mydata$Baseline.Offshore == 1, -1,1)
 
 
 
-EPR.predx <- ifelse(is.na(EPR) == FALSE,sin((Transect.Azimuth * pi/180)) * (EPR * forecast.years * offshore.cor) + Max.Date.Xcoord, Max.Date.Xcoord)
-EPR.predy <- ifelse(is.na(EPR) == FALSE,cos((Transect.Azimuth * pi/180)) * (EPR * forecast.years * offshore.cor) + Max.Date.Ycoord, Max.Date.Ycoord)
+EPR.predx <- ifelse(is.na(mydata$EPR) == FALSE,sin((mydata$Transect.Azimuth * pi/180)) * (mydata$EPR * forecast.years * offshore.cor) + mydata$Max.Date.Xcoord, mydata$Max.Date.Xcoord)
+EPR.predy <- ifelse(is.na(mydata$EPR) == FALSE,cos((mydata$Transect.Azimuth * pi/180)) * (mydata$EPR * forecast.years * offshore.cor) + mydata$Max.Date.Ycoord, mydata$Max.Date.Ycoord)
 
-LRR.predx <- ifelse(is.na(LRR.slope) == FALSE,sin((Transect.Azimuth * pi/180)) * (LRR.slope * forecast.years * offshore.cor) + Max.Date.Xcoord, Max.Date.Xcoord)
-LRR.predy <- ifelse(is.na(LRR.slope) == FALSE,cos((Transect.Azimuth * pi/180)) * (LRR.slope * forecast.years * offshore.cor) + Max.Date.Ycoord, Max.Date.Ycoord)
+LRR.predx <- ifelse(is.na(mydata$LRR.slope) == FALSE,sin((mydata$Transect.Azimuth * pi/180)) * (mydata$LRR.slope * forecast.years * offshore.cor) + mydata$Max.Date.Xcoord, mydata$Max.Date.Xcoord)
+LRR.predy <- ifelse(is.na(mydata$LRR.slope) == FALSE,cos((mydata$Transect.Azimuth * pi/180)) * (mydata$LRR.slope * forecast.years * offshore.cor) + mydata$Max.Date.Ycoord, mydata$Max.Date.Ycoord)
 
-WLR.predx <- ifelse(is.na(WLR.slope) == FALSE,sin((Transect.Azimuth * pi/180)) * (WLR.slope * forecast.years * offshore.cor) + Max.Date.Xcoord, Max.Date.Xcoord)
-WLR.predy <- ifelse(is.na(WLR.slope) == FALSE,cos((Transect.Azimuth * pi/180)) * (WLR.slope * forecast.years * offshore.cor) + Max.Date.Ycoord, Max.Date.Ycoord)
+WLR.predx <- ifelse(is.na(mydata$WLR.slope) == FALSE,sin((mydata$Transect.Azimuth * pi/180)) * (mydata$WLR.slope * forecast.years * offshore.cor) + mydata$Max.Date.Xcoord, mydata$Max.Date.Xcoord)
+WLR.predy <- ifelse(is.na(mydata$WLR.slope) == FALSE,cos((mydata$Transect.Azimuth * pi/180)) * (mydata$WLR.slope * forecast.years * offshore.cor) + mydata$Max.Date.Ycoord, mydata$Max.Date.Ycoord)
 
 #RLR.slope
 #LMS.slope
@@ -50,7 +55,7 @@ WLR.predy <- ifelse(is.na(WLR.slope) == FALSE,cos((Transect.Azimuth * pi/180)) *
 #JK.max
 
 plot(EPR.predx,EPR.predy,type="l",asp="1",col="white",main="Shoreline Forecast",xlab="X",ylab="Y")
-lines(Max.Date.Xcoord,Max.Date.Ycoord,col="gray")
+lines(mydata$Max.Date.Xcoord,mydata$Max.Date.Ycoord,col="gray")
 lines(EPR.predx,EPR.predy,col="green")
 lines(LRR.predx,LRR.predy,col="blue")
 lines(WLR.predx,WLR.predy,col="red")
@@ -116,7 +121,7 @@ writeOGR(WLR.final3, ".", "WLR_forecast", driver="ESRI Shapefile")
 
 
 
-detach(mydata)
+#detach(mydata)
 
 }
 

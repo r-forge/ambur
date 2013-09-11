@@ -6,13 +6,13 @@ function(userinput1=1) {
 nothing <- userinput1
 
 
-require(rgdal)
-require(rgeos) 
- require(tcltk)
+#require(rgdal)
+#require(rgeos) 
+ #require(tcltk)
 
 tkmessageBox(message = "Please select the shoreline shapefile...")
-filters <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files(filter = filters,multi = FALSE)
+filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)
@@ -21,7 +21,7 @@ attrtable <- data.frame(shapedata)
 
 
 tkmessageBox(message = "Please select the transect shapefile...")
-getdata2 <- tk_choose.files(filter = filters,multi = FALSE)
+getdata2 <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 
 shapedata2 <- readOGR(getdata2,layer=shapename2)

@@ -18,10 +18,9 @@ A shapefile with transects is intersected with another shapefile containing hist
 A shapefile containing intersection points.  The shapefile is named "shorepts.shp" and is stored in a time-stamped folder in side a folder named "AMBUR_capture" where the boundary shapefile is located.
 
 }
-\references{ }
+
 \author{ Chester W. Jackson Jr. }
-\note{ }
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

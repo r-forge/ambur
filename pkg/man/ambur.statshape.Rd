@@ -19,9 +19,7 @@ Builds shapefiles using the 'result_stats.csv' file produced from the ambur.anal
 
 Shapefiles with attribute tables containing statistics from the 'result_stats.csv' file.
 }
-\references{ }
-\note{}
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

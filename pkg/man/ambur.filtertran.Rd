@@ -20,10 +20,10 @@ A new transect azimuth orienation is assigned to the middle transect of and odd 
 \value{
   A shapefile with adjusted transect azimuths.
 }
-\references{  }
+
 \author{ Chester W. Jackson Jr. }
 \note{ ~~ This function is a beta version ~~ }
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

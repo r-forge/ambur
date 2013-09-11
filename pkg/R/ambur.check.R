@@ -1,7 +1,7 @@
 ambur.check <-
 function(checktype=1) {
-require(tcltk)
-library(foreign)
+#require(tcltk)
+#library(foreign)
 
 path <- tk_choose.files(default = "*.dbf",multi = FALSE)
 workingdir <- dirname(path)

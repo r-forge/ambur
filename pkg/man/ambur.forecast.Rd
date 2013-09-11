@@ -21,10 +21,9 @@ EPR_forecast.shp
 LRR_forecast.shp
 WLR_forecast.shp)
 }
-\references{ }
+
 \author{ Chester W. Jackson Jr. }
 \note{ ~~ This function is a beta version ~~ }
-\seealso{  }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

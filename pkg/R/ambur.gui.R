@@ -3,7 +3,8 @@ function() {
 
 # Begin AMBUR GUI: Create a "main" window with a button which activates dialog buttons
 
-require(tcltk)
+#require(tcltk)
+
 ttMain <- tktoplevel()
 tktitle(ttMain) <- "ambur"
 

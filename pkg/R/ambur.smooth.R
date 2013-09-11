@@ -1,10 +1,10 @@
 ambur.smooth <-
 function(alpha=0.7, degree=2, sampledist=5,presamp=1) {
 
- require(tcltk)
-require(rgdal)
-require(locfit)
-require(spatstat)
+ #require(tcltk)
+#require(rgdal)
+#require(locfit)
+#require(spatstat)
 
 # Establish the inputs
 
@@ -20,9 +20,9 @@ presample  <- presamp
 
 
 
-
+filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
 tkmessageBox(message = "Please select a baseline to smooth...")
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)

@@ -6,7 +6,9 @@
   The function requires an ESRI Shapefile with point data representing historical boundary positions along a transect.  The shapefile must be properly formatted and contain the proper fields. See links below for additional information.  The function will generate data tables and graphics containing the results of analysis statics given user specified parameters.
 }
 \usage{
-ambur.analysis(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinput4 = "", userinput5 = 1, userinput6 = "all", userinput7 = "basic",  userinput8 = "yr")
+ambur.analysis(userinput1 = "first", userinput2 = 95, 
+userinput3 = "m", userinput4 = "", userinput5 = 1, 
+userinput6 = "all", userinput7 = "basic",  userinput8 = "yr")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,10 +27,9 @@ ambur.analysis(userinput1 = "first", userinput2 = 95, userinput3 = "m", userinpu
 \value{
   Creates a date and time stamped folder inside a parent folder named "AMBUR_results", located in the same folder as the shapefile.  The folder contains all of the output data and graphics.
 }
-\references{ }
+
 \author{ Chester W. Jackson Jr. }
-\note{ }
-\seealso{ }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

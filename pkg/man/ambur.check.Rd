@@ -29,10 +29,9 @@ capture points:
 \value{
 Returns a list of missing field names.
 }
-\references{  }
+
 \author{ Chester W. Jackson Jr. }
-\note{ }
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

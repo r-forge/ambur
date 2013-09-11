@@ -15,9 +15,6 @@ type 'ambur.gui()' at the command prompt to start the GUI
 \value{
 n/a
 }
-\references{ }
-\note{ }
-\seealso{  }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -1,9 +1,9 @@
 ambur.filtertran <-
 function(winsize=5, indv=1) {
 
-require(tcltk)
-require(rgdal)
-require(rgeos)
+#require(tcltk)
+#require(rgdal)
+#require(rgeos)
 
 
 #winsize=5
@@ -11,8 +11,8 @@ require(rgeos)
 
 
 tkmessageBox(message = "Please select the transects shapefile...")
-filters <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files(filter = filters,multi = FALSE)
+filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)
@@ -22,7 +22,7 @@ setwd(workingdir)
 
 
 tkmessageBox(message = "Please select the inner baseline shapefile...")
-getdata2 <- tk_choose.files(filter = filters,multi = FALSE)
+getdata2 <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 shapedata2 <- readOGR(getdata2,layer=shapename2)
 attrtable2 <- data.frame(shapedata2)

@@ -19,10 +19,9 @@ A linear spline function is used to approximate the shape of a single polyline i
 \value{
 A shapefile containing critical points.  The shapefile is named "criticalpts.shp" and is stored in a time-stamped folder in side a folder named "AMBUR_critical" where the original polyine shapefile is located.
 }
-\references{  }
+
 \author{ Chester W. Jackson Jr. }
-\note{ }
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -2,13 +2,15 @@ ambur.statshape <-
 function(npts=50) {
 require(tcltk)
 require(rgdal)
+
+
 tkmessageBox(message = "Please select the GIS_stats_table_short.csv file...")
 
 
 getdata <- tk_choose.files(default = "*.csv",multi = FALSE)
 
 mydata <- read.table(getdata, header=TRUE, sep=",")
-attach(mydata)
+#attach(mydata)
 
 #mydata$ID <- seq(0,length(mydata$Transect)-1,1)
 
@@ -98,7 +100,7 @@ writeOGR(shape.final3, ".", "net_min_max__date_transects", driver="ESRI Shapefil
 
 #tidy up and remove all objects
 
-detach(mydata)
+#detach(mydata)
 rm(list = ls())
 
 }

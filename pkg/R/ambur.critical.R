@@ -1,7 +1,7 @@
 ambur.critical <-
 function(ncritpts=50,sampledist=5) {
-require(rgdal)
-require(tcltk)
+#require(rgdal)
+#require(tcltk)
 
 #sampledist = 5   #for testing
 #ncritpts = 50
@@ -10,9 +10,9 @@ sample.distance <- sampledist
 n.points <- ncritpts
 
 #open baseline file
-
+filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
 tkmessageBox(message = "Please select a polyline shapefile...")
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)

@@ -1,8 +1,8 @@
 ambur.analysis <-
 function(userinput1="first", userinput2=95, userinput3="m", userinput4="", userinput5=1, userinput6="all",userinput7="basic",userinput8="yr") {
-require(tcltk)
-require(rgdal)
-require(rgeos)
+#require(tcltk)
+#require(rgdal)
+#require(rgeos)
 
 
 
@@ -40,13 +40,13 @@ graphics.off()
 
 
 #turn on the foreign, stats, and lattice package"
-require(foreign)
-require(stats)
-require(lattice)
-require(tcltk)
-require(nlme)
-require(MASS)
-require(grid)
+#require(foreign)
+#require(stats)
+#require(lattice)
+#require(tcltk)
+#require(nlme)
+#require(MASS)
+#require(grid)
 
 #choose dbf file to import
 tkmessageBox(message = "Please select the capture points shapefile...")
@@ -615,14 +615,18 @@ write.table(googleVizData.tab, file = "ambur_motionchart_data.csv", sep = ",", r
 
 remove(Setup.T.Min.Date, Setup.Min.Date.Position, Setup.Min.Date.Dist, "i")
 
-attach(WorkTable1)
+#attach(WorkTable1)
+
+WorkTable1df <- as.data.frame(WorkTable1)
 
 write.table(WorkTable1, file = "debugging3WorkTable1.csv", sep = ",", row.names = TRUE)
 #1#write.table(WorkTable1a, file = "debugging3WorkTable1a.csv", sep = ",", row.names = TRUE)
 
+
+
 #converts (overwrites) DATE column to true numerical dates readable by R
-DATE <- as.POSIXlt(DATE, format="%m/%d/%Y %I:%M:%S %p")
-DATE2 <- as.numeric(DATE - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
+WorkTable1df$DATE <- as.POSIXlt(WorkTable1df$DATE, format="%m/%d/%Y %I:%M:%S %p")
+WorkTable1df$DATE2 <- as.numeric(WorkTable1df$DATE - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %I:%M:%S %p"),units="secs")
 
 
 
@@ -631,7 +635,7 @@ DATE2 <- as.numeric(DATE - as.POSIXlt("01/01/1970 12:0:0 AM", format="%m/%d/%Y %
 #status checkpoint
 mtext("-constructing master data table...", side=3, line= 0, adj= 0, cex= 0.75, at=textalign)
 
-pb <- tkProgressBar("AMBUR: progress bar", "Some information in %", 0, max(length(unique(TRANSECT))), 50)
+pb <- tkProgressBar("AMBUR: progress bar", "Some information in %", 0, max(length(unique(WorkTable1df$TRANSECT))), 50)
 
 
 
@@ -643,7 +647,7 @@ pb <- tkProgressBar("AMBUR: progress bar", "Some information in %", 0, max(lengt
 
 
 #setup the number of transect fields
-Transect <- unique(TRANSECT)
+Transect <- unique(WorkTable1df$TRANSECT)
 
 # get the baseline location
 Baseline.Offshore <- numeric(length(Transect))
@@ -782,32 +786,32 @@ Max.Date.Ycoord <- numeric(length(Transect))
   for (i in 1:length(Transect)) {
 
 
-Baseline.Offshore[i] <- max((OFFSHORE)[TRANSECT == Transect[i]], na.rm=T)
+Baseline.Offshore[i] <- max((WorkTable1df$OFFSHORE)[WorkTable1df$TRANSECT == Transect[i]], na.rm=T)
 
-Transect.Spacing[i]  <- max((TRANSPACE)[TRANSECT == Transect[i]])
+Transect.Spacing[i]  <- max((WorkTable1df$TRANSPACE)[WorkTable1df$TRANSECT == Transect[i]])
 
-Transect.Distance[i]  <- max((TRANDIST)[TRANSECT == Transect[i]])
+Transect.Distance[i]  <- max((WorkTable1df$TRANDIST)[WorkTable1df$TRANSECT == Transect[i]])
 
-Transect.StartX[i] <- max((STARTX)[TRANSECT == Transect[i]])
-Transect.StartY[i] <- max((STARTY)[TRANSECT == Transect[i]])
-Transect.EndX[i] <- max((ENDX)[TRANSECT == Transect[i]])
-Transect.EndY[i] <- max((ENDY)[TRANSECT == Transect[i]])
+Transect.StartX[i] <- max((WorkTable1df$STARTX)[WorkTable1df$TRANSECT == Transect[i]])
+Transect.StartY[i] <- max((WorkTable1df$STARTY)[WorkTable1df$TRANSECT == Transect[i]])
+Transect.EndX[i] <- max((WorkTable1df$ENDX)[WorkTable1df$TRANSECT == Transect[i]])
+Transect.EndY[i] <- max((WorkTable1df$ENDY)[WorkTable1df$TRANSECT == Transect[i]])
 
-Transect.Min.Date[i] <- min((DATE2)[TRANSECT == Transect[i]])
+Transect.Min.Date[i] <- min((WorkTable1df$DATE2)[WorkTable1df$TRANSECT == Transect[i]])
 
-Transect.Max.Date[i] <- max((DATE2)[TRANSECT == Transect[i]])
+Transect.Max.Date[i] <- max((WorkTable1df$DATE2)[WorkTable1df$TRANSECT == Transect[i]])
 
 Elapsed.Years <-  (Transect.Max.Date - Transect.Min.Date)/time.adj
 
 
 
-Min.Date.Position[i] <- which.min((DATE2)[TRANSECT == Transect[i]])
+Min.Date.Position[i] <- which.min((WorkTable1df$DATE2)[WorkTable1df$TRANSECT == Transect[i]])
 
-Max.Date.Position[i] <- which.max((DATE2)[TRANSECT == Transect[i]])
+Max.Date.Position[i] <- which.max((WorkTable1df$DATE2)[WorkTable1df$TRANSECT == Transect[i]])
 
-Min.Date.Dist[i] <- WorkTable1$DISTANCE[TRANSECT == Transect[i]][Min.Date.Position[i]]
+Min.Date.Dist[i] <- WorkTable1df$DISTANCE[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]]
 
-Max.Date.Dist[i] <- WorkTable1$DISTANCE[TRANSECT == Transect[i]][Max.Date.Position[i]]
+Max.Date.Dist[i] <- WorkTable1df$DISTANCE[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
 
 Net.Change <- (Max.Date.Dist - Min.Date.Dist)
 
@@ -817,19 +821,19 @@ Mean.EPR.Eras[i]  <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Trans
 
 StDev.EPR.Eras[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((Rates.Consec.Eras)[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)
 
-Min.Date.Acc[i] <- ACCURACY[TRANSECT == Transect[i]][Min.Date.Position[i]]
+Min.Date.Acc[i] <- WorkTable1df$ACCURACY[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]]
 
-Max.Date.Acc[i] <- ACCURACY[TRANSECT == Transect[i]][Max.Date.Position[i]]
+Max.Date.Acc[i] <- WorkTable1df$ACCURACY[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
 
-Min.Date.Class1[i] <- as.character(CLASS_1[TRANSECT == Transect[i]][Min.Date.Position[i]])
+Min.Date.Class1[i] <- as.character(WorkTable1df$CLASS_1[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]])
 
-Max.Date.Class1[i] <- as.character(CLASS_1[TRANSECT == Transect[i]][Max.Date.Position[i]])
+Max.Date.Class1[i] <- as.character(WorkTable1df$CLASS_1[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]])
 
-Baseline.Location[i] <- as.character(BASE_LOC[TRANSECT == Transect[i]][Max.Date.Position[i]])
+Baseline.Location[i] <- as.character(WorkTable1df$BASE_LOC[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]])
 
-Shoreline.Location[i] <- as.character(SHORE_LOC[TRANSECT == Transect[i]][Max.Date.Position[i]])
+Shoreline.Location[i] <- as.character(WorkTable1df$SHORE_LOC[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]])
 
-Transect.Azimuth[i] <-  as.character(AZIMUTH[TRANSECT == Transect[i]][Max.Date.Position[i]])
+Transect.Azimuth[i] <-  as.character(WorkTable1df$AZIMUTH[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]])
 
 EPR.Error <- (sqrt(((Min.Date.Acc[i])^2) + ((Max.Date.Acc[i])^2))) / Elapsed.Years
 
@@ -838,7 +842,7 @@ Min.Date <- as.character(format(as.POSIXct(Transect.Min.Date, origin="1970-01-01
 
 Max.Date <- as.character(format(as.POSIXct(Transect.Max.Date, origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
 
-Number.Dates[i] <- length(DATE2[TRANSECT == Transect[i]])
+Number.Dates[i] <- length(WorkTable1df$DATE2[WorkTable1df$TRANSECT == Transect[i]])
 
 Mean.EPR.Eras.L[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] - StDev.EPR.Eras[i],Mean.EPR.Eras[i] - EPR.Error)
 
@@ -847,9 +851,9 @@ Mean.EPR.Eras.U[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] + StDev.EPR.
 
 Transect.Means[i] <- sum(Changes.Distances[Changes.Transects == Transect[i]]) / (Number.Dates[i] - 1)
 
-Uniq.Dates[i] <- length(unique(DATE2))
+Uniq.Dates[i] <- length(unique(WorkTable1df$DATE2))
 
-Range.Distance[i] <-  (max((DISTANCE)[TRANSECT == Transect[i]])) - (min((DISTANCE)[TRANSECT == Transect[i]]))
+Range.Distance[i] <-  (max((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]])) - (min((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]]))
 
 LRR.obj <- lm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]])
 
@@ -870,7 +874,7 @@ LRR.CI.L[i] <- ifelse(Number.Dates[i] > 2, (confint(LRR.obj, level = ConfInter))
 LRR.CI.U[i] <- ifelse(Number.Dates[i] > 2, (confint(LRR.obj, level = ConfInter))[2,2], LRR.slope[i] + EPR.Error)
 
 
-WLR.obj <-  lm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((ACCURACY)[Changes.Transects == Transect[i]])^2))
+WLR.obj <-  lm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((WorkTable1df$ACCURACY)[Changes.Transects == Transect[i]])^2))
 
 WLR.slope[i] <- (coef(WLR.obj)[2])
 
@@ -889,7 +893,7 @@ WLR.CI.L[i] <- ifelse(Number.Dates[i] > 2, (confint(WLR.obj, level = ConfInter))
 WLR.CI.U[i] <- ifelse(Number.Dates[i] > 2, (confint(WLR.obj, level = ConfInter))[2,2], LRR.slope[i] + EPR.Error)
 
 #
-RLR.slope[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,(coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((ACCURACY)[Changes.Transects == Transect[i]])^2),method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[2]),0)
+RLR.slope[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,(coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights=(1/((WorkTable1df$ACCURACY)[Changes.Transects == Transect[i]])^2),method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[2]),0)
 
 #RLR.intercept[i] <- ifelse(Number.Dates[i] > 2 & Basic.Analysis != 1,coef(rlm((Changes.Distances)[Changes.Transects == Transect[i]] ~ (Changes.Years)[Changes.Transects == Transect[i]], weights= 1/((ACCURACY)[Changes.Transects == Transect[i]]) ^2,method="MM",wt.method="inv.var",psi=psi.bisquare,init="ls"))[1],0)
 
@@ -920,7 +924,7 @@ Time.Stamp[i] <- as.character(Sys.time())
 
 
 
-Trans.Dates[i] <- length((DATE)[TRANSECT == Transect[i]])
+Trans.Dates[i] <- length((WorkTable1df$DATE)[WorkTable1df$TRANSECT == Transect[i]])
 
 Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
@@ -945,13 +949,13 @@ Transect.Inner.Ycoord[i] <- raw.data$coords.x2[raw.data$Transect == Transect[i]]
 
 
 
-Min.Date.Xcoord[i] <- X_COORD[TRANSECT == Transect[i]][Min.Date.Position[i]]
+Min.Date.Xcoord[i] <- WorkTable1df$X_COORD[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]]
 
-Min.Date.Ycoord[i] <- Y_COORD[TRANSECT == Transect[i]][Min.Date.Position[i]]
+Min.Date.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]]
 
-Max.Date.Xcoord[i] <- X_COORD[TRANSECT == Transect[i]][Max.Date.Position[i]]
+Max.Date.Xcoord[i] <- WorkTable1df$X_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
 
-Max.Date.Ycoord[i] <- Y_COORD[TRANSECT == Transect[i]][Max.Date.Position[i]]
+Max.Date.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
 
 
 #status update: add progress bar, estimate percent completion and map
@@ -1312,11 +1316,11 @@ mtext("AMBUR v.1.0 (20100526)", side=3, line= 2, adj= 0.5, cex= 0.5)
 
 
 mtext("Oldest Date:", side=3, line= 1, adj= 0, cex= 0.5)
-mtext(as.character(min(DATE)), side=3, line= 1, adj= 1, cex= 0.5)
+mtext(as.character(min(WorkTable1df$DATE)), side=3, line= 1, adj= 1, cex= 0.5)
 
 
 mtext("Youngest Date:", side=3, line= 0, adj= 0, cex= 0.5)
-mtext(as.character(max(DATE)), side=3, line= 0, adj= 1, cex= 0.5)
+mtext(as.character(max(WorkTable1df$DATE)), side=3, line= 0, adj= 1, cex= 0.5)
 
 
 mtext("Number of transects:", side=3, line= -1, adj= 0, cex= 0.5)
@@ -1664,7 +1668,7 @@ mtext(paste("Elapsed time:"," ",format(worktime),".",sep=""), side=3, line= -5, 
 print("done!")
 
 #tidy up and remove all objects
-detach(WorkTable1)
+#detach(WorkTable1)
 rm(list = ls())
 
 #end the function

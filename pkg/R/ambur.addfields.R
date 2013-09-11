@@ -1,12 +1,13 @@
 ambur.addfields <-
 function(checktype=1) {
-require(rgdal)
- require(tcltk)
+#require(rgdal)
+ #require(tcltk)
 
 tkmessageBox(message = "Warning: Shapefile must not be empty.")
 tkmessageBox(message = "Please select the shapefile...")
 
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
 shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)

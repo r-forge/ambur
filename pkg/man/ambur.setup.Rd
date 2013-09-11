@@ -19,9 +19,7 @@ Installs required R packages to run AMBUR
 
 Installation of R packages in library
 }
-\references{ }
-\note{}
-\seealso{  }
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

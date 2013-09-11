@@ -10,7 +10,7 @@ ambur.addfields(checktype = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{checktype}{ Check for missing fields.  Enter '1' for "boundaries (shorelines) or '2' for baselines }
+  \item{checktype}{ Check for missing fields.  Enter '1' for boundaries (shorelines) or '2' for baselines }
 }
 \details{
   Adds all necessary fields must be present in order to run various AMBUR functions.  The following fields are required for:
@@ -25,11 +25,10 @@ baselines:  "Id","Location","MaxBNum","BaseOrder","OFFshore","CastDir","BASE_LOC
 \value{
 Adds missing fields to the shapefile's data table.
 }
-\references{  }
+
 \author{ Chester W. Jackson Jr. }
-\note{ The shapefile must contain polyline data.
-}
-\seealso{  }
+\note{ The shapefile must contain polyline data.}
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
