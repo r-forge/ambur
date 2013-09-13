@@ -9,8 +9,8 @@ function(test=1) {
 #open ambur plotting file
 #choose dbf file to import
 tkmessageBox(message = "Please select an ambur generated transects shapefile...")
-filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
+filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 

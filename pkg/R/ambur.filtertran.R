@@ -11,8 +11,8 @@ function(winsize=5, indv=1) {
 
 
 tkmessageBox(message = "Please select the transects shapefile...")
-filters_filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files(filter = filters_filetype,multi = FALSE)
+filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)
@@ -22,7 +22,7 @@ setwd(workingdir)
 
 
 tkmessageBox(message = "Please select the inner baseline shapefile...")
-getdata2 <- tk_choose.files(filter = filters_filetype,multi = FALSE)
+getdata2 <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 shapedata2 <- readOGR(getdata2,layer=shapename2)
 attrtable2 <- data.frame(shapedata2)

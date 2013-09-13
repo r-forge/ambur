@@ -1,7 +1,7 @@
 ambur.statshape <-
 function(npts=50) {
-require(tcltk)
-require(rgdal)
+#require(tcltk)
+#require(rgdal)
 
 
 tkmessageBox(message = "Please select the GIS_stats_table_short.csv file...")
