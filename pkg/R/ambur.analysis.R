@@ -1,5 +1,7 @@
 ambur.analysis <-
 function(userinput1="first", userinput2=95, userinput3="m", userinput4="", userinput5=1, userinput6="all",userinput7="basic",userinput8="yr") {
+
+
 #require(tcltk)
 #require(rgdal)
 #require(rgeos)
@@ -50,7 +52,8 @@ graphics.off()
 
 #choose dbf file to import
 tkmessageBox(message = "Please select the capture points shapefile...")
-getdata <- tk_choose.files(default = "*.shp",multi = FALSE)
+filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 mydata <- data.frame(shapedata)
@@ -684,6 +687,9 @@ EPR.Error <- numeric(length(Transect))
 Number.Dates <- numeric(length(Transect))
 Range.Distance <- numeric(length(Transect))
 Stdev.Change <- numeric(length(Transect))
+Stdev.Eras.Distance <- numeric(length(Transect)) #new added 20130916
+Mean.Eras.Distance <- numeric(length(Transect)) #new added 20130916
+CoVar.Eras.Distance <- numeric(length(Transect)) #new added 20130916
 
 #locate transects with multiple intersections of dates
 Transect.Flag <- numeric(length(Transect))
@@ -778,6 +784,12 @@ Min.Date.Xcoord <- numeric(length(Transect))
 Min.Date.Ycoord <- numeric(length(Transect))
 Max.Date.Xcoord <- numeric(length(Transect))
 Max.Date.Ycoord <- numeric(length(Transect))
+
+#get true envelope
+Transect.OEnv.Xcoord <- numeric(length(Transect))
+Transect.OEnv.Ycoord <- numeric(length(Transect))
+Transect.IEnv.Xcoord <- numeric(length(Transect))
+Transect.IEnv.Ycoord <- numeric(length(Transect))
 
 
  #had to place an absolute reference to WorkTable1 for the EPR rate and others dealing with the DISTANCE field for R version 2.9 to fix a bug on 07-07-2009
@@ -930,6 +942,13 @@ Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
 Stdev.Change[i] <- sd((Changes.Distances)[Changes.Transects == Transect[i]])
 
+Stdev.Eras.Distance[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((abs(Changes.Dist.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0) #new added 20130916
+Mean.Eras.Distance[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, mean((abs(Changes.Dist.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)#new added 20130916
+CoVar.Eras.Distance[i] <- Stdev.Eras.Distance[i]/Mean.Eras.Distance[i] #new added 20130916
+
+      
+
+
 #####fixed envelope with raw data.frame(shapedata)  2/15/2013
 
 raw.data <-  data.frame(shapedata) ##added  2/15/2013 to get the true envelope of change including shoreline switchbacks  (see next 6 lines of code)
@@ -956,6 +975,26 @@ Min.Date.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]]
 Max.Date.Xcoord[i] <- WorkTable1df$X_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
 
 Max.Date.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
+
+
+#########get true envelope transects
+Min.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.max((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]]), which.min((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]]))
+
+Transect.OEnv.Xcoord[i] <- WorkTable1df$X_COORD[WorkTable1df$TRANSECT == Transect[i]][Min.Dist.Position[i]]
+
+Transect.OEnv.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]][Min.Dist.Position[i]]
+
+Max.Dist.Position[i] <- ifelse(Baseline.Offshore[i] == 1, which.min((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]]), which.max((WorkTable1df$DISTANCE)[WorkTable1df$TRANSECT == Transect[i]]))
+
+Transect.IEnv.Xcoord[i] <- WorkTable1df$X_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Dist.Position[i]]
+         
+Transect.IEnv.Ycoord[i] <- WorkTable1df$Y_COORD[WorkTable1df$TRANSECT == Transect[i]][Max.Dist.Position[i]]
+
+
+
+
+
+
 
 
 #status update: add progress bar, estimate percent completion and map
@@ -1004,7 +1043,7 @@ Att.Change <- ifelse(as.character(Min.Date.Class1) != as.character(Max.Date.Clas
 StDev.EPR.Eras <- ifelse(Mean.EPR.Eras == EPR, 0, StDev.EPR.Eras * 1)
 
 #join results to final table
-FinalTable <- cbind(Transect, Baseline.Offshore, Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp)
+FinalTable <- cbind(Transect, Baseline.Offshore, Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp,Stdev.Eras.Distance,Mean.Eras.Distance,CoVar.Eras.Distance,Transect.IEnv.Xcoord,Transect.IEnv.Ycoord,Transect.OEnv.Xcoord,Transect.OEnv.Ycoord   )
 
 
 #set alternative field names for GIS compatible files
@@ -1080,8 +1119,18 @@ Base_Loc <- Baseline.Location
 Shore_Loc <- Shoreline.Location
 T_azimuth <- Transect.Azimuth
 Time_Stmp <- Time.Stamp
+SDErasDst <- Stdev.Eras.Distance
+MnErasDst <- Mean.Eras.Distance
+CVErasDst <- CoVar.Eras.Distance
+OuterEnvX <- Transect.OEnv.Xcoord
+OuterEnvY <- Transect.OEnv.Ycoord
+InnerEnvX <- Transect.IEnv.Xcoord
+InnerEnvY <- Transect.IEnv.Ycoord
 
-FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp)
+
+
+
+FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp,SDErasDst,MnErasDst,CVErasDst,OuterEnvX,OuterEnvY,InnerEnvX,InnerEnvY)
 
 
 #status checkpoint
@@ -1312,7 +1361,7 @@ plot(dummyX, dummyY, type="n", lwd= 0, col= "white" , xlab="",ylab="",main="", b
 
 mtext("AMBUR SUMMARY REPORT", side=3, line= 3, adj= 0.5, cex= 0.5)
 
-mtext("AMBUR v.1.0 (20100526)", side=3, line= 2, adj= 0.5, cex= 0.5)
+mtext("AMBUR v.1.1.6 (20130916)", side=3, line= 2, adj= 0.5, cex= 0.5)
 
 
 mtext("Oldest Date:", side=3, line= 1, adj= 0, cex= 0.5)
@@ -1648,7 +1697,161 @@ arrows(Transect,Mean.EPR.Eras.L,Transect,Mean.EPR.Eras.U,length = 0.05, angle = 
 
 dev.off()
 
+################### Write shapefiles  #########################################################
 
+####################set up a progress bar for the sapply function
+############build progress bar for building transect lines
+sapply_pb <- function(X, FUN, ...)
+{
+  env <- environment()
+  pb_Total <- length(X)
+  counter <- 0
+  pb <- txtProgressBar(min = 0, max = pb_Total, style = 3)
+
+  wrapper <- function(...){
+    curVal <- get("counter", envir = env)
+    assign("counter", curVal +1 ,envir=env)
+    setTxtProgressBar(get("pb", envir=env), curVal +1)
+    FUN(...)
+  }
+  res <- sapply(X, wrapper, ...)
+  close(pb)
+  res
+}
+########################end function
+
+
+
+
+
+
+FinalGISTable2gis <- read.table("GIS_stats_table_short.csv", header=TRUE, sep=",")
+
+time.stamp1 <- as.character(Sys.time())
+
+time.stamp2 <- gsub("[:]", "_", time.stamp1)
+
+dir.create("AMBUR_gisdata", showWarnings=FALSE)
+setwd("AMBUR_gisdata")
+
+#dir.create(paste(time.stamp2," ","gisdata",sep=""))
+#setwd(paste(time.stamp2," ","gisdata",sep=""))
+
+#replace characters in fields that GIS doesn't read
+colnames(FinalGISTable2gis) <- gsub(".", "_", colnames(FinalGISTable2gis),fixed=TRUE)
+colnames(FinalGISTable2gis) <- gsub(" ", "", colnames(FinalGISTable2gis),fixed=TRUE)
+
+
+ddTable <- data.frame(FinalGISTable2gis)
+coordinates(ddTable) <- data.frame((x=FinalGISTable2gis["Outer_X"]), y=(FinalGISTable2gis["Outer_Y"]))
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "outer_pts", driver="ESRI Shapefile")
+
+
+
+ddTable <- data.frame(FinalGISTable2gis) 
+coordinates(ddTable) <- data.frame(x=(FinalGISTable2gis["Inner_X"]), y=(FinalGISTable2gis["Inner_Y"]))
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "inner_pts", driver="ESRI Shapefile")
+
+
+ddTable <- data.frame(FinalGISTable2gis) 
+coordinates(ddTable) <- data.frame(x=(FinalGISTable2gis["Start_X"]), y=(FinalGISTable2gis["Start_Y"]))
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "start_pts", driver="ESRI Shapefile")
+
+
+ddTable <- data.frame(FinalGISTable2gis) 
+coordinates(ddTable) <- data.frame(x=(FinalGISTable2gis["End_X"]), y=(FinalGISTable2gis["End_Y"]))
+  projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "end_pts", driver="ESRI Shapefile")
+
+
+ddTable <- data.frame(FinalGISTable2gis) 
+coordinates(ddTable) <- data.frame(x=(FinalGISTable2gis["Max_DateX"]), y=(FinalGISTable2gis["Max_DateY"]))
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "max_date_pts", driver="ESRI Shapefile")
+
+
+ddTable <- data.frame(FinalGISTable2gis) 
+coordinates(ddTable) <- data.frame(x=(FinalGISTable2gis["Min_DateX"]), y=(FinalGISTable2gis["Min_DateY"]))
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(ddTable) <- projectionString
+writeOGR(ddTable, ".", "min_date_pts", driver="ESRI Shapefile")
+
+################################################################################################################
+new_trandata <- data.frame(FinalGISTable2gis)
+
+row.names(new_trandata) <- new_trandata$Transect
+
+Transect.Factor <- factor(new_trandata$Transect)    #fixed 20130224 to get proper order of transects to match LineIDs with row.names of new_trandata
+
+shape.final <- sapply_pb(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$Start_X[new_trandata$Transect == x], new_trandata$End_X[new_trandata$Transect == x]), y=c(new_trandata$Start_Y[new_trandata$Transect == x],new_trandata$End_Y[new_trandata$Transect == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+shape.final2 <- SpatialLines(shape.final)
+#edit(data.frame(getSLLinesIDSlots(shape.final2)) )
+shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(shape.final3) <- projectionString
+writeOGR(shape.final3, ".", "original_transects", driver="ESRI Shapefile")
+
+
+shape.final <- sapply_pb(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$Outer_X[new_trandata$Transect == x], new_trandata$Inner_X[new_trandata$Transect == x]), y=c(new_trandata$Outer_Y[new_trandata$Transect == x],new_trandata$Inner_Y[new_trandata$Transect == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+shape.final2 <- SpatialLines(shape.final)
+shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(shape.final3) <- projectionString
+writeOGR(shape.final3, ".", "envelope_transects_original", driver="ESRI Shapefile")
+
+
+shape.final <- sapply_pb(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$OuterEnvX[new_trandata$Transect == x], new_trandata$InnerEnvX[new_trandata$Transect == x]), y=c(new_trandata$OuterEnvY[new_trandata$Transect == x],new_trandata$InnerEnvY[new_trandata$Transect == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+shape.final2 <- SpatialLines(shape.final)
+shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(shape.final3) <- projectionString
+writeOGR(shape.final3, ".", "envelope_transects_analysis", driver="ESRI Shapefile" )
+
+
+
+
+
+shape.final <- sapply_pb(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(new_trandata$Min_DateX[new_trandata$Transect == x], new_trandata$Max_DateX[new_trandata$Transect == x]), y=c(new_trandata$Min_DateY[new_trandata$Transect == x],new_trandata$Max_DateY[new_trandata$Transect == x])))), ID=(as.numeric(x))))
+,simplify = TRUE)
+shape.final2 <- SpatialLines(shape.final)
+shape.final3 <- SpatialLinesDataFrame(shape.final2, new_trandata)
+ projectionString <- proj4string(shapedata) # contains projection info
+  proj4string(shape.final3) <- projectionString
+writeOGR(shape.final3, ".", "net_min_max__date_transects", driver="ESRI Shapefile")
+
+
+
+
+################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################
 
 
 
