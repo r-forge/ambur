@@ -942,8 +942,8 @@ Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
 Stdev.Change[i] <- sd((Changes.Distances)[Changes.Transects == Transect[i]])
 
-Stdev.Eras.Distance[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((abs(Changes.Dist.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0) #new added 20130916
-Mean.Eras.Distance[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, mean((abs(Changes.Dist.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)#new added 20130916
+Stdev.Eras.Distance[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0) #new added 20130916
+Mean.Eras.Distance[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, mean((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)#new added 20130916
 CoVar.Eras.Distance[i] <- Stdev.Eras.Distance[i]/Mean.Eras.Distance[i] #new added 20130916
 
       
