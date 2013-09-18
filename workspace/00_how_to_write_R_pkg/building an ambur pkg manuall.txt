@@ -1,0 +1,3 @@
+cd c:\WorkSpace
+Rcmd INSTALL --build ambur
+Rcmd check ambur
