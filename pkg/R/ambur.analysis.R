@@ -687,9 +687,9 @@ EPR.Error <- numeric(length(Transect))
 Number.Dates <- numeric(length(Transect))
 Range.Distance <- numeric(length(Transect))
 Stdev.Change <- numeric(length(Transect))
-Stdev.Eras.Distance <- numeric(length(Transect)) #new added 20130916
-Mean.Eras.Distance <- numeric(length(Transect)) #new added 20130916
-CoVar.Eras.Distance <- numeric(length(Transect)) #new added 20130916
+Stdev.Eras.PosRates <- numeric(length(Transect)) #new added 20130916
+Mean.Eras.PosRates <- numeric(length(Transect)) #new added 20130916
+CoVar.Eras.PosRates <- numeric(length(Transect)) #new added 20130916
 
 #locate transects with multiple intersections of dates
 Transect.Flag <- numeric(length(Transect))
@@ -791,6 +791,13 @@ Transect.OEnv.Ycoord <- numeric(length(Transect))
 Transect.IEnv.Xcoord <- numeric(length(Transect))
 Transect.IEnv.Ycoord <- numeric(length(Transect))
 
+#get oscillations
+Number.Eras <- numeric(length(Transect))
+Number.Oscillations <- numeric(length(Transect))
+Number.Process.Eras <- numeric(length(Transect))
+Number.Erosion.Eras  <- numeric(length(Transect))
+Chronic.Process <- character(length(Transect)) 
+
 
  #had to place an absolute reference to WorkTable1 for the EPR rate and others dealing with the DISTANCE field for R version 2.9 to fix a bug on 07-07-2009
 
@@ -833,6 +840,16 @@ Mean.EPR.Eras[i]  <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Trans
 
 StDev.EPR.Eras[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((Rates.Consec.Eras)[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)
 
+Number.Oscillations[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, length(rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths)-1, 0)        
+
+Number.Process.Eras[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, length(rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths), 0)
+
+Chronic.Process[i] <- ifelse(Number.Oscillations[i] == 1, "yes", "no")
+
+Number.Erosion.Eras[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, abs(sum((rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$values * rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths)[(rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$values * rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths)<0])), 0) 
+
+ 
+
 Min.Date.Acc[i] <- WorkTable1df$ACCURACY[WorkTable1df$TRANSECT == Transect[i]][Min.Date.Position[i]]
 
 Max.Date.Acc[i] <- WorkTable1df$ACCURACY[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]]
@@ -855,6 +872,8 @@ Min.Date <- as.character(format(as.POSIXct(Transect.Min.Date, origin="1970-01-01
 Max.Date <- as.character(format(as.POSIXct(Transect.Max.Date, origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
 
 Number.Dates[i] <- length(WorkTable1df$DATE2[WorkTable1df$TRANSECT == Transect[i]])
+
+Number.Eras[i] <- Number.Dates[i] - 1
 
 Mean.EPR.Eras.L[i]  <- ifelse(Number.Dates[i] > 2, Mean.EPR.Eras[i] - StDev.EPR.Eras[i],Mean.EPR.Eras[i] - EPR.Error)
 
@@ -942,9 +961,9 @@ Transect.Flag[i] <- ifelse(Uniq.Dates[i] == Trans.Dates[i],'', 'FLAG')
 
 Stdev.Change[i] <- sd((Changes.Distances)[Changes.Transects == Transect[i]])
 
-Stdev.Eras.Distance[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0) #new added 20130916
-Mean.Eras.Distance[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, mean((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)#new added 20130916
-CoVar.Eras.Distance[i] <- Stdev.Eras.Distance[i]/Mean.Eras.Distance[i] #new added 20130916
+Stdev.Eras.PosRates[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, sd((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0) #new added 20130916
+Mean.Eras.PosRates[i] <-  ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, mean((abs(Rates.Consec.Eras))[Changes.Transects == Transect[i]][-1],na.rm=TRUE), 0)#new added 20130916
+CoVar.Eras.PosRates[i] <- Stdev.Eras.PosRates[i]/Mean.Eras.PosRates[i] #new added 20130916
 
       
 
@@ -1043,7 +1062,7 @@ Att.Change <- ifelse(as.character(Min.Date.Class1) != as.character(Max.Date.Clas
 StDev.EPR.Eras <- ifelse(Mean.EPR.Eras == EPR, 0, StDev.EPR.Eras * 1)
 
 #join results to final table
-FinalTable <- cbind(Transect, Baseline.Offshore, Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp,Stdev.Eras.Distance,Mean.Eras.Distance,CoVar.Eras.Distance,Transect.IEnv.Xcoord,Transect.IEnv.Ycoord,Transect.OEnv.Xcoord,Transect.OEnv.Ycoord   )
+FinalTable <- cbind(Transect, Baseline.Offshore, Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp,Stdev.Eras.PosRates,Mean.Eras.PosRates,CoVar.Eras.PosRates,Transect.IEnv.Xcoord,Transect.IEnv.Ycoord,Transect.OEnv.Xcoord,Transect.OEnv.Ycoord,Number.Eras,Number.Oscillations,Number.Process.Eras,Number.Erosion.Eras, Chronic.Process   )
 
 
 #set alternative field names for GIS compatible files
@@ -1119,18 +1138,20 @@ Base_Loc <- Baseline.Location
 Shore_Loc <- Shoreline.Location
 T_azimuth <- Transect.Azimuth
 Time_Stmp <- Time.Stamp
-SDErasDst <- Stdev.Eras.Distance
-MnErasDst <- Mean.Eras.Distance
-CVErasDst <- CoVar.Eras.Distance
+SDErasRt <- Stdev.Eras.PosRates    #positive rates
+MnErasRt <- Mean.Eras.PosRates 
+CVErasRt <- CoVar.Eras.PosRates 
 OuterEnvX <- Transect.OEnv.Xcoord
 OuterEnvY <- Transect.OEnv.Ycoord
 InnerEnvX <- Transect.IEnv.Xcoord
 InnerEnvY <- Transect.IEnv.Ycoord
+nEras <- Number.Eras
+nOsciltns <- Number.Oscillations
+nProcEras <- Number.Process.Eras
+nErosEras <- Number.Erosion.Eras
+ChronicPr <- Chronic.Process
 
-
-
-
-FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp,SDErasDst,MnErasDst,CVErasDst,OuterEnvX,OuterEnvY,InnerEnvX,InnerEnvY)
+FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp,SDErasRt,MnErasRt,CVErasRt,OuterEnvX,OuterEnvY,InnerEnvX,InnerEnvY,nEras,nOsciltns,nProcEras,nErosEras,ChronicPr)
 
 
 #status checkpoint
