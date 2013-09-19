@@ -1197,7 +1197,7 @@ DebugTable2 <- WorkTable1
 write.table(DebugTable2, file = "debugging2.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
 
-
+StDev.EPR.Eras[is.na(StDev.EPR.Eras) == TRUE] <- 0
 
 
 
@@ -1462,7 +1462,7 @@ points(Transect[Mean.EPR.Eras > 0], Mean.EPR.Eras[Mean.EPR.Eras > 0], type="h", 
 
 points(Transect[Mean.EPR.Eras <= 0], Mean.EPR.Eras[Mean.EPR.Eras <= 0], type="h", col= "red")
 
-
+StDev.EPR.Eras[is.na(StDev.EPR.Eras) == TRUE] <- 0
 #Plot 6  stdev of EPR eras
 plot(Transect, StDev.EPR.Eras, type="l", lwd= 0, col= "white" , las= 1, cex.axis= 0.7, cex.lab= 0.7,xlab=expression(paste("Transect")),ylab=paste("St.Dev. EPR Eras","(",Map.Units,")",sep=""))
 
