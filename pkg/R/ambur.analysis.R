@@ -844,7 +844,7 @@ Number.Oscillations[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == T
 
 Number.Process.Eras[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, length(rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths), 0)
 
-Chronic.Process[i] <- ifelse(Number.Oscillations[i] == 1, "yes", "no")
+Chronic.Process[i] <- ifelse(Number.Process.Eras[i] == 1, "yes", "no")
 
 Number.Erosion.Eras[i] <- ifelse(length(Rates.Consec.Eras[Changes.Transects == Transect[i]]) > 1, abs(sum((rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$values * rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths)[(rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$values * rle(sign(Rates.Consec.Eras[Changes.Transects == Transect[i]][-1]))$lengths)<0])), 0) 
 
