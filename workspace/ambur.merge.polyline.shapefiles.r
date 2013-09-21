@@ -63,7 +63,7 @@ outputdata$shapename <- shapename
   
   proj4string(outputdata) <- projectionString
    
-writeOGR(outputdata, ".", "all_polylines_merged2", driver="ESRI Shapefile")
+writeOGR(outputdata, ".", "all_polylines_merged", driver="ESRI Shapefile")
 
 
 
