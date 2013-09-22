@@ -764,6 +764,7 @@ Max.Date.Class1 <- numeric(length(Transect))
 #get location attributes for shorelines
 Baseline.Location <-  numeric(length(Transect))
 Shoreline.Location <-  numeric(length(Transect))
+Baseline.Order <-  numeric(length(Transect))
 
 #get azimuth for transects
 Transect.Azimuth <- numeric(length(Transect))
@@ -806,6 +807,8 @@ Chronic.Process <- character(length(Transect))
 
 
 Baseline.Offshore[i] <- max((WorkTable1df$OFFSHORE)[WorkTable1df$TRANSECT == Transect[i]], na.rm=T)
+
+Baseline.Order[i] <- max((WorkTable1df$BASEORDER)[WorkTable1df$TRANSECT == Transect[i]], na.rm=T)
 
 Transect.Spacing[i]  <- max((WorkTable1df$TRANSPACE)[WorkTable1df$TRANSECT == Transect[i]])
 
@@ -1062,13 +1065,14 @@ Att.Change <- ifelse(as.character(Min.Date.Class1) != as.character(Max.Date.Clas
 StDev.EPR.Eras <- ifelse(Mean.EPR.Eras == EPR, 0, StDev.EPR.Eras * 1)
 
 #join results to final table
-FinalTable <- cbind(Transect, Baseline.Offshore, Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp,Stdev.Eras.PosRates,Mean.Eras.PosRates,CoVar.Eras.PosRates,Transect.IEnv.Xcoord,Transect.IEnv.Ycoord,Transect.OEnv.Xcoord,Transect.OEnv.Ycoord,Number.Eras,Number.Oscillations,Number.Process.Eras,Number.Erosion.Eras, Chronic.Process   )
+FinalTable <- cbind(Transect, Baseline.Offshore, Baseline.Order,Transect.Spacing, Transect.Distance, Transect.Flag, Transect.StartX, Transect.StartY, Transect.EndX, Transect.EndY, Transect.Inner.Xcoord, Transect.Inner.Ycoord,Transect.Outer.Xcoord, Transect.Outer.Ycoord, Min.Date.Xcoord, Min.Date.Ycoord, Max.Date.Xcoord, Max.Date.Ycoord, Number.Dates, Min.Date, Max.Date, Elapsed.Years, Transect.Means, Range.Distance, Stdev.Change, Min.Date.Position, Max.Date.Position, Min.Date.Dist, Max.Date.Dist, Min.Date.Acc, Max.Date.Acc, Net.Change, EPR, EPR.Error, Mean.EPR.Eras, StDev.EPR.Eras, Mean.EPR.Eras.L, Mean.EPR.Eras.U, LRR.slope, LRR.Rsquared, LRR.intercept, LRR.SECoef, LRR.SEResi, LRR.Pval, LRR.CI.L, LRR.CI.U, WLR.slope, WLR.Rsquared, WLR.intercept, WLR.SECoef, WLR.SEResi, WLR.Pval, WLR.CI.L, WLR.CI.U, RLR.slope, LMS.slope, JK.avg, JK.min, JK.max, Min.Date.Class1, Max.Date.Class1, Att.Change, Baseline.Location, Shoreline.Location, Transect.Azimuth, Time.Stamp,Stdev.Eras.PosRates,Mean.Eras.PosRates,CoVar.Eras.PosRates,Transect.IEnv.Xcoord,Transect.IEnv.Ycoord,Transect.OEnv.Xcoord,Transect.OEnv.Ycoord,Number.Eras,Number.Oscillations,Number.Process.Eras,Number.Erosion.Eras, Chronic.Process   )
 
 
 #set alternative field names for GIS compatible files
 
 Transect <- Transect
 Base_Off <- Baseline.Offshore
+BaseOrder <- Baseline.Order
 Tran_Spac <- Transect.Spacing
 Tran_Dist <- Transect.Distance
 Tran_Flag <- Transect.Flag
@@ -1151,7 +1155,7 @@ nProcEras <- Number.Process.Eras
 nErosEras <- Number.Erosion.Eras
 ChronicPr <- Chronic.Process
 
-FinalGISTable <- cbind(Transect, Base_Off, Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp,SDErasRt,MnErasRt,CVErasRt,OuterEnvX,OuterEnvY,InnerEnvX,InnerEnvY,nEras,nOsciltns,nProcEras,nErosEras,ChronicPr)
+FinalGISTable <- cbind(Transect, Base_Off, BaseOrder,Tran_Spac, Tran_Dist, Tran_Flag, Start_X, Start_Y, End_X, End_Y, Inner_X, Inner_Y, Outer_X, Outer_Y, Min_DateX, Min_DateY, Max_DateX, Max_DateY, Num_Dates, Min_Date, Max_Date, Elp_Years, Tran_Mean, Range_Dst, Stdev_Chg, MinDPos, MaxDPos, MinDDist, MaxDDist, MinDAcc, MaxDAcc, Net_Chng, EPR, EPR_Error, EPR_MnEra, EPR_SDEra, EPR_Er_L, EPR_Er_U, LRR, LRR_Rsqr, LRR_int, LRR_SEcoe, LRR_SEres, LRR_Pval, LRR_CI_L, LRR_CI_U, WLR, WLR_Rsqr, WLR_int, WLR_SEcoe, WLR_SEres, WLR_Pval, WLR_CI_L, WLR_CI_U, RLR, LMS, JK_avg, JK_min, JK_max,MinClass1, MaxClass1, Attr_Chng, Base_Loc, Shore_Loc, T_azimuth, Time_Stmp,SDErasRt,MnErasRt,CVErasRt,OuterEnvX,OuterEnvY,InnerEnvX,InnerEnvY,nEras,nOsciltns,nProcEras,nErosEras,ChronicPr)
 
 
 #status checkpoint
@@ -1197,7 +1201,7 @@ DebugTable2 <- WorkTable1
 write.table(DebugTable2, file = "debugging2.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
 
-StDev.EPR.Eras[is.na(StDev.EPR.Eras) == TRUE] <- 0
+
 
 
 
@@ -1462,7 +1466,7 @@ points(Transect[Mean.EPR.Eras > 0], Mean.EPR.Eras[Mean.EPR.Eras > 0], type="h", 
 
 points(Transect[Mean.EPR.Eras <= 0], Mean.EPR.Eras[Mean.EPR.Eras <= 0], type="h", col= "red")
 
-StDev.EPR.Eras[is.na(StDev.EPR.Eras) == TRUE] <- 0
+
 #Plot 6  stdev of EPR eras
 plot(Transect, StDev.EPR.Eras, type="l", lwd= 0, col= "white" , las= 1, cex.axis= 0.7, cex.lab= 0.7,xlab=expression(paste("Transect")),ylab=paste("St.Dev. EPR Eras","(",Map.Units,")",sep=""))
 
