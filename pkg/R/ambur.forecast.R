@@ -7,8 +7,8 @@ function(years=50) {
 
 
 tkmessageBox(message = "Please select a post-AMBUR analysis transect shapefile...")
-filters <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files(filter = filters,multi = FALSE)
+filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
+getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
 shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)
