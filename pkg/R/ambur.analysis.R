@@ -1618,7 +1618,7 @@ dev.off()
 plotrng1 <- min(LRR.CI.L[EPR != "NaN"])
 plotrng2 <- max(LRR.CI.U[EPR != "NaN"])
 
-if (length(DateList3) == 2) {
+if (max(Number.Dates) == 2) {
 plotrng1 <- min(LRR.slope[EPR != "NaN"])
 plotrng2 <- max(LRR.slope[EPR != "NaN"])
 }
@@ -1654,7 +1654,7 @@ dev.off()
 plotrng1 <- min(WLR.CI.L[EPR != "NaN"])
 plotrng2 <- max(WLR.CI.U[EPR != "NaN"])
 
-if (length(DateList3) == 2) {
+if (max(Number.Dates) == 2) {
 plotrng1 <- min(WLR.slope[EPR != "NaN"])
 plotrng2 <- max(WLR.slope[EPR != "NaN"])
 }
@@ -1686,14 +1686,14 @@ dev.off()
 
 # plot the Mean EPR of Consecutive Eras and Stnd Deviations of rates as error bars (CI error: lower limit & the upper limit)
 
-if (length(DateList3) > 2) {
+if (max(Number.Dates) > 2) {
 
 
 plotrng1 <- min(Mean.EPR.Eras.L[EPR != "NaN"])
 plotrng2 <- max(Mean.EPR.Eras.U[EPR != "NaN"])
 }
 
-if (length(DateList3) < 3) {
+if (max(Number.Dates) == 2) {
 plotrng1 <- min(Mean.EPR.Eras[EPR != "NaN"])
 plotrng2 <- max(Mean.EPR.Eras[EPR != "NaN"])
 }
@@ -1711,7 +1711,7 @@ points(Transect[Mean.EPR.Eras > 0], Mean.EPR.Eras[Mean.EPR.Eras > 0], type="p", 
 points(Transect[Mean.EPR.Eras <= 0], Mean.EPR.Eras[Mean.EPR.Eras <= 0], type="p", col= "red", pch= 1, cex=0.3)
 
 
-if (length(DateList3) > 2) {
+if (max(Number.Dates) > 2) {
 
 arrows(Transect,Mean.EPR.Eras.L,Transect,Mean.EPR.Eras.U,length = 0.05, angle = 90, code = 3,col = "gray")
 

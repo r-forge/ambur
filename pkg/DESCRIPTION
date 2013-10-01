@@ -1,8 +1,8 @@
 Package: ambur
 Type: Package
 Title: Analyzing Moving Boundaries Using R
-Version: 1.1.11
-Date: 2013-09-22
+Version: 1.1.12
+Date: 2013-09-30
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
 Depends: R (>= 3.0), spatstat, locfit, sp, googleVis, rgeos, rgdal, tcltk, foreign, MASS, mgcv, grid, lattice, nlme, stats
