@@ -1615,13 +1615,9 @@ dev.off()
 
 
 
-plotrng1 <- min(LRR.CI.L[EPR != "NaN"])
-plotrng2 <- max(LRR.CI.U[EPR != "NaN"])
+plotrng1 <- min(c(LRR.slope[LRR.slope != -Inf & LRR.slope != Inf],LRR.CI.L[LRR.CI.L != -Inf & LRR.CI.L != Inf]),na.rm=TRUE)
+plotrng2 <- max(c(LRR.slope[LRR.slope != -Inf & LRR.slope != Inf],LRR.CI.U[LRR.CI.U != -Inf & LRR.CI.U != Inf]),na.rm=TRUE)
 
-if (max(Number.Dates) == 2) {
-plotrng1 <- min(LRR.slope[EPR != "NaN"])
-plotrng2 <- max(LRR.slope[EPR != "NaN"])
-}
 
 #plot and add the error bars
 pdf("PDF/graph_LRR.pdf", bg="white")
@@ -1651,13 +1647,8 @@ dev.off()
 
 # plot the WLR and confidence limits (CI error: lower limit & the upper limit)
 
-plotrng1 <- min(WLR.CI.L[EPR != "NaN"])
-plotrng2 <- max(WLR.CI.U[EPR != "NaN"])
-
-if (max(Number.Dates) == 2) {
-plotrng1 <- min(WLR.slope[EPR != "NaN"])
-plotrng2 <- max(WLR.slope[EPR != "NaN"])
-}
+plotrng1 <- min(c(WLR.slope[WLR.slope != -Inf & WLR.slope != Inf],WLR.CI.L[WLR.CI.L != -Inf & WLR.CI.L != Inf]),na.rm=TRUE)
+plotrng2 <- max(c(WLR.slope[WLR.slope != -Inf & WLR.slope != Inf],WLR.CI.U[WLR.CI.U != -Inf & WLR.CI.U != Inf]),na.rm=TRUE)
 
 
 pdf("PDF/graph_WLR.pdf", bg="white")
@@ -1686,17 +1677,10 @@ dev.off()
 
 # plot the Mean EPR of Consecutive Eras and Stnd Deviations of rates as error bars (CI error: lower limit & the upper limit)
 
-if (max(Number.Dates) > 2) {
 
+plotrng1 <- min(c(Mean.EPR.Eras[Mean.EPR.Eras != -Inf & Mean.EPR.Eras != Inf],Mean.EPR.Eras.L[Mean.EPR.Eras.L != -Inf & Mean.EPR.Eras.L != Inf]),na.rm=TRUE)
+plotrng2 <- max(c(Mean.EPR.Eras[Mean.EPR.Eras != -Inf & Mean.EPR.Eras != Inf],Mean.EPR.Eras.U[Mean.EPR.Eras.U != -Inf & Mean.EPR.Eras.U != Inf]),na.rm=TRUE)
 
-plotrng1 <- min(Mean.EPR.Eras.L[EPR != "NaN"])
-plotrng2 <- max(Mean.EPR.Eras.U[EPR != "NaN"])
-}
-
-if (max(Number.Dates) == 2) {
-plotrng1 <- min(Mean.EPR.Eras[EPR != "NaN"])
-plotrng2 <- max(Mean.EPR.Eras[EPR != "NaN"])
-}
 
 
 #plot and add the error bars
