@@ -1,3 +1,5 @@
 cd c:\WorkSpace
 Rcmd INSTALL --build ambur
 Rcmd check ambur
+
+R CMD check ambur --as-cran
