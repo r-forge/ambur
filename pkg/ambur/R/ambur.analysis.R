@@ -808,7 +808,7 @@ Chronic.Process <- character(length(Transect))
 
 Baseline.Offshore[i] <- max((WorkTable1df$OFFSHORE)[WorkTable1df$TRANSECT == Transect[i]], na.rm=T)
 
-Baseline.Order[i] <- max((WorkTable1df$BASEORDER)[WorkTable1df$TRANSECT == Transect[i]], na.rm=T)
+Baseline.Order[i] <- max(as.numeric((WorkTable1df$BASEORDER)[WorkTable1df$TRANSECT == Transect[i]]), na.rm=T)
 
 Transect.Spacing[i]  <- max((WorkTable1df$TRANSPACE)[WorkTable1df$TRANSECT == Transect[i]])
 
