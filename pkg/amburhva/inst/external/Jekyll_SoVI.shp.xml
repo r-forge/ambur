@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Hazards and Vulnerability Research Institute (HVRI), University of South Carolina</origin>
+				<pubdate>2011</pubdate>
+				<title>Social Vulnerability Index (SoVI) for South Carolina based on 2000 Census Block Groups</title>
+				<geoform>vector digital data</geoform>
+				<pubinfo>
+					<pubplace>Columbia, SC</pubplace>
+					<publish>Hazards and Vulnerability Research Institute (HVRI), University of South Carolina</publish>
+				</pubinfo>
+				<onlink>http://www.csc.noaa.gov/digitalcoast/data/SoVI/</onlink>
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>This data depicts the social vulnerability of South Carolina census block groups to environmental hazards.  Data were culled primarily from the 2000 Decennial Census.</abstract>
+			<purpose>The Social Vulnerability Index (SoVI) measures the social vulnerability of U.S. counties to environmental hazards. The index is a comparative metric that facilitates the examination of the differences in social vulnerability among counties. SoVI is a valuable tool for policy makers and practitioners. It graphically illustrates the geographic variation in social vulnerability. It shows where there is uneven capacity for preparedness and response and where resources might be used most effectively to reduce the pre-existing vulnerability. SoVI also is useful as an indicator in determining the differential recovery from disasters.</purpose>
+		</descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate>
+					<caldate>2000</caldate>
+				</sngdate>
+			</timeinfo>
+			<current>ground condition</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>As needed</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>-83.353019
+
+</westbc>
+				<eastbc>-78.541087
+
+</eastbc>
+				<northbc>35.215540
+</northbc>
+				<southbc>32.037444
+</southbc>
+			</bounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>ISO 19115 Topic Category</themekt>
+				<themekey>economy</themekey>
+				<themekey>oceans</themekey>
+				<themekey>society</themekey>
+				<themekey>environment</themekey>
+				<themekey>structure</themekey>
+				<themekey>transportation</themekey>
+			</theme>
+			<theme>
+				<themekt>None</themekt>
+				<themekey>Social Vulnerability Index</themekey>
+				<themekey>Environmental Hazards</themekey>
+				<themekey>Indicators</themekey>
+				<themekey>Comparative Index</themekey>
+				<themekey>Vulnerability</themekey>
+				<themekey>Demographics</themekey>
+				<themekey>Socioeconomics</themekey>
+				<themekey>Resilience</themekey>
+			</theme>
+			<place>
+				<placekt>None</placekt>
+				<placekey>United States</placekey>
+				<placekey>Coastal States</placekey>
+				<placekey>Census Block Groups</placekey>
+			</place>
+		</keywords>
+		<accconst>None</accconst>
+		<useconst>None</useconst>
+		<datacred>Hazards and Vulnerability Research Institute (HVRI), University of South Carolina</datacred>
+		<native>Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.3500</native>
+	</idinfo>
+	<dataqual>
+		<logic>Standard data quality procedures were followed for compiling the data.</logic>
+		<complete>Data completeness reflects the contents of the 2000 Census Block Group.</complete>
+		<lineage>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Hazards and Vulnerability Research Institute (HVRI), University of South Carolina</origin>
+						<pubdate>2011</pubdate>
+						<title>The Social Vulnerability Index (SoVI)</title>
+						<othercit>NOAA CSC received this data from another Institution (Hazards and Vulnerability Research Institute(HVRI), University of South Carolina). Questions regarding the original data collection and /or processing should be directed to that agency.</othercit>
+					</citeinfo>
+				</srccite>
+				<typesrc>electronic mail system</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate>
+							<caldate>2000</caldate>
+						</sngdate>
+					</timeinfo>
+					<srccurr>ground condition</srccurr>
+				</srctime>
+				<srccitea>Hazards and Vulnerability Research Institute, University of South Carolina</srccitea>
+				<srccontr>Census block group level data on social vulnerability to environmental hazards</srccontr>
+			</srcinfo>
+			<procstep>
+				<procdesc>Created comparative index of social vulnerability to environmental hazards for census block groups based on socioeconomic and demographic data from the US Census Bureau.</procdesc>
+				<srcused>Hazards and Vulnerability Research Institute, University of South Carolina</srcused>
+				<procdate>2000</procdate>
+			</procstep>
+		</lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct>Vector</direct>
+		<ptvctinf><esriterm Name="Jekyll_sovi1"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom code="4" Sync="TRUE"></efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">0</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf></spdoinfo>
+	<spref>
+		<horizsys>
+			<geograph>
+				<latres>0.0000001</latres>
+				<longres>0.0000001</longres>
+				<geogunit>Decimal degrees</geogunit>
+			</geograph>
+			<geodetic>
+				<horizdn>North American Datum of 1983</horizdn>
+				<ellips>Geodetic Reference System 80</ellips>
+				<semiaxis>6378137.000000</semiaxis>
+				<denflat>298.257222</denflat>
+			</geodetic>
+		</horizsys>
+	</spref>
+	<eainfo>
+		<detailed Name="Jekyll_sovi1">
+			<enttyp>
+				<enttypl>2000 Census Block Groups</enttypl>
+				<enttypd>2000 Census Block Groups</enttypd>
+				<enttypds>US Census Bureau</enttypds>
+				<enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">0</enttypc></enttyp>
+			<attr><attrlabl Sync="TRUE">FID</attrlabl><attalias Sync="TRUE">FID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Internal feature number.</attrdef><attrdefs Sync="TRUE">Esri</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv></attr><attr>
+				<attrlabl>FIPSSTCO
+</attrlabl>
+				<attrdef>County identifier</attrdef>
+				<attrdefs>Federal Information Processing Standard (FIPS)</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>FIPS Code</codesetn>
+						<codesets>National Institute of Standards and Technology (NIST)</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">FIPSSTCO</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">5</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Tract</attrlabl>
+				<attrdef>Unique identifier for each Census tract</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Tracts</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">TRACT</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">6</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Group_</attrlabl>
+				<attrdef>Unique identifier for each Census block group</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Block Groups</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">GROUP_</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry automated by ESRI</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>GISJOIN</attrlabl>
+				<attrdef>Unique identifier for data processing</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute
+
+
+</attrdefs>
+				<attrdomv>
+					<udom>Unique identifier for data processing</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">GISJOIN</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">15</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>GISJOIN2</attrlabl>
+				<attrdef>Unique identifier for data processing</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Unique identifier for data processing</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">GISJOIN2</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">14</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>STFID</attrlabl>
+				<attrdef>Unique identifier for each block group</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Block Groups</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">STFID</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">12</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>OID_</attrlabl>
+				<attrdef>Internal feature number</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Sequential unique whole numbers that are automatically generated</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">OID_</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>KEY_</attrlabl>
+				<attrdef>Unique identifier for each block group</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Block Groups</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">KEY_</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">32</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>FIPS</attrlabl>
+				<attrdef>Unique identifier for each block group</attrdef>
+				<attrdefs>Federal Information Processing Standard</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Block Groups</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">FIPS</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>P001001</attrlabl>
+				<attrdef>Total Population from 2000 Census</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<udom>2000 Census population count</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">P001001</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr>
+			<attr>
+				<attrlabl>H001001</attrlabl>
+				<attrdef>Total Housing Units from 2000 Census</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<udom>2000 Census housing Units count</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">H001001</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr>
+			<attr>
+				<attrlabl>FID_1</attrlabl>
+				<attrdef>Internal Feature Number</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Sequential unique whole numbers that are automatically generated</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">FID_1</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>stfips</attrlabl>
+				<attrdef>Unique identifier for the state</attrdef>
+				<attrdefs>Federal Information Processing Standard, National Institute of Standards and Technology (NIST)</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>FIPS codes</codesetn>
+						<codesets>National Institute of Standards and Technology (NIST)</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">STFIPS</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>stcofips</attrlabl>
+				<attrdef>Unique identifier for the county</attrdef>
+				<attrdefs>Federal Information Processing Standard, National Institute of Standards and Technology (NIST)</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>FIPS codes</codesetn>
+						<codesets>National Institute of Standards and Technology (NIST)</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">STCOFIPS</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>name</attrlabl>
+				<attrdef>Block group name</attrdef>
+				<attrdefs>US Census, 2000</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census block group name</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">NAME</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">64</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>name_1</attrlabl>
+				<attrdef>Block group name</attrdef>
+				<attrdefs>US Census, 2000</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Census Block group name</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">name_1</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">254</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>QBLACK</attrlabl>
+				<attrdef>Percent African American</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent African American</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QBLACK</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QINDIAN</attrlabl>
+				<attrdef>Percent Native American</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent Native American</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QINDIAN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QASIAN</attrlabl>
+				<attrdef>Percent Asian and Hawaiian Islander</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent Asian and Hawaiian Islander</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QASIAN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QSPANISH</attrlabl>
+				<attrdef>Percent Hispanic</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent Hispanic</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QSPANISH</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QKIDS</attrlabl>
+				<attrdef>Percent of population under 5 years of age</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of population under 5 years of age</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QKIDS</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QPOP65O</attrlabl>
+				<attrdef>Percent of population age 65 and over</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of population age 65 and over</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QPOP65O</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>MEDAGE</attrlabl>
+				<attrdef>Median age</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Median age</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">MEDAGE</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QFEMALE</attrlabl>
+				<attrdef>Percent female population</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent female population</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QFEMALE</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>PPUNIT</attrlabl>
+				<attrdef>Average number of people per household</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Average number of people per household</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">PPUNIT</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QRENTER</attrlabl>
+				<attrdef>Percent renter occupied units</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent renter occupied units</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QRENTER</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QFHH</attrlabl>
+				<attrdef>Percent female headed households, no spouse present</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent female headed households, no spouse present</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QFHH</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>NRRESPC</attrlabl>
+				<attrdef>Nursing home residents per capita</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Nursing home residents per capita</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">NRRESPC</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QCVLUN</attrlabl>
+				<attrdef>Percent civilian unemployment</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent civilian unemployment</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QCVLUN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>PERCAP</attrlabl>
+				<attrdef>Per capita Income (2000 dollars)</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Per capita Income (2000 dollars)</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">PERCAP</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QRICH</attrlabl>
+				<attrdef>Percentage of households earning 100,000 or more</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percentage of households earning 100,000 or more</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QRICH</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QPOVTY</attrlabl>
+				<attrdef>Percent living below the poverty level</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent living below the poverty level</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QPOVTY</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>MEAN_HSEVA</attrlabl>
+				<attrdef>Mean House Value</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Mean House Value</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">MEAN_HSEVA</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>MC_RENT</attrlabl>
+				<attrdef>Mean contract rent for renter occupied housing units</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Mean contract rent for renter occupied housing units</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">MC_RENT</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>PHYSICN</attrlabl>
+				<attrdef>Number persons per 100,000 population employed as healthcare practitioners and technical occupations</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Number persons per 100,000 population employed as healthcare practitioners and technical occupations</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">PHYSICN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QRFRM</attrlabl>
+				<attrdef>Percent rural farm population</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent rural farm population</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QRFRM</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QMOHO</attrlabl>
+				<attrdef>Percent of housing units that are mobile homes</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of housing units that are mobile homes</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QMOHO</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QED12LES</attrlabl>
+				<attrdef>Percent of population 25 years or older with no high school diploma</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of population 25 years or older with no high school diploma</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QED12LES</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QCVLBR</attrlabl>
+				<attrdef>Percent of population participating in the labor force</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of population participating in the labor force</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QCVLBR</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QFEMLBR</attrlabl>
+				<attrdef>Percent females participating in the labor force</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent females participating in the labor force</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QFEMLBR</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QAGRI</attrlabl>
+				<attrdef>Percent employment in farming, fishing, and forestry occupations</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent employment in farming, fishing, and forestry occupations</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QAGRI</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QTRAN</attrlabl>
+				<attrdef>Percent employed in transportation, communications, and other public utilities</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent employed in transportation, communications, and other public utilities</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QTRAN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QSERV</attrlabl>
+				<attrdef>Percent Employed in service industry</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent Employed in service industry</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QSERV</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QSSBEN</attrlabl>
+				<attrdef>Percent of population collecting social security benefits</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent of population collecting social security benefits</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QSSBEN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QMIGRA</attrlabl>
+				<attrdef>Percent Foreign Born Citizens Immigrating between 1990 and 2000</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent Foreign Born Citizens Immigrating between 1990 and 2000</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QMIGRA</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>QURBAN</attrlabl>
+				<attrdef>Percent urban population</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Percent urban population</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">QURBAN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>HODENSTY</attrlabl>
+				<attrdef>Housing Density</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Housing Density</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">HODENSTY</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">14</attscale></attr>
+			<attr>
+				<attrlabl>stfid_1</attrlabl>
+				<attrdef>Identifier for each block group</attrdef>
+				<attrdefs>US Census Bureau</attrdefs>
+				<attrdomv>
+					<codesetd>
+						<codesetn>Identifier for each block group</codesetn>
+						<codesets>US Census Bureau</codesets>
+					</codesetd>
+				</attrdomv>
+				<attalias Sync="TRUE">stfid_1</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">254</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>COMP1</attrlabl>
+				<attrdef>SoVI Component 1: Native American, Class (Poverty) (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 1: Native American, Class (Poverty) (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP1</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP2</attrlabl>
+				<attrdef>SoVI Component 2: Race / Ethnicity, Renters (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 2: Race / Ethnicity, Renters (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP2</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP3</attrlabl>
+				<attrdef>SoVI Component 3: Wealth (-); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 3: Wealth (-); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP3</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP4</attrlabl>
+				<attrdef>SoVI Component 4: Youth, Families (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 4: Youth, Families (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP4</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP5</attrlabl>
+				<attrdef>SoVI Component 5: Elderly (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 5: Elderly (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP5</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP6</attrlabl>
+				<attrdef>SoVI Component 6: Housing Type (Mobile Homes) (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 6: Housing Type (Mobile Homes) (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP6</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP7</attrlabl>
+				<attrdef>SoVI Component 7: Infrastructure Employment (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 7: Infrastructure Employment (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP7</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>COMP8</attrlabl>
+				<attrdef>SoVI Component 8: Migrants (+); Refer to Read Me file for driving variables</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>SoVI Component 8: Migrants (+); Refer to Read Me file for driving variables</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">COMP8</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">6</attscale></attr>
+			<attr>
+				<attrlabl>SoVI</attrlabl>
+				<attrdef>Aggregate SoVI Score</attrdef>
+				<attrdefs>Hazards and Vulnerability Research Institute</attrdefs>
+				<attrdomv>
+					<udom>Aggregate SoVI Score</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">SoVI</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">14</attscale></attr>
+			<attr><attrlabl Sync="TRUE">Shape_area</attrlabl><attalias Sync="TRUE">Shape_area</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef><attrdefs Sync="TRUE">Esri</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">Shape_len</attrlabl><attalias Sync="TRUE">Shape_len</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr></detailed>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>NOAA Coastal Services Center</cntorg>
+					<cntper>Clearinghouse Manager</cntper>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>2234 South Hobson Avenue</address>
+					<city>Charleston</city>
+					<state>South Carolina</state>
+					<postal>29405-2413</postal>
+				</cntaddr>
+				<cntvoice>(843)740-1210</cntvoice>
+			</cntinfo>
+		</distrib>
+		<resdesc>Downloadable Data</resdesc>
+		<distliab>Any conclusions drawn from the analysis of this information are not the responsibility of the NOAA Coastal Services Center or its partners.</distliab>
+	</distinfo>
+	<metainfo>
+		<metd>20110426</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>NOAA Coastal Services Center</cntorg>
+					<cntper>Clearinghouse Manager</cntper>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>2234 South Hobson Avenue</address>
+					<city>Charleston</city>
+					<state>South Carolina</state>
+					<postal>29405-2413</postal>
+				</cntaddr>
+				<cntvoice>(843)740-1210</cntvoice>
+			</cntinfo>
+		</metc>
+		<metstdn>FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+	</metainfo>
+	<dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows 7 Version 6.1 (Build 7601) Service Pack 1; Esri ArcGIS 10.1.1.3143</envirDesc><dataLang><languageCode value="eng" Sync="TRUE"></languageCode><countryCode value="USA" Sync="TRUE"></countryCode></dataLang><idCitation><resTitle Sync="TRUE">Jekyll_sovi1</resTitle><presForm><PresFormCd value="005" Sync="TRUE"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd value="001" Sync="TRUE"></SpatRepTypCd></spatRpType></dataIdInfo><mdLang><languageCode value="eng" Sync="TRUE"></languageCode><countryCode value="USA" Sync="TRUE"></countryCode></mdLang><mdChar><CharSetCd value="006" Sync="TRUE"></CharSetCd></mdChar><Esri><DataProperties><itemProps><itemName Sync="TRUE">Jekyll_sovi1</itemName><imsContentType Sync="TRUE">002</imsContentType><itemSize Sync="TRUE">0.000</itemSize><itemLocation><linkage Sync="TRUE">file://\\GEOD2012115XRH1\C$\Users\cjackson\Desktop\jekyll_hva\Jekyll_sovi1.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><coordRef><type Sync="TRUE">Geographic</type><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn><csUnits Sync="TRUE">Angular Unit: Degree (0.017453)</csUnits><peXml Sync="TRUE">&lt;GeographicCoordinateSystem xsi:type='typens:GeographicCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.1'&gt;&lt;WKT&gt;GEOGCS[&amp;quot;GCS_North_American_1983&amp;quot;,DATUM[&amp;quot;D_North_American_1983&amp;quot;,SPHEROID[&amp;quot;GRS_1980&amp;quot;,6378137.0,298.257222101]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433],AUTHORITY[&amp;quot;EPSG&amp;quot;,4269]]&lt;/WKT&gt;&lt;XOrigin&gt;-400&lt;/XOrigin&gt;&lt;YOrigin&gt;-400&lt;/YOrigin&gt;&lt;XYScale&gt;11258999068426.238&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;8.9831528411952133e-009&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;LeftLongitude&gt;-180&lt;/LeftLongitude&gt;&lt;WKID&gt;4269&lt;/WKID&gt;&lt;LatestWKID&gt;4269&lt;/LatestWKID&gt;&lt;/GeographicCoordinateSystem&gt;</peXml></coordRef><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Merge" Date="20130910" Time="213702">Merge 'C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp';'C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp';'C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp';'C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp' "C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SoVI_2000_southeast_states.shp" "FIPSSTCO "FIPSSTCO" true true false 5 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,FIPSSTCO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,FIPSSTCO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,FIPSSTCO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,FIPSSTCO,-1,-1;TRACT "TRACT" true true false 6 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,TRACT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,TRACT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,TRACT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,TRACT,-1,-1;GROUP_ "GROUP_" true true false 1 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,GROUP_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,GROUP_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,GROUP_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,GROUP_,-1,-1;STFID "STFID" true true false 12 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,STFID,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,STFID,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,STFID,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,STFID,-1,-1;GISJOIN "GISJOIN" true true false 15 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,GISJOIN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,GISJOIN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,GISJOIN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,GISJOIN,-1,-1;GISJOIN2 "GISJOIN2" true true false 14 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,GISJOIN2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,GISJOIN2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,GISJOIN2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,GISJOIN2,-1,-1;OID_ "OID_" true true false 10 Double 0 10 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,OID_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,OID_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,OID_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,OID_,-1,-1;NAME "NAME" true true false 64 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,NAME,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,NAME,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,NAME,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,NAME,-1,-1;KEY_ "KEY_" true true false 32 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,KEY_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,KEY_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,KEY_,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,KEY_,-1,-1;P001001 "P001001" true true false 19 Double 8 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,P001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,P001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,P001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,P001001,-1,-1;H001001 "H001001" true true false 19 Double 8 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,H001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,H001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,H001001,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,H001001,-1,-1;FID_1 "FID_1" true true false 10 Double 0 10 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,FID_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,FID_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,FID_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,FID_1,-1,-1;FIPS "FIPS" true true false 50 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,FIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,FIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,FIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,FIPS,-1,-1;STFIPS "STFIPS" true true false 8 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,STFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,STFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,STFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,STFIPS,-1,-1;STCOFIPS "STCOFIPS" true true false 8 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,STCOFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,STCOFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,STCOFIPS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,STCOFIPS,-1,-1;name_1 "name_1" true true false 254 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,name_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,name_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,name_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,name_1,-1,-1;QBLACK "QBLACK" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QBLACK,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QBLACK,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QBLACK,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QBLACK,-1,-1;QINDIAN "QINDIAN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QINDIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QINDIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QINDIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QINDIAN,-1,-1;QASIAN "QASIAN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QASIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QASIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QASIAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QASIAN,-1,-1;QSPANISH "QSPANISH" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QSPANISH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QSPANISH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QSPANISH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QSPANISH,-1,-1;QKIDS "QKIDS" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QKIDS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QKIDS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QKIDS,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QKIDS,-1,-1;QPOP65O "QPOP65O" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QPOP65O,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QPOP65O,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QPOP65O,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QPOP65O,-1,-1;MEDAGE "MEDAGE" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,MEDAGE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,MEDAGE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,MEDAGE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,MEDAGE,-1,-1;QFEMALE "QFEMALE" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QFEMALE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QFEMALE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QFEMALE,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QFEMALE,-1,-1;PPUNIT "PPUNIT" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,PPUNIT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,PPUNIT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,PPUNIT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,PPUNIT,-1,-1;QRENTER "QRENTER" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QRENTER,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QRENTER,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QRENTER,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QRENTER,-1,-1;QFHH "QFHH" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QFHH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QFHH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QFHH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QFHH,-1,-1;NRRESPC "NRRESPC" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,NRRESPC,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,NRRESPC,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,NRRESPC,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,NRRESPC,-1,-1;QCVLUN "QCVLUN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QCVLUN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QCVLUN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QCVLUN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QCVLUN,-1,-1;PERCAP "PERCAP" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,PERCAP,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,PERCAP,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,PERCAP,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,PERCAP,-1,-1;QRICH "QRICH" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QRICH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QRICH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QRICH,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QRICH,-1,-1;QPOVTY "QPOVTY" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QPOVTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QPOVTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QPOVTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QPOVTY,-1,-1;MEAN_HSEVA "MEAN_HSEVA" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,MEAN_HSEVA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,MEAN_HSEVA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,MEAN_HSEVA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,MEAN_HSEVA,-1,-1;MC_RENT "MC_RENT" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,MC_RENT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,MC_RENT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,MC_RENT,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,MC_RENT,-1,-1;PHYSICN "PHYSICN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,PHYSICN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,PHYSICN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,PHYSICN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,PHYSICN,-1,-1;QRFRM "QRFRM" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QRFRM,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QRFRM,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QRFRM,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QRFRM,-1,-1;QMOHO "QMOHO" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QMOHO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QMOHO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QMOHO,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QMOHO,-1,-1;QED12LES "QED12LES" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QED12LES,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QED12LES,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QED12LES,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QED12LES,-1,-1;QCVLBR "QCVLBR" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QCVLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QCVLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QCVLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QCVLBR,-1,-1;QFEMLBR "QFEMLBR" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QFEMLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QFEMLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QFEMLBR,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QFEMLBR,-1,-1;QAGRI "QAGRI" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QAGRI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QAGRI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QAGRI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QAGRI,-1,-1;QTRAN "QTRAN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QTRAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QTRAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QTRAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QTRAN,-1,-1;QSERV "QSERV" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QSERV,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QSERV,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QSERV,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QSERV,-1,-1;QSSBEN "QSSBEN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QSSBEN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QSSBEN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QSSBEN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QSSBEN,-1,-1;QMIGRA "QMIGRA" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QMIGRA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QMIGRA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QMIGRA,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QMIGRA,-1,-1;QURBAN "QURBAN" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,QURBAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,QURBAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,QURBAN,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,QURBAN,-1,-1;HODENSTY "HODENSTY" true true false 19 Double 14 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,HODENSTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,HODENSTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,HODENSTY,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,HODENSTY,-1,-1;stfid_1 "stfid_1" true true false 254 Text 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,stfid_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,stfid_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,stfid_1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,stfid_1,-1,-1;COMP1 "COMP1" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP1,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP1,-1,-1;COMP2 "COMP2" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP2,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP2,-1,-1;COMP3 "COMP3" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP3,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP3,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP3,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP3,-1,-1;COMP4 "COMP4" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP4,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP4,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP4,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP4,-1,-1;COMP5 "COMP5" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP5,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP5,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP5,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP5,-1,-1;COMP6 "COMP6" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP6,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP6,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP6,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP6,-1,-1;COMP7 "COMP7" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP7,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP7,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,COMP7,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP7,-1,-1;COMP8 "COMP8" true true false 19 Double 6 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,COMP8,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,COMP8,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,COMP8,-1,-1;SoVI "SoVI" true true false 19 Double 14 18 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,SoVI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,SoVI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,SoVI,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,SoVI,-1,-1;Shape_area "Shape_area" true true false 19 Double 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,Shape_area,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,Shape_area,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,Shape_area,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,Shape_area,-1,-1;Shape_len "Shape_len" true true false 19 Double 0 0 ,First,#,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_SC.shp,Shape_len,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_NC.shp,Shape_len,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_GA.shp,Shape_len,-1,-1,C:\Users\cjackson\Desktop\SoVI analyses\SoVI Southeast US\SOVI_BlkGrp_2000_FL.shp,Shape_len,-1,-1"</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Analysis Tools.tbx\Clip" Date="20130910" Time="214315">Clip SoVI_2000_southeast_states NOAA_50mi_buffer_nad83 "C:\Users\cjackson\Desktop\SoVI analyses\southeast_us_50mi_buffer_sovi.shp" #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Analysis Tools.tbx\Clip" Date="20131120" Time="094828">Clip coastal_southeast_study_area_50mi_buffer_sovi Jekyll_SLOSH_MOM_AGL C:\Users\cjackson\Desktop\jekyll_hva\Jekyll_sovi1.shp #</Process></lineage></DataProperties><SyncDate>20131120</SyncDate><SyncTime>09482800</SyncTime><ModDate>20131120</ModDate><ModTime>09482800</ModTime><CreaDate>20131120</CreaDate><CreaTime>09491700</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>FALSE</SyncOnce><ArcGISstyle>FGDC CSDGM Metadata</ArcGISstyle></Esri><distInfo><distFormat><formatName Sync="TRUE">Shapefile</formatName></distFormat><distTranOps><transSize Sync="TRUE">0.000</transSize></distTranOps></distInfo><mdHrLv><ScopeCd value="005" Sync="TRUE"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><refSysInfo><RefSystem><refSysID><identCode code="4269" Sync="TRUE"></identCode><idCodeSpace Sync="TRUE">EPSG</idCodeSpace><idVersion Sync="TRUE">7.11.2</idVersion></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><geometObjs Name="Jekyll_sovi1"><geoObjTyp><GeoObjTypCd value="002" Sync="TRUE"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs><topLvl><TopoLevCd value="001" Sync="TRUE"></TopoLevCd></topLvl></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20131120</mdDateSt></metadata>
