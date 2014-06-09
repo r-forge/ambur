@@ -61,6 +61,38 @@ sapply_pb <- function(X, FUN, ...)
 }
 ########################end function
 
+################################## begin function
+
+ #' sample every distance interval along a line
+#'
+#' @param cc a two-column matrix of x and y coords for the line
+#' @param dist distance separating sample points
+#'
+#' @return points along the line, separated by the given distance
+#measured along the line
+#'
+sampleEvery <- function (cc, dist){
+    lengths = LineLength(cc, longlat = FALSE, sum = FALSE)
+    if (any(abs(lengths) < .Machine$double.eps)) {
+        wl <- which(abs(lengths) < .Machine$double.eps)
+        cc <- cc[-(wl), ]
+        lengths <- lengths[-(wl)]
+    }
+    csl = c(0, cumsum(lengths))
+    maxl = csl[length(csl)]
+    pts = seq(0,sum(lengths),by=dist)
+    int = findInterval(pts, csl, all.inside = TRUE)
+    where = (pts - csl[int])/diff(csl)[int]
+    xy = cc[int, , drop = FALSE] + where * (cc[int + 1, , drop = FALSE] -
+        cc[int, , drop = FALSE])
+    if (nrow(xy) < 1)
+        return(NULL)
+    return(xy)
+}
+
+#################################### end function
+
+
 
 
  pb <- tkProgressBar("AMBUR: progress bar", "Creating near transects...", 0, 100, 1)
@@ -71,7 +103,12 @@ Baseline.Factor <- factor(shapedata$BaseOrder)
 
 setTkProgressBar(pb, 10 , "AMBUR: progress bar", "Calculating transect locations...")
 
-trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]),coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000000, "regular") )) ,simplify = FALSE)
+#trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]),coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000, "regular") )) ,simplify = FALSE)
+
+
+trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]), sampleEvery(coordinates(coordinates(shapedata[shapedata$BaseOrder == 1,])),sampledist)) ,simplify = FALSE)
+
+
 
 
 trans.indv2 <- data.frame(do.call("rbind", trans.indv))
