@@ -40,6 +40,10 @@ setwd("AMBUR_near")
 dir.create(paste(time.stamp2," ","near",sep=""))
 setwd(paste(time.stamp2," ","near",sep=""))
 
+
+
+
+
 ####################set up a progress bar for the sapply function
 ############build progress bar for building transect lines
 sapply_pb <- function(X, FUN, ...)
@@ -98,6 +102,9 @@ sampleEvery <- function (cc, dist){
  pb <- tkProgressBar("AMBUR: progress bar", "Creating near transects...", 0, 100, 1)
 
 
+
+
+
 ##########################################
 Baseline.Factor <- factor(shapedata$BaseOrder)
 
@@ -106,7 +113,7 @@ setTkProgressBar(pb, 10 , "AMBUR: progress bar", "Calculating transect locations
 #trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]),coordinates(spsample(shapedata[shapedata$BaseOrder == x,], round(sum(SpatialLinesLengths(shapedata[shapedata$BaseOrder == x,]))/sampledist,0), offset=0.000, "regular") )) ,simplify = FALSE)
 
 
-trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]), sampleEvery(coordinates(coordinates(shapedata[shapedata$BaseOrder == 1,])),sampledist)) ,simplify = FALSE)
+trans.indv <- sapply_pb(levels(Baseline.Factor), function(x) data.frame("BaseOrder"=unique(shapedata$BaseOrder[shapedata$BaseOrder == x]), sampleEvery(coordinates(coordinates(shapedata[shapedata$BaseOrder == x,])),sampledist)) ,simplify = FALSE)
 
 
 
@@ -121,6 +128,10 @@ new_attributes <- merge(crdl0, attrtable, by="BaseOrder",all.x=TRUE,sort=TRUE)
 #shapedata[shapedata$BaseOrder == x,]
 
 
+###################build a new near function   ###################################################################3
+sampleNear <- function (shapedata2, new_attributes){
+
+#######################################################
 ###### break down polyline into segments with IDs to convert to segments for near analysis
 crdl0a <- coordinates(shapedata2)
 crd.1a <- sapply(crdl0a, function(x) do.call("rbind", x),simplify = FALSE)
@@ -223,10 +234,12 @@ adj.project2segment <-       function (X, Y, action = "project", check = FALSE)
 
 setTkProgressBar(pb, 50, "AMBUR: progress bar", "Performing near analysis...")
 
+
+
 #set up the points in spatstat format
 TX.w <- owin()
-TX.w <- owin(c(min(crdl0[,2]-100000),max(crdl0[,2]+100000)), c(min(crdl0[,3]-100000),max(crdl0[,3]+100000)))
-TX <- ppp(crdl0[,2],crdl0[,3], window=TX.w)
+TX.w <- owin(c(min(new_attributes[,2]-100000),max(new_attributes[,2]+100000)), c(min(new_attributes[,3]-100000),max(new_attributes[,3]+100000)))
+TX <- ppp(new_attributes[,2],new_attributes[,3], window=TX.w)
 
 #set up line segments in spatstat format
 #convert polylines into individual line segments for analysis
@@ -291,6 +304,38 @@ list(Lines(list(Line(list(x=c(near.transects$StartX[near.transects$Transect == x
 shape.near2 <- SpatialLines(shape.near)
 shape.near3 <- SpatialLinesDataFrame(shape.near2, near.transects)
 
+#########################################################################################################
+
+#return(shape.near3)
+return(data.frame(shape.near3))
+}
+
+Match.Factor <- factor(shapedata$MaxBNum)
+
+near.indv <- (sapply_pb(levels(Match.Factor ), function(x) sampleNear(shapedata2[shapedata2$MaxBNum == x,], new_attributes[new_attributes$MaxBNum == x,])  ,simplify = FALSE))
+
+
+near.transects <- do.call("rbind", near.indv)
+
+near.transects <- near.transects[ order(near.transects[,"BaseOrder"], near.transects[,"Transect"]), ]
+
+setTkProgressBar(pb, 90 ,  "AMBUR: progress bar", "Building near transects shapefile...")
+
+### re-build spatial lines for final near transects shapefile
+near.transects$Transect <- seq(1,length(near.transects$Transect),1)
+
+Transect.Factor <- factor(near.transects$Transect)
+shape.near <- sapply_pb(levels(Transect.Factor), function(x)
+list(Lines(list(Line(list(x=c(near.transects$StartX[near.transects$Transect == x], near.transects$EndX[near.transects$Transect == x]), y=c(near.transects$StartY[near.transects$Transect == x],near.transects$EndY[near.transects$Transect == x])))), ID=x))
+,simplify = TRUE)
+row.names(near.transects) <- seq(1,length(row.names(near.transects)),1)
+near.transects$Id <- as.numeric(seq(1,length(row.names(near.transects)),1))
+ 
+shape.near2 <- SpatialLines(shape.near)
+shape.near3 <- SpatialLinesDataFrame(shape.near2, near.transects)
+
+                    
+##################################################################
  # Note that readOGR method reads the .prj file when it exists
    projectionString <- proj4string(shapedata2) # contains projection info
   
@@ -307,4 +352,4 @@ writeOGR(shape.near3, ".", "near_transects", driver="ESRI Shapefile")
   setTkProgressBar(pb, 100 , "AMBUR: progress bar", "Done!")
 
 
- }
+}
