@@ -1,9 +1,9 @@
 ambur.bufferlines <-
 function(buffdist=10,buffnum=1) {
 
-require(tcltk)
-require(rgdal)
-require(rgeos)
+#require(tcltk)
+#require(rgdal)
+#require(rgeos)
 
 #buffdist <- 10 #for testing
 #buffnum <- 1
