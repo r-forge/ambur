@@ -18,5 +18,6 @@ import(
   mgcv,
   grid,
   lattice,
-  nlme
+  nlme,
+  stats
 )
