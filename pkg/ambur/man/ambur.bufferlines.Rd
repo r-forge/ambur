@@ -15,7 +15,7 @@ ambur.bufferlines(buffdist=10,buffnum=1)
 
 }
 \details{
-  Creates a new polyline shapefile that contains buffered lines given a user defined distance.  The process involves buffering lines initially resulting in multiple (potentially overlapping) polygons.  The polygons are dissolve where they overlap and are converted into polylines.
+  Creates a new polyline shapefile that contains buffered lines given a user defined distance.  The process involves buffering lines initially resulting in multiple (potentially overlapping) polygons.  The polygons are dissolve where they overlap and are converted into polylines. In case the buffers will be used as baselines (to make transects from), the attribute table is updated with the necessary fields for baselines.  The values in these fields will need to be edited based on the users needs.
 }
 \value{
 Shapefiles:

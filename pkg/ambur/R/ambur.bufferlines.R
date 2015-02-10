@@ -4,7 +4,6 @@ function(buffdist=10,buffnum=1) {
 #require(tcltk)
 #require(rgdal)
 #require(rgeos)
-
 #buffdist <- 10 #for testing
 #buffnum <- 1
 
@@ -90,9 +89,41 @@ width.factors <- rep(Buffer.Factor, length(final_buffers))
 
 
 buff.tab <- data.frame(line.ids,width.factors)
-colnames(buff.tab) <- c("bID","buffdist")
+colnames(buff.tab) <- c("Id","buffdist")
 
-out.buffers <- SpatialLinesDataFrame(final_buffers, buff.tab)
+######add field names that are required for baselines
+reqfields <- c("Id","Location","MaxBNum","BaseOrder","OFFshore","CastDir","BASE_LOC")
+#check for missing fields
+fieldcheck <- toupper(colnames(buff.tab))
+
+ presentfields <-  which(toupper(reqfields) %in% fieldcheck)
+
+   missingfields <- as.character(reqfields[-presentfields])
+
+add.fields <- data.frame(matrix(data= NA,ncol=length(missingfields),nrow=length(buff.tab[,1])) )
+
+colnames(add.fields) <- missingfields
+
+## adjust the character field widths
+fwidth <- rep(" ",30)
+fwidth1 <- paste(fwidth, collapse = "")
+
+if ("Location" %in% missingfields) add.fields$Location <- fwidth1
+if ("MaxBNum" %in% missingfields) add.fields$MaxBNum <- 0
+if ("SHORE_LOC" %in% missingfields) add.fields$SHORE_LOC <- fwidth1
+if ("BaseOrder" %in% missingfields) add.fields$BaseOrder <- 1
+if ("OFFshore" %in% missingfields) add.fields$OFFshore <- 1
+if ("CastDir" %in% missingfields) add.fields$CastDir <- -1
+if ("BASE_LOC" %in% missingfields) add.fields$BASE_LOC <- fwidth1
+buff.tab$Id <- seq(1,length(buff.tab[,1]),1)
+
+
+   new.table <-  data.frame(buff.tab,add.fields) 
+
+
+
+
+out.buffers <- SpatialLinesDataFrame(final_buffers, new.table)
 
 
   locname <- shapename
@@ -114,3 +145,4 @@ writeOGR(out.buffers , ".", outputname, driver="ESRI Shapefile")
 #writeOGR(out.buffers3, ".", "polyline_buffers2", driver="ESRI Shapefile")
 
 }
+
