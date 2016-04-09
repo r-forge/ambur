@@ -8,7 +8,7 @@ nothing <- userinput1
 
 #require(rgdal)
 #require(rgeos) 
- #require(tcltk)
+#require(tcltk)
 
 tkmessageBox(message = "Please select the shoreline shapefile...")
 filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
@@ -79,10 +79,15 @@ shoreID <- data.frame(nrn)[,2]
 POINT_X <-  data.frame(coordinates(out))$x
 POINT_Y <-  data.frame(coordinates(out))$y
 
+shoreID2 <- data.frame(nrn)[,2]
 
 sortID <- seq(1,length(POINT_X),1)
 
-inter.data <- data.frame(POINT_X,POINT_Y,transID,shoreID,sortID)
+inter.data <- data.frame(POINT_X,POINT_Y,transID,shoreID,shoreID2,sortID)
+inter.data[,"shoreID2"] <- as.character(round(as.numeric(as.character(inter.data[,"shoreID"])),0)) #added rounding to zero places because multiple intersections of the same shoreline now adds a decimal place 
+
+
+
 tran.data <- data.frame(shapedata2@data)
 shore.data <- data.frame(shapedata@data)
 
@@ -93,7 +98,7 @@ shore.data$mergeID <- as.numeric(row.names(shore.data))
 
 
 tet <- merge(inter.data,tran.data , by.x = "transID", by.y = "Id", sort=FALSE)
-tet2 <- merge(tet,shore.data, by.x = "shoreID", by.y = "mergeID", sort=FALSE)
+tet2 <- merge(tet,shore.data, by.x = "shoreID2", by.y = "mergeID", sort=FALSE)
 
 tet3 <- tet2[ order(tet2[,"sortID"]) , ]
 
