@@ -14,8 +14,8 @@ Analyzes coastal vulnerability for islands and inland areas. (Version 0.91)
 \tabular{ll}{
 Package: \tab ambur\cr
 Type: \tab Package\cr
-Version: \tab 0.91\cr
-Date: \tab 2015-10-05\cr
+Version: \tab 0.92\cr
+Date: \tab 2017-19-05\cr
 License: \tab GNU General Public License (please cite references below)\cr
 LazyLoad: \tab yes\cr
 }
