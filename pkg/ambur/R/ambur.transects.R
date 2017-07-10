@@ -315,9 +315,59 @@ colnames(inner.segs) <- c("Cx","Cy","Cx2","Cy2")
 
 
 #####build spatstat functions and objects
-################################### adjusted project2segment function to handle NA values
-adj.project2segment <-       function (X, Y, action = "project", check = FALSE) 
+
+
+################################### adjusted project2segment function to handle NA values    repaired adj.project2segment function 20170614
+distppllmin <- function (p, l, big = NULL) 
 {
+    np <- nrow(p)
+    nl <- nrow(l)
+    if (is.null(big)) {
+        xdif <- diff(range(c(p[, 1], l[, c(1, 3)])))
+        ydif <- diff(range(c(p[, 2], l[, c(2, 4)])))
+        big <- 2 * (xdif^2 + ydif^2)
+    }
+    dist2 <- rep.int(big, np)
+    #DUP <- spatstat.options("dupC")  ### deactivated 20170614
+    z <- .C("nndist2segs", xp = as.double(p[, 1]), yp = as.double(p[, 
+        2]), npoints = as.integer(np), x0 = as.double(l[, 1]), 
+        y0 = as.double(l[, 2]), x1 = as.double(l[, 3]), y1 = as.double(l[, 
+            4]), nsegments = as.integer(nl), epsilon = as.double(.Machine$double.eps), 
+        dist2 = as.double(dist2), index = as.integer(integer(np)), 
+        DUP = FALSE) ### set DUP equal to FALSE 20170614
+    min.d <- sqrt(z$dist2)
+    min.which <- z$index + 1L
+    return(list(min.d = min.d, min.which = min.which))
+}
+
+
+
+ppllengine2 <-       
+
+function (X, Y, action = "project", check = FALSE) 
+{
+
+ifelseAX <- function (test, a, x) 
+{
+    y <- x
+    y[test] <- a
+    return(y)
+}
+
+ifelseXY <- function (test, x, y) 
+{
+    z <- y
+    z[test] <- x[test]
+    return(z)
+}
+
+ifelseXB <- function (test, x, b) 
+{
+    y <- rep.int(b, length(test))
+    y[test] <- x[test]
+    return(y)
+}
+
     stopifnot(is.ppp(X))
     stopifnot(is.psp(Y))
     stopifnot(action %in% c("distance", "identify", "project"))
@@ -332,7 +382,8 @@ adj.project2segment <-       function (X, Y, action = "project", check = FALSE)
     }
     XX <- as.matrix(as.data.frame(unmark(X)))
     YY <- as.matrix(as.data.frame(unmark(Y)))
-    d <- distppllmin(XX, YY)
+    huge <- max(diameter(as.rectangle(as.owin(X))), diameter(as.rectangle(as.owin(Y))))
+    d <- distppllmin(XX, YY, huge^2)
     mapXY <- d$min.which
     if (action == "identify") 
         return(mapXY)
@@ -343,27 +394,35 @@ adj.project2segment <-       function (X, Y, action = "project", check = FALSE)
     dx <- with(alldata, x1 - x0)
     dy <- with(alldata, y1 - y0)
     leng <- sqrt(dx^2 + dy^2)
-    
     co <- dx/leng
     co[is.na(co)==TRUE] <- 0.000001  #added 6/27/2011 to remove NA values from crashing the function  
     
     si <- dy/leng
-    si[is.na(si)==TRUE] <- 0.000001   #added 6/27/2011 to remove NA values from crashing the function  
+    si[is.na(si)==TRUE] <- 0.000001   #added 6/27/2011 to remove NA values from crashing the function 
     
     xv <- with(alldata, x - x0)
     yv <- with(alldata, y - y0)
     xpr <- xv * co + yv * si
-    ypr <- -xv * si + yv * co
-    left <- (xpr <= 0)
-    right <- (xpr >= leng)
-    xr <- with(alldata, ifelse(left, 0, ifelse(right, leng, xpr)))
-    xproj <- with(alldata, x0 + xr * co)
-    yproj <- with(alldata, y0 + xr * si)
+    ok <- is.finite(xpr)
+    left <- !ok | (xpr <= 0)
+    right <- ok & (xpr >= leng)
+    xr <- with(alldata, ifelseAX(left, 0, ifelseXY(right, leng, 
+        xpr)))
+    xproj <- with(alldata, x0 + ifelseXB(ok, xr * co, 0))
+    yproj <- with(alldata, y0 + ifelseXB(ok, xr * si, 0))
     Xproj <- ppp(xproj, yproj, window = X$window, marks = X$marks, 
         check = check)
     tp <- xr/leng
     tp[!is.finite(tp)] <- 0
     return(list(Xproj = Xproj, mapXY = mapXY, d = d$min.d, tp = tp))
+}
+
+
+
+
+adj.project2segment <- function (X, Y)                                 #added 20170614 to fix call to function
+{
+    return(ppllengine2(X, Y)) 
 }
 
 
@@ -554,4 +613,4 @@ setTkProgressBar(pb, 100 , sprintf("AMBUR: Transects (%s)", info), info)
 
 
 
- }
+}
