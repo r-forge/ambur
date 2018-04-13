@@ -867,12 +867,12 @@ Shoreline.Location[i] <- as.character(WorkTable1df$SHORE_LOC[WorkTable1df$TRANSE
 
 Transect.Azimuth[i] <-  as.character(WorkTable1df$AZIMUTH[WorkTable1df$TRANSECT == Transect[i]][Max.Date.Position[i]])
 
-EPR.Error <- (sqrt(((Min.Date.Acc[i])^2) + ((Max.Date.Acc[i])^2))) / Elapsed.Years
+EPR.Error <- (sqrt(((Min.Date.Acc)^2) + ((Max.Date.Acc)^2))) / Elapsed.Years
 
 
-Min.Date <- as.character(format(as.POSIXct(Transect.Min.Date, origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
+Min.Date <- as.character(format(as.POSIXct(Transect.Min.Date[i], origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
 
-Max.Date <- as.character(format(as.POSIXct(Transect.Max.Date, origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
+Max.Date <- as.character(format(as.POSIXct(Transect.Max.Date[i], origin="1970-01-01"),"%m/%d/%Y %I:%M:%S %p"))
 
 Number.Dates[i] <- length(WorkTable1df$DATE2[WorkTable1df$TRANSECT == Transect[i]])
 
@@ -1386,7 +1386,7 @@ plot(dummyX, dummyY, type="n", lwd= 0, col= "white" , xlab="",ylab="",main="", b
 
 mtext("AMBUR SUMMARY REPORT", side=3, line= 3, adj= 0.5, cex= 0.5)
 
-mtext("AMBUR v.1.1.6 (20130916)", side=3, line= 2, adj= 0.5, cex= 0.5)
+mtext(time.stamp1, side=3, line= 2, adj= 0.5, cex= 0.5)
 
 
 mtext("Oldest Date:", side=3, line= 1, adj= 0, cex= 0.5)
