@@ -264,6 +264,7 @@ q3_rank[attrtable2[,"FLD_ZONE"] == "B"] <- 3
 q3_rank[attrtable2[,"FLD_ZONE"] == "A"] <- 4
 q3_rank[attrtable2[,"FLD_ZONE"] == "AE"] <- 4
 q3_rank[attrtable2[,"FLD_ZONE"] == "AE (Floodway)"] <- 4
+q3_rank[attrtable2[,"FLD_ZONE"] == "AO"] <- 4
 q3_rank[attrtable2[,"FLD_ZONE"] == "AH"] <- 4
 q3_rank[attrtable2[,"FLD_ZONE"] == "VE"] <- 5
 q3_rank[attrtable2[,"FLD_ZONE"] == "V"] <- 5
