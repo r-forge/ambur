@@ -11,7 +11,7 @@ totbuffers <- seq(buffdist,buffdist*buffnum,buffdist)
 
 tkmessageBox(message = "Please select the shoreline shapefile...")
 filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
+getdata <- if(interactive()) tk_choose.files(filter = filetype)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 shapedata <- as(shapedata, "SpatialLinesDataFrame")

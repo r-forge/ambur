@@ -24,7 +24,7 @@ fsamp <- userinput5
 
 tkmessageBox(message = "Please select the outer baseline shapefile...")
 filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
+getdata <- if(interactive()) tk_choose.files(filter = filetype)
 shapename <- gsub(".shp", "", basename(getdata))
 shapedata <- readOGR(getdata,layer=shapename)
 attrtable <- data.frame(shapedata)
@@ -34,7 +34,7 @@ setwd(workingdir)
 
 
 tkmessageBox(message = "Please select the inner baseline shapefile...")
-getdata2 <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
+getdata2 <- if(interactive()) tk_choose.files(filter = filetype)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 shapedata2 <- readOGR(getdata2,layer=shapename2)
 attrtable2 <- data.frame(shapedata2)

@@ -12,7 +12,7 @@ nothing <- userinput1
 
 tkmessageBox(message = "Please select the shoreline shapefile...")
 filetype <- matrix(c("Shapefile", ".shp"), 1, 2, byrow = TRUE)
-getdata <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
+getdata <- if(interactive()) tk_choose.files(filter = filetype)
 shapename <- gsub(".shp", "", basename(getdata))
 workingdir <- dirname(getdata)
 setwd(workingdir)
@@ -21,7 +21,7 @@ attrtable <- data.frame(shapedata)
 
 
 tkmessageBox(message = "Please select the transect shapefile...")
-getdata2 <- tk_choose.files("","Choose file",multi = FALSE,filetype,1)
+getdata2 <- if(interactive()) tk_choose.files(filter = filetype)
 shapename2 <- gsub(".shp", "", basename(getdata2))
 
 shapedata2 <- readOGR(getdata2,layer=shapename2)
