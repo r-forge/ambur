@@ -14,8 +14,8 @@ Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland are
 \tabular{ll}{
 Package: \tab ambur\cr
 Type: \tab Package\cr
-Version: \tab 0.95\cr
-Date: \tab 2021-02-01\cr
+Version: \tab 0.94\cr
+Date: \tab 2021-02-3\cr
 License: \tab GNU General Public License (please cite references below)\cr
 LazyLoad: \tab yes\cr
 }
