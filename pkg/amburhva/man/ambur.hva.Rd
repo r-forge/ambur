@@ -109,19 +109,7 @@ Chester W. Jackson Jr., Ph.D.
 }
 
 
-\examples{
 
-A <- system.file("external/Jekyll_envelope_transects_original.shp", package="amburhva")
-B <- system.file("external/Jekyll_Q3_DFIRM_GEMA.shp", package="amburhva")
-C <- system.file("external/Jekyll_SLOSH_USACOE_GEMA.shp", package="amburhva")
-D <- system.file("external/Jekyll_SoVI.shp", package="amburhva")
-E <- dirname(system.file("external/Jekyll_envelope_transects_original.shp", package="amburhva"))
-
-ambur.hva(loc = "location", bufferdist = 150, bufferdist2 = 10, removeanthro = "no", 
- file1 = A, file2 = B, file3 = C, file4 = D, dir1 = E, scr = c(-1, -0.2, 0.2, 1), 
- tscr = c(0.5, 0.2), sscr = c(0.16, 0.074), sovi = c(6.77, 4.06, -1.37, -4.09))
-
-}
 
 \keyword{ vulnerability }
 \keyword{ ambur }
