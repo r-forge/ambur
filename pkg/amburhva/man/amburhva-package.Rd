@@ -6,7 +6,7 @@
 AMBUR-HVA
 }
 \description{
-Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland areas. (starting with v.0.95: new breakpoints for HVA categories in final output files)
+Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland areas.
 
 
 }
@@ -14,8 +14,8 @@ Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland are
 \tabular{ll}{
 Package: \tab ambur\cr
 Type: \tab Package\cr
-Version: \tab 0.94\cr
-Date: \tab 2021-02-3\cr
+Version: \tab 0.96\cr
+Date: \tab 2021-03-23\cr
 License: \tab GNU General Public License (please cite references below)\cr
 LazyLoad: \tab yes\cr
 }

@@ -368,11 +368,11 @@ tet3$hva_score <- hva.calc
 
 ####scale hva.calc values back to 1 to 5
 n.parameters <- 2
-cat1 <- sqrt((1*n.parameters)/n.parameters)
-cat2 <- sqrt((2*n.parameters)/n.parameters)
-cat3 <- sqrt((3*n.parameters)/n.parameters)
-cat4 <- sqrt((4*n.parameters)/n.parameters)
-cat5 <- sqrt((5*n.parameters)/n.parameters)
+cat1 <- sqrt((1^n.parameters)/n.parameters)
+cat2 <- sqrt((2^n.parameters)/n.parameters)
+cat3 <- sqrt((3^n.parameters)/n.parameters)
+cat4 <- sqrt((4^n.parameters)/n.parameters)
+cat5 <- sqrt((5^n.parameters)/n.parameters)
 break.pts <- c(cat1,cat2,cat3,cat4,cat5)
 break.pts2 <- ((break.pts[-1] - break.pts[-5])/2) + break.pts[-5]
 break.pts3 <- c(break.pts[1],break.pts2,break.pts[5])
@@ -486,11 +486,11 @@ tet3$hva_score <- hva.calc
 
 ####scale hva.calc values back to 1 to 5
 n.parameters <- 2
-cat1 <- sqrt((1*n.parameters)/n.parameters)
-cat2 <- sqrt((2*n.parameters)/n.parameters)
-cat3 <- sqrt((3*n.parameters)/n.parameters)
-cat4 <- sqrt((4*n.parameters)/n.parameters)
-cat5 <- sqrt((5*n.parameters)/n.parameters)
+cat1 <- sqrt((1^n.parameters)/n.parameters)
+cat2 <- sqrt((2^n.parameters)/n.parameters)
+cat3 <- sqrt((3^n.parameters)/n.parameters)
+cat4 <- sqrt((4^n.parameters)/n.parameters)
+cat5 <- sqrt((5^n.parameters)/n.parameters)
 break.pts <- c(cat1,cat2,cat3,cat4,cat5)
 break.pts2 <- ((break.pts[-1] - break.pts[-5])/2) + break.pts[-5]
 break.pts3 <- c(break.pts[1],break.pts2,break.pts[5])

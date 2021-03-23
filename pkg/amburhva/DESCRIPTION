@@ -1,12 +1,12 @@
 Package: amburhva
 Type: Package
 Title: AMBUR-HVA
-Version: 0.95
+Version: 0.96
 Date: 2021-03-23
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
 Depends: R (>= 3.0), spatstat, locfit, sp, googleVis, rgeos, rgdal, tcltk, foreign, MASS, mgcv, grid, lattice, nlme, stats, ambur
 Suggests: spatial
-Description: Analyzes coastal vulnerability for islands and inland areas. (starting with v.0.95: new breakpoints for HVA categories in final output files)(Version 0.95)
+Description: Analyzes coastal vulnerability for islands and inland areas. (Version 0.96)
 License: GNU General Public License
 LazyLoad: yes
