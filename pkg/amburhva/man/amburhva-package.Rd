@@ -6,7 +6,7 @@
 AMBUR-HVA
 }
 \description{
-Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland areas.
+Analyzes coastal vulnerability for islands (barriers/cays/islets) and inland areas. (starting with v.0.95: new breakpoints for HVA categories in final output files)
 
 
 }
