@@ -149,7 +149,7 @@ Pcnt.Complete2 <- paste(Pcnt.Complete," ","%",sep="")
 info <- sprintf("%1.0f percent done", Pcnt.Complete)   
 setTkProgressBar(pb2, i, sprintf("AMBUR: Capture baseline positions (%s)", info), info)
 
-vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shape.prep3[int[,i],], byid=TRUE)  else 0 }
+vec[[i]] <- if (sum(int[,i]) != 0) gIntersection(shapedata2[i,], shape.prep3[int[,i],])  else 0 }
 
 cond <- lapply(vec, function(x) class(x) != "numeric")
 vec2 <- vec[unlist(cond)]
