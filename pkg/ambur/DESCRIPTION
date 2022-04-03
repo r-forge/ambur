@@ -1,11 +1,11 @@
 Package: ambur
 Type: Package
 Title: Analyzing Moving Boundaries Using R
-Version: 1.1.29
-Date: 2022-03-30
+Version: 1.1.30
+Date: 2022-04-03
 Author: C.Jackson
 Maintainer: Chester W. Jackson Jr. <jackson.cwjr@gmail.com>
-Depends: R (>= 3.0.0), spatstat, locfit, sp, rgeos, rgdal, tcltk, foreign, MASS, mgcv, grid, lattice, nlme, stats
+Depends: R (>= 4.0.0), spatstat, spatstat.utils,locfit, sp, rgeos, rgdal, tcltk, foreign, MASS, mgcv, grid, lattice, nlme, stats
 Suggests: spatial
 Description: Analyzes position changes of a boundary (shoreline) along transects. (Version 1a - LEMUR)
 License: GNU General Public License

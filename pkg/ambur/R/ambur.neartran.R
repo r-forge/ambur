@@ -9,7 +9,7 @@ function(sampledist=50) {
 #require(rgdal)
 #require(rgeos)
 #require(spatstat)
-
+require(spatstat.utils)
 #require(maptools)  #don't need as of yet
 
 tkmessageBox(message = "Please select the outer polyline shapefile...")
@@ -182,27 +182,20 @@ colnames(inner.segs) <- c("Cx","Cy","Cx2","Cy2")
 
 #####build spatstat functions and objects
 
-distppllmin <- function (p, l, big = NULL) 
-{
-    np <- nrow(p)
-    nl <- nrow(l)
-    if (is.null(big)) {
-        xdif <- diff(range(c(p[, 1], l[, c(1, 3)])))
-        ydif <- diff(range(c(p[, 2], l[, c(2, 4)])))
-        big <- 2 * (xdif^2 + ydif^2)
-    }
-    dist2 <- rep.int(big, np)
-    #DUP <- spatstat.options("dupC")  ### deactivated 20170614
-    z <- .C("nndist2segs", xp = as.double(p[, 1]), yp = as.double(p[, 
-        2]), npoints = as.integer(np), x0 = as.double(l[, 1]), 
-        y0 = as.double(l[, 2]), x1 = as.double(l[, 3]), y1 = as.double(l[, 
-            4]), nsegments = as.integer(nl), epsilon = as.double(.Machine$double.eps), 
-        dist2 = as.double(dist2), index = as.integer(integer(np)), 
-        DUP = FALSE) ### set DUP equal to FALSE 20170614
-    min.d <- sqrt(z$dist2)
-    min.which <- z$index + 1L
-    return(list(min.d = min.d, min.which = min.which))
+distppllmin <- function(p, l, big=NULL) {
+  np <- nrow(p)
+  nl <- nrow(l)
+  if(is.null(big)) {
+    xdif <- diff(range(c(p[,1],l[, c(1,3)])))
+    ydif <- diff(range(c(p[,2],l[, c(2,4)])))
+    big <- 2 * (xdif^2 + ydif^2)
+  }
+  z <- NNdist2segments(p[,1], p[,2],
+                       l[,1], l[,2], l[,3], l[,4],
+                       big)
+  return(list(min.d=sqrt(z$dist2), min.which=z$index))
 }
+
 
 
 
